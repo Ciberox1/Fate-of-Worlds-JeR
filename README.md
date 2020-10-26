@@ -1,4 +1,4 @@
-# Titúlo: Fate of Worlds
+# Título: Fate of Worlds
  
 ### Estudio/Diseñadores
 
