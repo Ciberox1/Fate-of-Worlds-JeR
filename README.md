@@ -221,3 +221,27 @@ Puede equipar el arma del videojuego, pero no la lleva con él por defecto. Adem
 
 #### Objetos
 Puede coger objetos, pero no puede llevar más de un objeto a la vez. Además, no puede equipar el arma mientras tiene un objeto en las manos. 
+
+## Enemigos
+
+### Amalgama
+
+#### Descripción
+Figura oscura y amorfa producto de la fusión de una persona con parte del mobiliario u otra persona como resultado de un colapso dimensional desafortunado.
+
+
+(Falta insertar imagen de la amalgama)
+
+#### Concepto
+
+#### Momento
+Se pueden encontrar varios a lo largo del nivel.
+
+#### Habilidades
+Moverse y dañar a los personajes.
+
+#### Armas
+Armas naturales.
+
+#### Objetos
+Las amalgamas no pueden utilizar objetos.
