@@ -1,8 +1,8 @@
 # Titulo: Fate of Worlds
  
-## Estudio/Diseñadores
+### Estudio/Diseñadores
 
-### Special Kode
+#### Special Kode
 
 
 -Adrián Salgado Jimeno
@@ -19,34 +19,34 @@
 
 -Mario Simón Soto 
 
-## Género
+### Género
 
 Plataformas, Acción
 
-## Plataforma
+### Plataforma
 
 PC/Web
 
-## Versión
+### Versión
 
 v0.0.1
 
-## Sinopsis del Juego
+### Sinopsis del Juego
 
 Dos personajes se embarcan en una aventura entre dimensiones a punto de destruirse, el objetivo es superar obstáculos, matar monstruos y cooperar entre vosotros para poder sobrevivir.
 
-## Categoría
+### Categoría
 
 Twins Minigame es parecido en cuanto a tener dos pantallas con diferentes obstáculos.
 
-## Licencia
+### Licencia
 
 El juego es completamente original y no se ha cogido la base de ningún libro ni película.
 
-## Core Game Loop
+### Core Game Loop
 
 Correr, saltar, disparar a los enemigos, superar puzles sencillos, y cooperar con tu amigo para pasaros objetos e incluso enemigos.
 
-## Público
+### Público
 
 Todos los públicos.
