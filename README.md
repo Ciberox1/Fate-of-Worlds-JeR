@@ -73,7 +73,7 @@ Todos los públicos.
 - Se han diseñado los distintos personajes y enemigos del juego
 - Se ha diseñado el primer (y en principio, único) nivel del videojuego
 
-## VISIÓN GENERAL DEL JUEGO
+## Visión General del Juego
 
 Juego cooperativo para dos jugadores en el cada uno controlará a un personaje y en el que deberán ir completando niveles en los que se enfrentarán a distintos puzles y enemigos para poder salvar sus dos universos. Cada nivel se compondrá de dos espacios jugables, uno en la parte superior y otro en la inferior, dentro de los cuales se moverán los jugadores.
 
