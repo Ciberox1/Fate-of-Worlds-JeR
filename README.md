@@ -116,3 +116,29 @@ Se ofrecen dos configuraciones de controles entre las que el jugador podrá eleg
 - Uno de los dos jugadores puede aprovechar el colapso para enviar objetos o enemigos al otro jugador si se encuentra en apuros.
 - Los jugadores deberán actuar con rapidez para deshacerse de las oleadas de enemigos.
 - Los jugadores intentarán sobrevivir el máximo tiempo posible.
+
+## Flujo de Pantallas y Estados 
+
+## Interfaz
+
+### Menú Principal
+#### Descripción de la pantalla:
+
+Es la pantalla de inicio al comenzar a jugar al videojuego. Consta de un botón para comenzar a jugar.
+
+### Menú de Opciones
+#### Descripción de la pantalla:
+
+Es la pantalla que permite realizar ajustes, como cambiar los controles, ajustar el volumen de la música y los efectos de sonido u otros ajustes externos al juego.
+
+### Menú de Pausa
+
+#### Descripción de la pantalla:
+
+Sirve para que los jugadores puedan detener el juego cuando no quieran seguir jugando o quieran hacer una pausa. Consta de un botón para continuar, un botón para abandonar y un botón para ajustar opciones.
+
+### H.U.D.
+
+#### Descripción de la pantalla:
+
+El H.U.D. sirve al jugador para mostrar información rápida y persistente que los jugadores quieren conocer durante el transcurso de la partida. Entre otras cosas, se muestra el nombre de los jugadores, su salud y el estado en el que se encuentra el colapso.
