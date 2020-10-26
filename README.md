@@ -136,3 +136,44 @@ Sirve para que los jugadores puedan detener el juego cuando no quieran seguir ju
 ### H.U.D.
 
 El H.U.D. sirve al jugador para mostrar información rápida y persistente que los jugadores quieren conocer durante el transcurso de la partida. Entre otras cosas, se muestra el nombre de los jugadores, su salud y el estado en el que se encuentra el colapso.
+
+## Nivel
+
+### Descripción
+En principio el juego consistiría en un único nivel grande. En este nivel no habría checkpoints (puntos de control), por lo que en caso de morir habría que empezar desde el comienzo. No obstante, el nivel si contaría con lugares en los recuperar la salud.
+
+
+Visualmente el nivel sería una una instalación de investigación. A medida que los jugadores avancen irían encontrando más anomalías provocadas por el choque entre mundos. Siendo universos paralelos, los niveles que experimentarían ambos jugadores serían similares, pero con suficientes diferencias como para que se sientan como lugares distintos.
+
+### Objetivos
+
+- Cooperar en las distintas situaciones en las que tengan que resolver acertijos sencillos.
+- Deshacerse de las distintas oleadas de enemigos.
+- Llegar hasta el final del nivel.
+
+### Progreso
+
+Describir qué ocurre cuando el jugador termina el nivel.
+
+### Enemigos
+
+El nivel tendrá enemigos que enfrentar que se diseñarán más adelante.
+
+### Items
+
+- Arma.
+- Objetos curativos (estáticos)
+- Objetos consumibles (granadas, colapso portátil, agujero negro portátil)
+- Objetos clave.
+
+### Personajes
+
+Mario 1 y Mario 2
+
+### Música y efectos de sonido
+
+Describir la música de este nivel al igual que los efectos de sonido de ambiente que contiene.
+
+
+- Música sin copyright.
+- Efectos de sonido sin copyright.
