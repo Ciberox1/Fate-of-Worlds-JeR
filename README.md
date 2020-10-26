@@ -72,3 +72,26 @@ Todos los públicos.
 
 - Se han diseñado los distintos personajes y enemigos del juego
 - Se ha diseñado el primer (y en principio, único) nivel del videojuego
+
+## VISIÓN GENERAL DEL JUEGO
+
+Juego cooperativo para dos jugadores en el cada uno controlará a un personaje y en el que deberán ir completando niveles en los que se enfrentarán a distintos puzles y enemigos para poder salvar sus dos universos. Cada nivel se compondrá de dos espacios jugables, uno en la parte superior y otro en la inferior, dentro de los cuales se moverán los jugadores.
+
+### Cámara
+
+Se va a visualizar en 2D, con un scroll lateral
+
+### Periféricos
+
+Principalmente se usarán como periféricos ratón y teclado.
+
+### Controles
+
+Se ofrecen dos configuraciones de controles entre las que el jugador podrá elegir. Se muestran a continuación:
+
+
+- Movimiento: WASD / Flechas de movimiento
+- Interactuar: K / E
+- Arma: J / W
+- Soltar objeto: L / Q
+- Colapso dimensional: Space bar
