@@ -59,19 +59,19 @@ Todos los públicos.
 
 #### v0.0.2
 
-- Se han diseñado el resumen y la visión general del juego
-- Se han diseñado las mecánicas del juego
-- Se han diseñado las dinámicas del juego
+- Se han diseñado el resumen y la visión general del juego.
+- Se han diseñado las mecánicas del juego.
+- Se han diseñado las dinámicas del juego.
 
 #### v0.0.3
 
-- Se ha establecido el flujo de pantallas durante el juego
-- Se han establecido las distintas interfaces del juego
+- Se ha establecido el flujo de pantallas durante el juego.
+- Se han establecido las distintas interfaces del juego.
 
 #### v0.0.4
 
-- Se han diseñado los distintos personajes y enemigos del juego
-- Se ha diseñado el primer (y en principio, único) nivel del videojuego
+- Se han diseñado los distintos personajes y enemigos del juego.
+- Se ha diseñado el primer (y en principio, único) nivel del videojuego.
 
 ## Visión General del Juego
 
@@ -79,7 +79,7 @@ Juego cooperativo para dos jugadores en el cada uno controlará a un personaje y
 
 ### Cámara
 
-Se va a visualizar en 2D, con un scroll lateral
+Se va a visualizar en 2D, con un scroll lateral.
 
 ### Periféricos
 
