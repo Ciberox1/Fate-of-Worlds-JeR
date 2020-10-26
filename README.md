@@ -119,6 +119,9 @@ Se ofrecen dos configuraciones de controles entre las que el jugador podrá eleg
 
 ## Flujo de Pantallas y Estados 
 
+![Flujo de Interfaz]
+(https://Ciberox1.github.com/Imagenes-GDD/Flujo-de-pantallas.png)
+
 ## Interfaz
 
 ### Menú Principal
