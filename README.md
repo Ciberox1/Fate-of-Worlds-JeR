@@ -94,4 +94,4 @@ Se ofrecen dos configuraciones de controles entre las que el jugador podrá eleg
 - Interactuar: K / E
 - Arma: J / W
 - Soltar objeto: L / Q
-- Colapso dimensional: Space bar
+- Colapso dimensional: Spacebar
