@@ -184,6 +184,8 @@ Describir la música de este nivel al igual que los efectos de sonido de ambient
 #### Descripción
 Científico con figura humanoide y atuendos de color rojo. Tiene un alter ego con atuendos de color verde en otra dimensión.
 
+(Falta insertar imagen de Mario)
+
 #### Concepto
 Científico obsesionado con encontrar la clave para cambiar de dimensión, egocéntrico, y completamente antisocial. Centrado en ver la vida como una constante huida de organizaciones misteriosas y teorías conspiranoicas. Su objetivo es encontrar la clave del cambio dimensional antes que nadie, y evitar que el supuesto experimento acabe en malas manos.
 
@@ -202,6 +204,8 @@ Puede coger objetos, pero no puede llevar más de un objeto a la vez. Además, n
 ### Mario 2
 #### Descripción
 Científico con figura humanoide y atuendos de color verde. Tiene un alter ego con atuendos de color rojo en otra dimensión.
+
+(Falta insertar imagen de Mario)
 
 #### Concepto
 Científico obsesionado que encontró la clave del cambio dimensional y se arrepiente de las consecuencias que llevó eso,por lo que busca destruir todo rastro de ese experimento. Es  humilde y popular entre la gente. Su objetivo es hacer desaparecer la clave del cambio dimensional antes que la situación empeore.
