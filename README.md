@@ -75,7 +75,7 @@ Todos los públicos.
 
 ## Visión General del Juego
 
-Juego cooperativo para dos jugadores en el cada uno controlará a un personaje y en el que deberán ir completando niveles en los que se enfrentarán a distintos puzles y enemigos para poder salvar sus dos universos. Cada nivel se compondrá de dos espacios jugables, uno en la parte superior y otro en la inferior, dentro de los cuales se moverán los jugadores.
+Juego cooperativo para dos jugadores en el que cada uno controlará a un personaje y en el que deberán ir completando niveles en los que se enfrentarán a distintos puzles y enemigos para poder salvar sus dos universos. Cada nivel se compondrá de dos espacios jugables, uno en la parte superior y otro en la inferior, dentro de los cuales se moverán los jugadores.
 
 ### Cámara
 
@@ -95,3 +95,16 @@ Se ofrecen dos configuraciones de controles entre las que el jugador podrá eleg
 - Arma: J / W
 - Soltar objeto: L / Q
 - Colapso dimensional: Spacebar
+
+## Mecánicas del Juego
+
+- Los dos personajes pueden moverse hacia la izquierda o la derecha y saltar.
+- Cada personaje actúa en su universo.
+- Cada nivel se compondrá de dos espacios jugables asociados cada uno a un jugador, uno en la parte superior y otro en la inferior.
+- Los objetos con los que colisionan de ambos espacios son los mismos, a pesar de que la ambientación de cada espacio sea diferente.
+- Los personajes solo pueden atacar si tienen el arma (sólo hay una en el juego).
+- Cada personaje puede provocar un colapso de universos, en el cual pueden mezclar sus dos espacios, durante un tiempo limitado.
+- Durante los colapsos se pueden transferir objetos y enemigos.
+- Puedes saltar sobre los enemigos para aturdirlos.
+- Ambos personajes comparten la característica de vida, si un personaje se hace daño, ambos personajes pierden vida.
+- Para disparar se pulsará una tecla y el disparo irá en la dirección a la que mire el jugador.
