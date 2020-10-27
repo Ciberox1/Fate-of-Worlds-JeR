@@ -127,13 +127,19 @@ Se ofrecen dos configuraciones de controles entre las que el jugador podrá eleg
 
 Es la pantalla de inicio al comenzar a jugar al videojuego. Consta de un botón para comenzar a jugar.
 
+![MenuPrincipal](/ImagesGDD/MenuPrincipal.jpg)
+
 ### Menú de Opciones
 
 Es la pantalla que permite realizar ajustes, como cambiar los controles, ajustar el volumen de la música y los efectos de sonido u otros ajustes externos al juego.
 
+![MenuOpciones](/ImagesGDD/MenuOpciones.jpg)
+
 ### Menú de Pausa
 
 Sirve para que los jugadores puedan detener el juego cuando no quieran seguir jugando o quieran hacer una pausa. Consta de un botón para continuar, un botón para abandonar y un botón para ajustar opciones.
+
+![MenuPausa](/ImagesGDD/MenuPausa.jpg)
 
 ### H.U.D.
 
