@@ -194,8 +194,6 @@ Describir la música de este nivel al igual que los efectos de sonido de ambient
 #### Descripción
 Científico con figura humanoide y atuendos de color rojo. Tiene un alter ego con atuendos de color verde en otra dimensión.
 
-(Falta insertar imagen de Mario)
-
 #### Concepto
 Científico obsesionado con encontrar la clave para cambiar de dimensión, egocéntrico, y completamente antisocial. Centrado en ver la vida como una constante huida de organizaciones misteriosas y teorías conspiranoicas. Su objetivo es encontrar la clave del cambio dimensional antes que nadie, y evitar que el supuesto experimento acabe en malas manos.
 
@@ -214,8 +212,6 @@ Puede coger objetos, pero no puede llevar más de un objeto a la vez. Además, n
 ### Mario 2
 #### Descripción
 Científico con figura humanoide y atuendos de color verde. Tiene un alter ego con atuendos de color rojo en otra dimensión.
-
-(Falta insertar imagen de Mario)
 
 #### Concepto
 Científico obsesionado que encontró la clave del cambio dimensional y se arrepiente de las consecuencias que llevó eso,por lo que busca destruir todo rastro de ese experimento. Es  humilde y popular entre la gente. Su objetivo es hacer desaparecer la clave del cambio dimensional antes que la situación empeore.
@@ -237,12 +233,12 @@ Puede coger objetos, pero no puede llevar más de un objeto a la vez. Además, n
 ### Amalgama
 
 #### Descripción
+
 Figura oscura y amorfa producto de la fusión de una persona con parte del mobiliario u otra persona como resultado de un colapso dimensional desafortunado.
 
-
-(Falta insertar imagen de la amalgama)
-
 #### Concepto
+
+Tras el primer colapso, todas las personas que sufrieron los efectos de colapso, se fueron fusionando, formando una masa amorfa que persigue al protagonista, para que se una y siga aumentando la amalgama.
 
 #### Momento
 Se pueden encontrar varios a lo largo del nivel.
