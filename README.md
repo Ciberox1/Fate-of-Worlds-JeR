@@ -29,7 +29,7 @@ PC/Web
 
 ### Versión
 
-v0.0.1
+v0.0.4
 
 ### Sinopsis del Juego
 
