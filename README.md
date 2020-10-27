@@ -139,6 +139,8 @@ Sirve para que los jugadores puedan detener el juego cuando no quieran seguir ju
 
 El H.U.D. sirve al jugador para mostrar información rápida y persistente que los jugadores quieren conocer durante el transcurso de la partida. Entre otras cosas, se muestra el nombre de los jugadores, su salud y el estado en el que se encuentra el colapso.
 
+![HuD](/ImagesGDD/HuD.png)
+
 ## Nivel
 
 ### Descripción
