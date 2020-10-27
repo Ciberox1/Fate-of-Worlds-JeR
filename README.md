@@ -29,7 +29,7 @@ PC/Web
 
 ### Versión
 
-v0.0.1
+v0.0.4
 
 ### Sinopsis del Juego
 
@@ -127,17 +127,25 @@ Se ofrecen dos configuraciones de controles entre las que el jugador podrá eleg
 
 Es la pantalla de inicio al comenzar a jugar al videojuego. Consta de un botón para comenzar a jugar.
 
+![MenuPrincipal](/ImagesGDD/MenuPrincipal.png)
+
 ### Menú de Opciones
 
 Es la pantalla que permite realizar ajustes, como cambiar los controles, ajustar el volumen de la música y los efectos de sonido u otros ajustes externos al juego.
+
+![MenuOpciones](/ImagesGDD/MenuOpciones.png)
 
 ### Menú de Pausa
 
 Sirve para que los jugadores puedan detener el juego cuando no quieran seguir jugando o quieran hacer una pausa. Consta de un botón para continuar, un botón para abandonar y un botón para ajustar opciones.
 
+![MenuPausa](/ImagesGDD/MenuPausa.png)
+
 ### H.U.D.
 
 El H.U.D. sirve al jugador para mostrar información rápida y persistente que los jugadores quieren conocer durante el transcurso de la partida. Entre otras cosas, se muestra el nombre de los jugadores, su salud y el estado en el que se encuentra el colapso.
+
+![HuD](/ImagesGDD/HuD.png)
 
 ## Nivel
 
@@ -186,8 +194,6 @@ Describir la música de este nivel al igual que los efectos de sonido de ambient
 #### Descripción
 Científico con figura humanoide y atuendos de color rojo. Tiene un alter ego con atuendos de color verde en otra dimensión.
 
-(Falta insertar imagen de Mario)
-
 #### Concepto
 Científico obsesionado con encontrar la clave para cambiar de dimensión, egocéntrico, y completamente antisocial. Centrado en ver la vida como una constante huida de organizaciones misteriosas y teorías conspiranoicas. Su objetivo es encontrar la clave del cambio dimensional antes que nadie, y evitar que el supuesto experimento acabe en malas manos.
 
@@ -206,8 +212,6 @@ Puede coger objetos, pero no puede llevar más de un objeto a la vez. Además, n
 ### Mario 2
 #### Descripción
 Científico con figura humanoide y atuendos de color verde. Tiene un alter ego con atuendos de color rojo en otra dimensión.
-
-(Falta insertar imagen de Mario)
 
 #### Concepto
 Científico obsesionado que encontró la clave del cambio dimensional y se arrepiente de las consecuencias que llevó eso,por lo que busca destruir todo rastro de ese experimento. Es  humilde y popular entre la gente. Su objetivo es hacer desaparecer la clave del cambio dimensional antes que la situación empeore.
@@ -229,12 +233,12 @@ Puede coger objetos, pero no puede llevar más de un objeto a la vez. Además, n
 ### Amalgama
 
 #### Descripción
+
 Figura oscura y amorfa producto de la fusión de una persona con parte del mobiliario u otra persona como resultado de un colapso dimensional desafortunado.
 
-
-(Falta insertar imagen de la amalgama)
-
 #### Concepto
+
+Tras el primer colapso, todas las personas que sufrieron los efectos de colapso, se fueron fusionando, formando una masa amorfa que persigue al protagonista, para que se una y siga aumentando la amalgama.
 
 #### Momento
 Se pueden encontrar varios a lo largo del nivel.
