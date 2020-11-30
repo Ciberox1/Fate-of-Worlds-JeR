@@ -21,9 +21,14 @@
   padding: 0;
 }
 
+@font-face {
+  font-family: pixelFont;
+  src: url("../../assets/fonts/minecraftia-webfont.woff");
+}
+
 body{
   background-color: var(--body-bgcolor);
-  font-family: "Minecraftia", "Lucida Console", Monaco , monospace;
+  font-family: pixelFont, "Lucida Console", Monaco , monospace;
 }
 
 #content {
@@ -103,6 +108,10 @@ li > a:visited{
 
 .main{
   min-height: 600px;
+}
+
+iframe{
+  margin: 0 auto;
 }
 
 footer{
