@@ -1,0 +1,124 @@
+:root{
+  --body-bgcolor: gray;
+  --header-footer-bgcolor: black;
+
+  --nav-hovercolor: darkgray;
+  --nav-activecolor: red;
+
+  --content-bgcolor: white;
+
+  --a-color: blue;
+  --a-hovercolor: red;
+  --a-activecolor: white;
+  --a-visitedcolor: darkred;
+
+  --selection-color: white;
+  --selection-bgcolor: darkred;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: pixelFont;
+  src: url("../../assets/fonts/minecraftia-webfont.woff");
+}
+
+body{
+  background-color: var(--body-bgcolor);
+  font-family: pixelFont, "Lucida Console", Monaco , monospace;
+}
+
+#content {
+  background-color: var(--content-bgcolor);
+  width: 90%;
+  margin: 6px auto;
+  border: 1px solid black;
+}
+
+::selection{
+  color: var(--selection-color);
+  background-color: var(--selection-bgcolor);
+}
+
+a{
+  color: var(--a-color);
+}
+
+a:hover{
+  color: var(--a-hovercolor);
+}
+
+a:active{
+  background-color: var(--a-hovercolor);
+  color: var(--a-activecolor);
+}
+
+a:visited{
+  color: var(--a-visitedcolor);
+}
+
+header, footer{
+  background-color: var(--header-footer-bgcolor);
+  text-align: center;
+}
+
+nav {
+  overflow: hidden;
+  padding: 10px 0px;
+}
+
+nav ul {
+  font-size: 0px;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: auto;
+  list-style: none;
+  font-size: 1rem;
+  height: 1rem;
+}
+
+li > a {
+  margin: 10px 0px;
+  padding: 12px 30px;
+  text-decoration: none;
+}
+
+li > a{
+  color: var(--a-color);
+}
+
+li > a:hover{
+  background-color: var(--nav-hovercolor);
+  color: var(--a-hovercolor);
+}
+
+li > a:active{
+  background-color: var(--nav-hovercolor);
+  color: var(--nav-activecolor);
+}
+
+li > a:visited{
+  color: var(--a-visitedcolor);
+}
+
+.main{
+  min-height: 600px;
+}
+
+iframe{
+  margin: 0 auto;
+}
+
+footer{
+  color: white;
+  padding: 10px;
+}
+
+footer p{
+  height: 24px;
+}
