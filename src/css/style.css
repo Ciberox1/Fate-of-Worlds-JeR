@@ -107,11 +107,12 @@ li > a:visited{
 }
 
 .main{
-  min-height: 600px;
+  min-height: 500px;
 }
 
 iframe{
-  margin: 0 auto;
+  margin: 3px auto;
+  display: block;
 }
 
 footer{
