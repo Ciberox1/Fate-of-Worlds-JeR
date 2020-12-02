@@ -1,45 +1,42 @@
 var config={
-    width:800,
-    height:600,
+    width: 800,
+    height: 600,
     type: Phaser.AUTO,
-    
-   physics: {
+
+    physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 490 },
             debug: false
         }
-   },
-       
-    scene:{
+    },
+
+    scene: {
         preload:preload,
         create:create,
         update:update
-    },
-
+    }
 }
 
-var game= new Phaser.Game(config);
+var game = new Phaser.Game(config);
 
 function preload(){
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
-    this.load.image('star', 'assets/star.png');
-    this.load.image('bomb', 'assets/bomb.png');
-    this.load.spritesheet('dudeWalk', 
-        'assets/run/run.png',{
+    this.load.image('sky', '../../assets/images/scene/sky.png');
+    this.load.image('ground', '../../assets/images/scene/platform.png');
+    this.load.spritesheet('dudeWalk',
+        '../../assets/images/run/run.png',{
         frameWidth: 50,frameHeight:42 }
     );
-    this.load.spritesheet('dudeShoot', 
-        'assets/shoot/shoot.png',{
+    this.load.spritesheet('dudeShoot',
+        '../../assets/images/shoot/shoot.png',{
         frameWidth: 50,frameHeight:42 }
     );
-    this.load.spritesheet('dudeidle', 
-        'assets/idle/idle.png',{
+    this.load.spritesheet('dudeidle',
+        '../../assets/images/idle/idle.png',{
         frameWidth: 50,frameHeight:42 }
     );
-     this.load.spritesheet('dudeCrouch', 
-        'assets/crouch/crouch.png',{
+     this.load.spritesheet('dudeCrouch',
+        '../../assets/images/crouch/crouch.png',{
         frameWidth: 50,frameHeight:42 }
     );
     /*this.load.spritesheet(){ frameWidth: 32, frameHeight:48 }
@@ -49,130 +46,136 @@ function preload(){
 var platforms;
 function create(){
     this.add.image(400,300,'sky');
-    platforms=this.physics.add.staticGroup();
+    platforms = this.physics.add.staticGroup();
     platforms.create(400,568,'ground').setScale(2).refreshBody();
-    platforms.create(600,400,'ground');
-    platforms.create(50,250,'ground');
-    platforms.create(750,220,'ground');
-    
-    
+    platforms.create(600,470,'ground');
+    platforms.create(90,370,'ground');
+    platforms.create(580,310,'ground');
+
+
     player = this.physics.add.sprite(100, 450, 'dudeidle');
     this.physics.add.collider(player, platforms);
     player.body.setSize(6,42);
-    
-    keyW=this.input.keyboard.addKey('W');
+
+    keyW = this.input.keyboard.addKey('W');
     cursors = this.input.keyboard.createCursorKeys();
-    
-    
+    count = 0;
+
     player.setCollideWorldBounds(true);
 
-    CountShoot=0;
-    bajado=false;
-/*this.anims.create({
-    key: 'left',
-    frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 13 }),
-    frameRate: 10,
-    repeat: -1
-});*/
+    CountShoot = 0;
+    bajando = false;
+    bajadoComplete = false;
+    subido = true;
 
-this.anims.create({
-    key: 'idle',
-    frames: this.anims.generateFrameNumbers('dudeidle', { start: 0, end: 4 }),
-    frameRate: 6
-});
+    /*this.anims.create({
+        key: 'left',
+        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 13 }),
+        frameRate: 10,
+        repeat: -1
+    });*/
 
-this.anims.create({
-    key: 'right',
-    frames: this.anims.generateFrameNumbers('dudeWalk', { start: 1, end: 13 }),
-    frameRate: 10,
-    repeat: -1
-});
     this.anims.create({
-    key: 'attack',
-    frames: this.anims.generateFrameNumbers('dudeShoot', { start: 0, end: 5 }),
-    frameRate: 10,
-    repeat: -1
-});
+        key: 'idle',
+        frames: this.anims.generateFrameNumbers('dudeidle', { start: 0, end: 4 }),
+        frameRate: 6
+    });
+
     this.anims.create({
-    key: 'Crouch',
-    frames: this.anims.generateFrameNumbers('dudeCrouch', { start: 0, end: 5 }),
-    frameRate: 10,
-    repeat: 0
-});
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('dudeWalk', { start: 1, end: 13 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
     this.anims.create({
-    key: 'GetUp',
-    frames: this.anims.generateFrameNumbers('dudeCrouch', { start: 5, end: 0 }),
-    frameRate: 10,
-    repeat: 0
-});
+        key: 'attack',
+        frames: this.anims.generateFrameNumbers('dudeShoot', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'Crouch',
+        frames: this.anims.generateFrameNumbers('dudeCrouch', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: 0
+    });
+
+    this.anims.create({
+        key: 'GetUp',
+        frames: this.anims.generateFrameNumbers('dudeCrouch', { start: 5, end: 0 }),
+        frameRate: 10,
+        repeat: 0
+    });
 }
 
 function update(){
-    
-     if (cursors.left.isDown&&CountShoot==0&&bajado==false)
-{
-    player.setVelocityX(-160);
 
-    player.anims.play('left', true);
-}
-if (cursors.right.isDown&&CountShoot==0&&bajado==false)
-{
-    console.log("right");
-    player.setVelocityX(160);
-    if(player.body.touching.down){
-     player.anims.play('right', true);
+    //Move left
+    if (cursors.left.isDown && CountShoot==0 && subido==true) {
+        player.setVelocityX(-160);
+        player.anims.play('left', true);
     }
-    else{
-        player.anims.play('right', false);
-    }
-}
-      
-if (cursors.up.isDown && player.body.touching.down&&CountShoot==0&&bajado==false)
-{
-    bajado=false;
-    player.setVelocityY(-330);
-}
-    
 
- 
-if(keyW.isDown||CountShoot!=0&&bajado==false){
+    //Move right
+    if (cursors.right.isDown && CountShoot==0 && subido==true)
+    {
+        console.log("right");
+        player.setVelocityX(160);
+        if(player.body.touching.down){
+          player.anims.play('right', true);
+        }
+        else{
+          player.anims.play('right', false);
+        }
+    }
+
+    if (cursors.up.isDown && player.body.touching.down && CountShoot==0 && subido==true)
+    {
+        bajado=false;
+        player.setVelocityY(-330);
+    }
+
+
+
+    if((keyW.isDown || CountShoot!=0) && subido==true){
         player.anims.play('attack',true);
         CountShoot++;
-     if(player.anims.currentFrame.index==5)
-       CountShoot=0;
-    }
-    
-
-
-if(player.body.touching.down&&!cursors.right.isDown&&!cursors.left.isDown&&!cursors.up.isDown&&CountShoot==0&& bajado==false){
-     player.anims.play('idle',true);
-     player.setVelocityX(0);
-    }
-    
-    
-    //hacer que se levante el muñeco
-    if(cursors.down.isDown&&bajado==true){
+        if(player.anims.currentFrame.index == 5)
+          CountShoot = 0;
         console.log(player.anims.currentFrame.index);
-        if(player.anims.currentFrame.index==6){
-            console.log("GetUp");
+        player.setVelocityX(0);
+    }
+
+    if(player.body.touching.down && !cursors.right.isDown && !cursors.left.isDown && !cursors.up.isDown && CountShoot==0 && subido==true){
+        player.anims.play('idle',true);
+        player.setVelocityX(0);
+    }
+
+
+    //hacer que se levante el muñeco
+    if(cursors.down.isDown && bajadoComplete==true){
+        console.log("Getting up");
         player.anims.play("GetUp",true);
-               player.anims.play(player.anims.play("idle"));
-             bajado=false;
-        }
-            
-    }
-   if (cursors.down.isDown && player.body.touching.down&&CountShoot==0)
-     {
-         console.log("Down");
-        bajado=true;
-    if(player.anims.currentFrame.index<5){
-            
-         player.anims.play('Crouch',true);
+        console.log("AnimationDone");
+        player.once('animationcomplete', ()=>{
+            subido = true;
+            bajadoComplete = false;
+        });
     }
 
-}
-
-    
-    
-    
+    if (cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
+      if(bajando == false){
+        bajando = true;
+        subido = false;
+        console.log("Down");
+        player.anims.play("Crouch",true);
+      }
+      player.once('animationcomplete', ()=>{
+          console.log('animationcomplete')
+          bajando = false;
+          bajadoComplete = true;
+      });
+    }
 }
