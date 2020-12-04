@@ -18,6 +18,9 @@ var config={
     }
 }
 
+var objects;
+var controls;
+var gunKey, interactKey, dropKey;
 var game = new Phaser.Game(config);
 
 function preload(){
@@ -35,7 +38,7 @@ function preload(){
         '../../assets/images/idle/idle.png',{
         frameWidth: 50,frameHeight:42 }
     );
-     this.load.spritesheet('dudeCrouch',
+    this.load.spritesheet('dudeCrouch',
         '../../assets/images/crouch/crouch.png',{
         frameWidth: 50,frameHeight:42 }
     );
@@ -57,8 +60,19 @@ function create(){
     this.physics.add.collider(player, platforms);
     player.body.setSize(6,42);
 
-    keyW = this.input.keyboard.addKey('W');
-    cursors = this.input.keyboard.createCursorKeys();
+    var moabKeys = false;
+    if(moabKeys){
+      interactKey = this.input.keyboard.addKey('E');
+      gunKey = this.input.keyboard.addKey('W');
+      dropKey = this.input.keyboard.addKey('Q');
+      cursors = this.input.keyboard.createCursorKeys();
+    }
+    else{
+      interactKey = this.input.keyboard.addKey('K');
+      gunKey = this.input.keyboard.addKey('J');
+      dropKey = this.input.keyboard.addKey('L');
+      cursors = this.input.keyboard.createCursorKeys();
+    }
     count = 0;
 
     player.setCollideWorldBounds(true);
@@ -139,7 +153,7 @@ function update(){
 
 
 
-    if((keyW.isDown || CountShoot!=0) && subido==true){
+    if((gunKey.isDown || CountShoot!=0) && subido==true){
         player.anims.play('attack',true);
         CountShoot++;
         if(player.anims.currentFrame.index == 5)
