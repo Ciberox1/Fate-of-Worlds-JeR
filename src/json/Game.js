@@ -28,19 +28,19 @@ function preload(){
     this.load.image('ground', '../../assets/images/scene/platform.png');
     this.load.spritesheet('dudeWalk',
         '../../assets/images/run/run.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeShoot',
         '../../assets/images/shoot/shoot.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeidle',
         '../../assets/images/idle/idle.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeCrouch',
         '../../assets/images/crouch/crouch.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     /*this.load.spritesheet(){ frameWidth: 32, frameHeight:48 }
     Esto carga un conjunto de sprites en un array, por lo que el nombre clave del array que pongamos seguido de un [x] nos mostrará distintos sprites de un mismo personaje. Así se usarán para animar.
@@ -58,20 +58,26 @@ function create(){
 
     player = this.physics.add.sprite(100, 450, 'dudeidle');
     this.physics.add.collider(player, platforms);
-    player.body.setSize(6,42);
+    player.body.setSize(6, 42);
 
     var moabKeys = false;
     if(moabKeys){
+      //These are moab controls
+      this.input.keyboard.removeAllKeys();
       interactKey = this.input.keyboard.addKey('E');
       gunKey = this.input.keyboard.addKey('W');
       dropKey = this.input.keyboard.addKey('Q');
       cursors = this.input.keyboard.createCursorKeys();
     }
     else{
+      //These are WASD controls
+      this.input.keyboard.removeAllKeys();
       interactKey = this.input.keyboard.addKey('K');
       gunKey = this.input.keyboard.addKey('J');
       dropKey = this.input.keyboard.addKey('L');
-      cursors = this.input.keyboard.createCursorKeys();
+      cursors = this.input.keyboard.addKeys({
+        'up': Phaser.Input.Keyboard.KeyCodes.W, 'down': Phaser.Input.Keyboard.KeyCodes.S,
+        'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D});
     }
     count = 0;
 
@@ -82,12 +88,12 @@ function create(){
     bajadoComplete = false;
     subido = true;
 
-    /*this.anims.create({
+    this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 13 }),
+        frames: this.anims.generateFrameNumbers('dudeWalk', { start: 0, end: 13 }),
         frameRate: 10,
         repeat: -1
-    });*/
+    });
 
     this.anims.create({
         key: 'idle',
@@ -128,15 +134,18 @@ function update(){
 
     //Move left
     if (cursors.left.isDown && CountShoot==0 && subido==true) {
+        console.log(player.body.position.x);
         player.setVelocityX(-160);
+        player.flipX = true;
         player.anims.play('left', true);
     }
 
     //Move right
     if (cursors.right.isDown && CountShoot==0 && subido==true)
     {
-        console.log("right");
+        console.log(player.body.position.x);
         player.setVelocityX(160);
+        player.flipX = false;
         if(player.body.touching.down){
           player.anims.play('right', true);
         }
