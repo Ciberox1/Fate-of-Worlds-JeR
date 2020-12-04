@@ -18,6 +18,10 @@ var config={
     }
 }
 
+var objects;
+var controls = {
+  cursors: '', gunKey: '', interactKey: '', dropKey: ''
+};
 var game = new Phaser.Game(config);
 
 function preload(){
@@ -25,19 +29,19 @@ function preload(){
     this.load.image('ground', '../../assets/images/scene/platform.png');
     this.load.spritesheet('dudeWalk',
         '../../assets/images/run/run.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeShoot',
         '../../assets/images/shoot/shoot.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeidle',
         '../../assets/images/idle/idle.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
-     this.load.spritesheet('dudeCrouch',
+    this.load.spritesheet('dudeCrouch',
         '../../assets/images/crouch/crouch.png',{
-        frameWidth: 50,frameHeight:42 }
+        frameWidth: 50,frameHeight: 42 }
     );
     /*this.load.spritesheet(){ frameWidth: 32, frameHeight:48 }
     Esto carga un conjunto de sprites en un array, por lo que el nombre clave del array que pongamos seguido de un [x] nos mostrará distintos sprites de un mismo personaje. Así se usarán para animar.
@@ -55,10 +59,27 @@ function create(){
 
     player = this.physics.add.sprite(100, 450, 'dudeidle');
     this.physics.add.collider(player, platforms);
-    player.body.setSize(6,42);
+    player.body.setSize(6, 42);
 
-    keyW = this.input.keyboard.addKey('W');
-    cursors = this.input.keyboard.createCursorKeys();
+    var moabKeys = false;
+    if(moabKeys){
+      //These are moab controls
+      this.input.keyboard.removeAllKeys();
+      controls.interactKey = this.input.keyboard.addKey('E');
+      controls.gunKey = this.input.keyboard.addKey('W');
+      controls.dropKey = this.input.keyboard.addKey('Q');
+      controls.cursors = this.input.keyboard.createCursorKeys();
+    }
+    else{
+      //These are WASD controls
+      this.input.keyboard.removeAllKeys();
+      controls.interactKey = this.input.keyboard.addKey('K');
+      controls.gunKey = this.input.keyboard.addKey('J');
+      controls.dropKey = this.input.keyboard.addKey('L');
+      controls.cursors = this.input.keyboard.addKeys({
+        'up': Phaser.Input.Keyboard.KeyCodes.W, 'down': Phaser.Input.Keyboard.KeyCodes.S,
+        'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D});
+    }
     count = 0;
 
     player.setCollideWorldBounds(true);
@@ -68,12 +89,12 @@ function create(){
     bajadoComplete = false;
     subido = true;
 
-    /*this.anims.create({
+    this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 13 }),
+        frames: this.anims.generateFrameNumbers('dudeWalk', { start: 0, end: 13 }),
         frameRate: 10,
         repeat: -1
-    });*/
+    });
 
     this.anims.create({
         key: 'idle',
@@ -113,16 +134,19 @@ function create(){
 function update(){
 
     //Move left
-    if (cursors.left.isDown && CountShoot==0 && subido==true) {
+    if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
+        console.log(player.body.position.x);
         player.setVelocityX(-160);
+        player.flipX = true;
         player.anims.play('left', true);
     }
 
     //Move right
-    if (cursors.right.isDown && CountShoot==0 && subido==true)
+    if (controls.cursors.right.isDown && CountShoot==0 && subido==true)
     {
-        console.log("right");
+        console.log(player.body.position.x);
         player.setVelocityX(160);
+        player.flipX = false;
         if(player.body.touching.down){
           player.anims.play('right', true);
         }
@@ -131,7 +155,7 @@ function update(){
         }
     }
 
-    if (cursors.up.isDown && player.body.touching.down && CountShoot==0 && subido==true)
+    if (controls.cursors.up.isDown && player.body.touching.down && CountShoot==0 && subido==true)
     {
         bajado=false;
         player.setVelocityY(-330);
@@ -139,7 +163,7 @@ function update(){
 
 
 
-    if((keyW.isDown || CountShoot!=0) && subido==true){
+    if((controls.gunKey.isDown || CountShoot!=0) && subido==true){
         player.anims.play('attack',true);
         CountShoot++;
         if(player.anims.currentFrame.index == 5)
@@ -148,14 +172,14 @@ function update(){
         player.setVelocityX(0);
     }
 
-    if(player.body.touching.down && !cursors.right.isDown && !cursors.left.isDown && !cursors.up.isDown && CountShoot==0 && subido==true){
+    if(player.body.touching.down && !controls.cursors.right.isDown && !controls.cursors.left.isDown && !controls.cursors.up.isDown && CountShoot==0 && subido==true){
         player.anims.play('idle',true);
         player.setVelocityX(0);
     }
 
 
     //hacer que se levante el muñeco
-    if(cursors.down.isDown && bajadoComplete==true){
+    if(controls.cursors.down.isDown && bajadoComplete==true){
         console.log("Getting up");
         player.anims.play("GetUp",true);
         console.log("AnimationDone");
@@ -165,7 +189,7 @@ function update(){
         });
     }
 
-    if (cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
+    if (controls.cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
       if(bajando == false){
         bajando = true;
         subido = false;
