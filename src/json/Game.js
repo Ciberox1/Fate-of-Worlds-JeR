@@ -24,6 +24,18 @@ var objects = {
 var controls = {
   cursors: '', gunKey: '', interactKey: '', dropKey: ''
 };
+var playerState = 'idle';
+var playerStateList = {
+  "idle": 'idle',
+  "movingLeft": 'left',
+  "movingRight": 'right',
+  "jumping": 'jumping',
+  "shooting" : 'shooting',
+  "crouching": 'crouching',
+  "crouched": 'crouched',
+  "gettingUp": 'getUp'
+}
+
 var game = new Phaser.Game(config);
 
 function preload(){
@@ -134,73 +146,115 @@ function create(){
 
 function update(){
 
-    //Move left
-    if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
-        console.log(player.body.position.x);
-        player.setVelocityX(-160);
-        player.flipX = true;
-        player.anims.play('left', true);
-    }
+    Idle();
 
-    //Move right
-    if (controls.cursors.right.isDown && CountShoot==0 && subido==true)
-    {
-        console.log(player.body.position.x);
-        player.setVelocityX(160);
-        player.flipX = false;
-        if(player.body.touching.down){
-          player.anims.play('right', true);
-        }
-        else{
-          player.anims.play('right', false);
-        }
-    }
+    Left();
 
-    if (controls.cursors.up.isDown && player.body.touching.down && CountShoot==0 && subido==true)
-    {
-        bajado=false;
-        player.setVelocityY(-330);
-    }
+    Right();
 
+    Jump();
 
+    Shooting();
 
-    if((controls.gunKey.isDown || CountShoot!=0) && subido==true){
-        player.anims.play('attack',true);
-        CountShoot++;
-        if(player.anims.currentFrame.index == 5)
-          CountShoot = 0;
-        console.log(player.anims.currentFrame.index);
-        player.setVelocityX(0);
-    }
+    Crouching();
 
-    if(player.body.touching.down && !controls.cursors.right.isDown && !controls.cursors.left.isDown && !controls.cursors.up.isDown && CountShoot==0 && subido==true){
-        player.anims.play('idle',true);
-        player.setVelocityX(0);
-    }
+    GettingUp();
 
+}
 
-    //hacer que se levante el muñeco
-    if(controls.cursors.down.isDown && bajadoComplete==true){
-        console.log("Getting up");
-        player.anims.play("GetUp",true);
-        console.log("AnimationDone");
-        player.once('animationcomplete', ()=>{
-            subido = true;
-            bajadoComplete = false;
-        });
-    }
+function Idle(){
+  if(player.body.touching.down && !controls.cursors.right.isDown && !controls.cursors.left.isDown && !controls.cursors.up.isDown && CountShoot==0 && subido==true){
+      player.anims.play('idle',true);
+      player.setVelocityX(0);
+  }
 
-    if (controls.cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
-      if(bajando == false){
-        bajando = true;
-        subido = false;
-        console.log("Down");
-        player.anims.play("Crouch",true);
+  if(playerState == playerStateList["idle"]){
+    //console.log('Idle state');
+  }
+}
+
+function Left(){
+  //Move left
+  if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
+      playerState = playerStateList["movingLeft"];
+      console.log(player.body.position.x);
+      player.setVelocityX(-160);
+      player.flipX = true;
+      player.anims.play('left', true);
+  }
+
+  if(controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]){
+    console.log("Stop moving left");
+    playerState = playerStateList["idle"];
+  }
+}
+
+function Right(){
+  //Move right
+  if (controls.cursors.right.isDown && CountShoot==0 && subido==true)
+  {
+      playerState = playerStateList["movingRight"];
+      console.log(player.body.position.x);
+      player.setVelocityX(160);
+      player.flipX = false;
+      if(player.body.touching.down){
+        player.anims.play('right', true);
       }
-      player.once('animationcomplete', ()=>{
-          console.log('animationcomplete')
-          bajando = false;
-          bajadoComplete = true;
-      });
+      else{
+        player.anims.play('right', false);
+      }
+  }
+
+  if(controls.cursors.right.isUp && playerState === playerStateList["movingRight"]){
+    console.log("Stop moving right");
+    playerState = playerStateList["idle"];
+  }
+}
+
+function Jump(){
+  if (controls.cursors.up.isDown && player.body.touching.down && CountShoot==0 && subido==true)
+  {
+      bajado=false;
+      player.setVelocityY(-330);
+  }
+}
+
+function Shooting(){
+  if((controls.gunKey.isDown || CountShoot!=0) && subido==true){
+      player.anims.play('attack',true);
+      CountShoot++;
+      if(player.anims.currentFrame.index == 5)
+        CountShoot = 0;
+      console.log(player.anims.currentFrame.index);
+      player.setVelocityX(0);
+  }
+}
+
+function Crouching(){
+  if (controls.cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
+    if(bajando == false){
+      bajando = true;
+      subido = false;
+      console.log("Down");
+      player.anims.play("Crouch",true);
     }
+    player.once('animationcomplete', ()=>{
+        console.log('animationcomplete')
+        bajando = false;
+        bajadoComplete = true;
+    });
+  }
+}
+
+function GettingUp() {
+  //hacer que se levante el muñeco
+  if(controls.cursors.down.isDown && bajadoComplete==true){
+      console.log("Getting up");
+      player.anims.play("GetUp",true);
+      console.log("AnimationDone");
+      player.once('animationcomplete', ()=>{
+          subido = true;
+          bajadoComplete = false;
+      });
+  }
 }
