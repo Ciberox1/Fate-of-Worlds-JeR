@@ -18,7 +18,9 @@ var config={
     }
 }
 
-var objects;
+var objects = {
+  platforms: '', bullets: ''
+};
 var controls = {
   cursors: '', gunKey: '', interactKey: '', dropKey: ''
 };
@@ -47,18 +49,17 @@ function preload(){
     Esto carga un conjunto de sprites en un array, por lo que el nombre clave del array que pongamos seguido de un [x] nos mostrará distintos sprites de un mismo personaje. Así se usarán para animar.
 */
 }
-var platforms;
 function create(){
     this.add.image(400,300,'sky');
-    platforms = this.physics.add.staticGroup();
-    platforms.create(400,568,'ground').setScale(2).refreshBody();
-    platforms.create(600,470,'ground');
-    platforms.create(90,370,'ground');
-    platforms.create(580,310,'ground');
+    objects.platforms = this.physics.add.staticGroup();
+    objects.platforms.create(400,568,'ground').setScale(2).refreshBody();
+    objects.platforms.create(600,470,'ground');
+    objects.platforms.create(90,370,'ground');
+    objects.platforms.create(580,310,'ground');
 
 
     player = this.physics.add.sprite(100, 450, 'dudeidle');
-    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
     var moabKeys = false;
