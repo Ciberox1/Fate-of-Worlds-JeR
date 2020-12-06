@@ -26,36 +26,36 @@ var controls = {
 };
 var playerState = 'idle';
 var playerStateList = {
-  "idle": 'idle',
-  "movingLeft": 'left',
-  "movingRight": 'right',
-  "canJump" : 'canJump',
-  "jumping": 'jumping',
-  "shooting" : 'shooting',
-  "crouching": 'crouching',
-  "crouched": 'crouched',
-  "gettingUp": 'getUp'
+  idle: 'idle',
+  movingLeft: 'left',
+  movingRight: 'right',
+  canJump: 'canJump',
+  jumping: 'jumping',
+  shooting: 'shooting',
+  crouching: 'crouching',
+  crouched: 'crouched',
+  gettingUp: 'getUp'
 }
 
 var game = new Phaser.Game(config);
 
 function preload(){
-    this.load.image('sky', '../../assets/images/scene/sky.png');
-    this.load.image('ground', '../../assets/images/scene/platform.png');
+    this.load.image('sky', '../../assets/images/test/sky.png');
+    this.load.image('ground', '../../assets/images/test/platform.png');
     this.load.spritesheet('dudeWalk',
-        '../../assets/images/run/run.png',{
+        '../../assets/images/test/run.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeShoot',
-        '../../assets/images/shoot/shoot.png',{
+        '../../assets/images/test/shoot.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeidle',
-        '../../assets/images/idle/idle.png',{
+        '../../assets/images/test/idle.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeCrouch',
-        '../../assets/images/crouch/crouch.png',{
+        '../../assets/images/test/crouch.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     /*this.load.spritesheet(){ frameWidth: 32, frameHeight:48 }
