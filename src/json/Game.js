@@ -18,47 +18,61 @@ var config={
     }
 }
 
-var objects;
+var objects = {
+  platforms: '', bullets: ''
+};
 var controls = {
   cursors: '', gunKey: '', interactKey: '', dropKey: ''
 };
+var playerState = 'idle';
+var playerStateList = {
+  idle: 'idle',
+  movingLeft: 'left',
+  movingRight: 'right',
+  canJump: 'canJump',
+  jumping: 'jumping',
+  shooting: 'shooting',
+  crouching: 'crouching',
+  crouched: 'crouched',
+  gettingUp: 'getUp'
+}
+
 var game = new Phaser.Game(config);
 
 function preload(){
-    this.load.image('sky', '../../assets/images/scene/sky.png');
-    this.load.image('ground', '../../assets/images/scene/platform.png');
+    this.load.image('sky', '../../assets/images/test/sky.png');
+    this.load.image('ground', '../../assets/images/test/platform.png');
     this.load.spritesheet('dudeWalk',
-        '../../assets/images/run/run.png',{
+        '../../assets/images/test/run.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeShoot',
-        '../../assets/images/shoot/shoot.png',{
+        '../../assets/images/test/shoot.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeidle',
-        '../../assets/images/idle/idle.png',{
+        '../../assets/images/test/idle.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     this.load.spritesheet('dudeCrouch',
-        '../../assets/images/crouch/crouch.png',{
+        '../../assets/images/test/crouch.png',{
         frameWidth: 50,frameHeight: 42 }
     );
     /*this.load.spritesheet(){ frameWidth: 32, frameHeight:48 }
     Esto carga un conjunto de sprites en un array, por lo que el nombre clave del array que pongamos seguido de un [x] nos mostrará distintos sprites de un mismo personaje. Así se usarán para animar.
 */
 }
-var platforms;
 function create(){
     this.add.image(400,300,'sky');
-    platforms = this.physics.add.staticGroup();
-    platforms.create(400,568,'ground').setScale(2).refreshBody();
-    platforms.create(600,470,'ground');
-    platforms.create(90,370,'ground');
-    platforms.create(580,310,'ground');
+    objects.platforms = this.physics.add.staticGroup();
+    objects.platforms.create(400,568,'ground').setScale(2).refreshBody();
+    objects.platforms.create(600,470,'ground');
+    objects.platforms.create(90,370,'ground');
+    objects.platforms.create(580,310,'ground');
 
 
     player = this.physics.add.sprite(100, 450, 'dudeidle');
-    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
     var moabKeys = false;
@@ -80,7 +94,6 @@ function create(){
         'up': Phaser.Input.Keyboard.KeyCodes.W, 'down': Phaser.Input.Keyboard.KeyCodes.S,
         'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D});
     }
-    count = 0;
 
     player.setCollideWorldBounds(true);
 
@@ -133,73 +146,185 @@ function create(){
 
 function update(){
 
-    //Move left
-    if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
-        console.log(player.body.position.x);
-        player.setVelocityX(-160);
-        player.flipX = true;
-        player.anims.play('left', true);
+  switch (playerState) {
+    case playerStateList["idle"]:
+      Idle();
+      break;
+    case playerStateList["movingLeft"]:
+      Left();
+      break;
+    case playerStateList["movingRight"]:
+      Right();
+      break;
+    case playerStateList["canJump"]:
+      CanJump();
+      break;
+    case playerStateList["jumping"]:
+      Jump();
+      break;
+    case playerStateList["shooting"]:
+      Shooting();
+      break;
+    case playerStateList["crouching"]:
+      Crouching();
+      break;
+    case playerStateList["gettingUp"]:
+      GettingUp();
+      break;
+    default:
+
+  }
+
+}
+
+function Idle(){
+  player.anims.play('idle',true);
+  player.setVelocityX(0);
+
+  //Move left
+  if(controls.cursors.left.isDown){
+    playerState = playerStateList["movingLeft"];
+  }
+
+  //Move right
+  if(controls.cursors.right.isDown){
+    playerState = playerStateList["movingRight"];
+  }
+
+  //Jump
+  if(controls.cursors.up.isDown){
+    playerState = playerStateList["canJump"];
+  }
+
+  //Shooting
+  if(controls.gunKey.isDown){
+    playerState = playerStateList["shooting"];
+  }
+}
+
+function Left(){
+  //Move left
+  if (CountShoot==0 && subido==true) {
+      console.log(player.body.position.x);
+      player.setVelocityX(-160);
+      player.flipX = true;
+      player.anims.play('left', true);
+  }
+
+  if(controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]){
+    console.log("Stop moving left");
+    playerState = playerStateList["idle"];
+  }
+
+  //Jump
+  if(controls.cursors.up.isDown){
+    playerState = playerStateList["canJump"];
+  }
+
+  //Shooting
+  if(controls.gunKey.isDown){
+    playerState = playerStateList["shooting"];
+  }
+}
+
+function Right(){
+  //Move right
+  if (CountShoot==0 && subido==true)
+  {
+      console.log(player.body.position.x);
+      player.setVelocityX(160);
+      player.flipX = false;
+      player.anims.play('left', true);
+  }
+
+  if(controls.cursors.right.isUp && playerState === playerStateList["movingRight"]){
+    console.log("Stop moving right");
+    playerState = playerStateList["idle"];
+  }
+
+  //Jump
+  if(controls.cursors.up.isDown){
+    playerState = playerStateList["canJump"];
+  }
+
+  //Shooting
+  if(controls.gunKey.isDown){
+    playerState = playerStateList["shooting"];
+  }
+}
+
+function CanJump() {
+  if(controls.cursors.up.isDown && player.body.touching.down){
+    player.setVelocityY(-330);
+    playerState = playerStateList["jumping"];
+  }
+}
+
+function Jump(){
+  //Left
+  if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
+      console.log(player.body.position.x);
+      player.setVelocityX(-160);
+      player.flipX = true;
+      //player.anims.play('left', true);
+  }
+
+  //Right
+  if (controls.cursors.right.isDown && CountShoot==0 && subido==true) {
+      console.log(player.body.position.x);
+      player.setVelocityX(160);
+      player.flipX = false;
+      //player.anims.play('left', true);
+  }
+
+  if(player.body.touching.down && !controls.cursors.up.isDown){
+    playerState = playerStateList["idle"];
+  }
+
+  if(player.body.touching.down && controls.gunKey.isDown){
+    playerState = playerStateList["shooting"];
+  }
+}
+
+function Shooting(){
+
+  player.setVelocityX(0);
+  player.anims.play('attack',true);
+  CountShoot++;
+  if(player.anims.currentFrame.index == 5)
+    CountShoot = 0;
+
+
+  if(controls.gunKey.isUp && CountShoot == 0){
+    playerState = playerStateList["idle"];
+  }
+}
+
+function Crouching(){
+  if (controls.cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
+    if(bajando == false){
+      bajando = true;
+      subido = false;
+      console.log("Down");
+      player.anims.play("Crouch",true);
     }
+    player.once('animationcomplete', ()=>{
+        console.log('animationcomplete')
+        bajando = false;
+        bajadoComplete = true;
+    });
+  }
+}
 
-    //Move right
-    if (controls.cursors.right.isDown && CountShoot==0 && subido==true)
-    {
-        console.log(player.body.position.x);
-        player.setVelocityX(160);
-        player.flipX = false;
-        if(player.body.touching.down){
-          player.anims.play('right', true);
-        }
-        else{
-          player.anims.play('right', false);
-        }
-    }
-
-    if (controls.cursors.up.isDown && player.body.touching.down && CountShoot==0 && subido==true)
-    {
-        bajado=false;
-        player.setVelocityY(-330);
-    }
-
-
-
-    if((controls.gunKey.isDown || CountShoot!=0) && subido==true){
-        player.anims.play('attack',true);
-        CountShoot++;
-        if(player.anims.currentFrame.index == 5)
-          CountShoot = 0;
-        console.log(player.anims.currentFrame.index);
-        player.setVelocityX(0);
-    }
-
-    if(player.body.touching.down && !controls.cursors.right.isDown && !controls.cursors.left.isDown && !controls.cursors.up.isDown && CountShoot==0 && subido==true){
-        player.anims.play('idle',true);
-        player.setVelocityX(0);
-    }
-
-
-    //hacer que se levante el muñeco
-    if(controls.cursors.down.isDown && bajadoComplete==true){
-        console.log("Getting up");
-        player.anims.play("GetUp",true);
-        console.log("AnimationDone");
-        player.once('animationcomplete', ()=>{
-            subido = true;
-            bajadoComplete = false;
-        });
-    }
-
-    if (controls.cursors.down.isDown && player.body.touching.down && CountShoot==0 && bajadoComplete==false){
-      if(bajando == false){
-        bajando = true;
-        subido = false;
-        console.log("Down");
-        player.anims.play("Crouch",true);
-      }
+function GettingUp() {
+  //hacer que se levante el muñeco
+  if(controls.cursors.down.isDown && bajadoComplete==true){
+      console.log("Getting up");
+      player.anims.play("GetUp",true);
+      console.log("AnimationDone");
       player.once('animationcomplete', ()=>{
-          console.log('animationcomplete')
-          bajando = false;
-          bajadoComplete = true;
+          subido = true;
+          bajadoComplete = false;
       });
-    }
+  }
 }
