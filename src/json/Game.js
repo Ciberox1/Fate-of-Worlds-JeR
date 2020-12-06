@@ -42,7 +42,7 @@ var game = new Phaser.Game(config);
 function preload(){
     this.load.image('sky', '../../assets/images/test/sky.png');
     this.load.image('ground', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png');
-    this.load.image('interface','../../assets/images/test/platform.png')
+    this.load.image('collider','../../assets/images/test/platform.png')
     this.load.spritesheet('dudeWalk',
         '../../assets/images/test/run.png',{
         frameWidth: 50,frameHeight: 42 }
@@ -65,16 +65,18 @@ function preload(){
 }
 function create(){
     this.add.image(400,300,'sky');
-      objects.platforms = this.physics.add.staticGroup();
-      objects.platforms.create(0,600,'ground').setOrigin(0,0).refreshBody();
-      /*
-      objects.platforms.create(600,470,'ground');
-      objects.platforms.create(90,370,'ground');
-      objects.platforms.create(580,310,'ground');
-      */
-      objects.platforms.create(0,(config.height - 92)/2 ,'ground').setOrigin(0,0).refreshBody();
-      /*Le resto 92 que viene se la suma de 30 + 30 + 32, que equivale a los dos suelos y al divisor de pantalla(interfaz)*/
-    this.add.image(0,(config.height - 32)/2,'interface').setOrigin(0,0).setScale(2,1);
+    objects.platforms = this.physics.add.staticGroup();
+    
+    objects.platforms.create(0,600,'collider').setOrigin(0,0).setScale(2,1).refreshBody();
+    objects.platforms.create(0,(config.height - 92)/2 ,'collider').setOrigin(0,0).setScale(2,1).refreshBody();
+    /*Le resto 92 que viene se la suma de 30 + 30 + 32, que equivale a los dos suelos y al divisor de pantalla(interfaz)*/
+    
+    /*Suelos(arriba y abajo respectivamente*/
+    this.add.tileSprite(0,(config.height - 92)/2,800,30,'ground').setOrigin(0,0);   
+    this.add.tileSprite(0,600,800,30,'ground').setOrigin(0,0);
+    
+    /*Divisor de pantalla*/
+    this.add.image(0,(config.height - 32)/2,'collider').setOrigin(0,0).setScale(2,1);
     /*Este 32 sale de lo mismo que arriba*/  
     
 
