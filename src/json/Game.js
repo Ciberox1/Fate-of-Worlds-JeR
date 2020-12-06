@@ -70,10 +70,17 @@ function create(){
     objects.platforms.create(90,370,'ground');
     objects.platforms.create(580,310,'ground');
 
-
+    //Player physics
     player = this.physics.add.sprite(100, 450, 'dudeidle');
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
+
+    //Camera control
+    this.cameras.main.setPosition(0, config.height / 2);
+    this.cameras.main.setSize(800, 300);
+    this.cameras.main.setBackgroundColor('#777777');
+    this.cameras.main.setBounds(0, 0, 1800, 600);
+    this.cameras.main.startFollow(player);
 
     var moabKeys = false;
     if(moabKeys){
@@ -95,7 +102,8 @@ function create(){
         'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D});
     }
 
-    player.setCollideWorldBounds(true);
+    //Makes player collide with borders, change if necessary
+    player.setCollideWorldBounds(false);
 
     CountShoot = 0;
     bajando = false;
@@ -145,6 +153,10 @@ function create(){
 }
 
 function update(){
+
+  //This can be useful for tilesets
+  //objects.platforms.children.entries[0].setAlpha(.5);
+  //console.log(objects.platforms);
 
   switch (playerState) {
     case playerStateList["idle"]:
@@ -277,6 +289,7 @@ function Jump(){
       //player.anims.play('left', true);
   }
 
+  // TODO: Fix jump state change
   if(player.body.touching.down && !controls.cursors.up.isDown){
     playerState = playerStateList["idle"];
   }
