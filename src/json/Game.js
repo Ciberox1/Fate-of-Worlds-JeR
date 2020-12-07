@@ -42,7 +42,7 @@ var playerStateList = {
     crouched: 'crouched',
     gettingUp: 'getUp'
 }
-var iter = 0;
+var warp = false;
 var game = new Phaser.Game(config);
 
 function preload() {
@@ -79,7 +79,8 @@ function preload() {
 
 function create() {
 
-    lab = this.add.tileSprite(400, 200, 16000, 400, 'lab');
+    lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
+    lab2 = this.add.tileSprite(12400, 200, 8000, 400, 'lab');
     tween = this.tweens.addCounter({
         from: 1,
         to: 2,
@@ -122,9 +123,39 @@ function create() {
     objects.platforms.create(5800, 100, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(6200, 350, 'ground').setScale(1, 4).refreshBody();
     objects.platforms.create(6250, 250, 'ground').setScale(0.75, 3).refreshBody();
+    objects.platforms.create(6625, 150, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(6850, 355, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7200, 250, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7200, 384, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7450, 325, 'ground').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(7450, 150, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7600, 355, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(7750, 150, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(7950, 355, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8050, 150, 'ground').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(8200, 355, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8450, 355, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8325, 200, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8675, 300, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(8925, 200, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8950, 355, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9200, 200, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(9325, 355, 'ground').setScale(0.7, 1).refreshBody();
+    objects.platforms.create(9500, 150, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9600, 300, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9800, 250, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(10100, 175, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(10470, 325, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(10750, 325, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(11000, 275, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11300, 384, 'ground').setScale(0.4, 2).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(11550, 300, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11800, 250, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(12100, 300, 'ground').setScale(0.4, 7).refreshBody();
+    objects.platforms.create(12425, 200, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(13925, 384, 'ground').setScale(6, 1).refreshBody();
 
-    player = this.physics.add.sprite(100, 100, 'dudeidle');
-
+    player = this.physics.add.sprite(12100, 100, 'dudeidle');
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
@@ -256,7 +287,10 @@ function update() {
         default:
 
     }
-    //lab.tileScaleX = tween.getValue();
+    if (player.x >= 13000)
+        warp = true
+    if (warp)
+        lab2.tileScaleX = tween.getValue();
 }
 
 function Idle() {
