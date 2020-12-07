@@ -42,137 +42,133 @@ var playerStateList = {
 
 function Left(){
   //Move left
-        console.log(player.body.position.x);
-        player.setVelocityX(-160);
-        player.anims.play('Mario1Walk', true);
-        player.flipX = true;
+    console.log(player.body.position.x);
+    player.setVelocityX(-160);
+    player.anims.play('Mario1Walk', true);
+    player.flipX = true;
     
 
-  if(controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]){
-    console.log("Stop moving left");
-    playerState = playerStateList["idle"];
-  }
+    if(controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]){
+        console.log("Stop moving left");
+        playerState = playerStateList["idle"];
+    }
 
-  //Jump
-  if(controls.cursors.up.isDown){
-    playerState = playerStateList["canJump"];
-  }
+    //Jump
+    if(controls.cursors.up.isDown){
+       playerState = playerStateList["canJump"];
+    }
 
-  //Shooting
-  if(controls.gunKey.isDown){
-    playerState = playerStateList["shooting"];
-  }
+    //Shooting
+    if(canShoot==true){
+        if(controls.gunKey.isDown){
+        playerState = playerStateList["shooting"];
+        }
+    }
+    
 }
 
 function Right(){
   //Move right
     
-        player.setVelocityX(160);
-        player.flipX = false;
-        if(player.body.touching.down){
-          player.anims.play('Mario1Walk', true);
-        }
+    player.setVelocityX(160);
+    player.flipX = false;
+    if(player.body.touching.down){
+        player.anims.play('Mario1Walk', true);
+    }
 
-    
-
-  if(controls.cursors.right.isUp && playerState === playerStateList["movingRight"]){
-    console.log("Stop moving right");
-    playerState = playerStateList["idle"];
-  }
+    if(controls.cursors.right.isUp && playerState === playerStateList["movingRight"]){
+        console.log("Stop moving right");
+        playerState = playerStateList["idle"];
+    }
 
   //Jump
-  if(controls.cursors.up.isDown){
-    playerState = playerStateList["canJump"];
-  }
+    if(controls.cursors.up.isDown){
+        playerState = playerStateList["canJump"];
+    }
 
   //Shooting
-  if(controls.gunKey.isDown){
-    playerState = playerStateList["shooting"];
-  }
+    if(canShoot==true){
+        if(controls.gunKey.isDown){
+            playerState = playerStateList["shooting"];
+        }
+    }
+    
 }
 
 function CanJump() {
   if(controls.cursors.up.isDown && player.body.touching.down){
-        player.anims.play('Mario1Jump',true);              
+        player.anims.play('Mario1JumpStart',true);              
         playerState = playerStateList["jumping"];
-        player.setVelocityY(-330);
   }
 }
 
 function Jump(){
     
-    
-  /*  if(player.anims.currentFrame.index==5)
-        player.setVelocityY(-330);
+    //to control the jumping animation
+    if(player.anims.currentAnim.key=="Mario1JumpStart" && player.anims.currentFrame.index==5)
+            player.setVelocityY(-330);
 
     else if(player.anims.currentFrame.index==6){
-        player.anims.pause(player.anims.currentAnim.frames[5]);
+            player.anims.stop(player.anims.currentAnim.frames[5],false);
     }
     
-    if(player.body.touching.down&&player.anims.currentFrame.index>6)
-       player.anims.play('Mario1Jump',true);*/
+    if(player.body.touching.down && player.anims.currentFrame.index==6){
+            player.anims.play('Mario1JumpEnd',true);
+    }
+ 
+       
+    
   //Left
-  if (controls.cursors.left.isDown) { 
-      console.log(player.body.position.x);
-      player.setVelocityX(-160);
-      player.flipX = true;
-      //player.anims.play('left', true);
-  }
+    if (controls.cursors.left.isDown) { 
+        console.log(player.body.position.x);
+        player.setVelocityX(-160);
+        player.flipX = true;
+    }
 
   //Right
-  if (controls.cursors.right.isDown) {
-      console.log(player.body.position.x);
-      player.setVelocityX(160);
-      player.flipX = false;
-      //player.anims.play('left', true);
-  }
-
-    if(player.body.touching.down && !controls.cursors.up.isDown){
-            playerState = playerStateList["idle"];
-        }
-
-  if(player.body.touching.down && controls.gunKey.isDown){
-            playerState = playerStateList["shooting"];
-        }
+    if (controls.cursors.right.isDown) {
+        console.log(player.body.position.x);
+        player.setVelocityX(160);
+        player.flipX = false;
+    }
+ 
     
-    
-/*
-     player.once('animationcomplete', ()=>{
-        console.log('animationcomplete')
+
+    if(player.anims.currentAnim.key=="Mario1JumpEnd" && player.anims.currentFrame.index==5){
          if(player.body.touching.down && !controls.cursors.up.isDown){
-            playerState = playerStateList["idle"];
+                playerState = playerStateList["idle"];
         }
 
-  if(player.body.touching.down && controls.gunKey.isDown){
+       if(player.body.touching.down && controls.gunKey.isDown){
             playerState = playerStateList["shooting"];
         }
-    });
+        
     
-  */
+    
+        
+        
+    }
+       
+    
+  
 }
 
 function Shooting(){
-    
-   if(canShoot==true){
+    if(canShoot==true){
         if(player.flipX==false){
             ShootDirection="right";
-            console.log("dispara derecha");
-    }
+        }
         else if(player.flipX == true){
             ShootDirection="left";
-            console.log("dispara derecha");
-    }
+        }
         player.anims.play('Mario1Shoot',true);
-        player.once('animationcomplete', ()=>{ 
-        console.log('animationcomplete');
-        balaDisparada=true;
-            
-        if(controls.gunKey.isUp){
+        if(player.anims.currentFrame.index==5){
+            balaDisparada=true;
             playerState = playerStateList["idle"];
         }
-    });
-     player.setVelocityX(0);
+        player.setVelocityX(0);
    }
+  
 }
 
 /*function Crouching(){
@@ -227,9 +223,11 @@ function Idle(){
   }
 
   //Shooting
-  if(controls.gunKey.isDown){
-    playerState = playerStateList["shooting"];
-  }
+  if(canShoot==true){
+    if(controls.gunKey.isDown){
+        playerState = playerStateList["shooting"];
+        }
+    }
 }
 
 
@@ -310,12 +308,18 @@ function createAnims(){
         repeat: 0
     });
        game.anims.create({
-        key: 'Mario1Jump',
+        key: 'Mario1JumpStart',
         frames: game.anims.generateFrameNumbers('Mario1Jump',{ frames:[0,1,2,3,4,3,4,3,2,1,0]}),
-        frameRate: 10,
+        frameRate: 20,
         repeat:0
     });
-    
+    game.anims.create({
+        key: 'Mario1JumpEnd',
+        frames: game.anims.generateFrameNumbers('Mario1Jump',{ start:4, end:0
+        }),
+        frameRate: 20,
+        repeat:0
+    });
 }
 
 var platforms;
@@ -340,9 +344,7 @@ function create(){
     balaDisparada=false;
     ShootDirection="";
     canShoot=true;
-    //jumping booleans
-    salto=false;
-    
+    //animations
     createAnims();
   
 }
@@ -391,12 +393,12 @@ function update(){
     
     // sirve para originar la bala dependiendo de hacia donde mire el personaje
     if(balaDisparada==true){
-        if(ShootDirection=="right")
+        if(ShootDirection=="right"){
             bala=this.physics.add.sprite(player.body.position.x + 30,player.body.position.y + heightPlayer/2-5,'bala');
-        
-        else if(ShootDirection=="left")
+        }
+        else if(ShootDirection=="left"){
             bala=this.physics.add.sprite(player.body.position.x-30,player.body.position.y + heightPlayer/2-5,'bala')
-        
+        }
         bala.setGravityY(-490);
         balaDisparada = false;
         balaActiva = true;
@@ -404,33 +406,19 @@ function update(){
     }
     //sirve para dar velocidad una vez se crea la bala
     if(balaActiva == true){
+        console.log("bala activa");
         if(ShootDirection == "right")
             bala.setVelocityX(300);
         else if(ShootDirection == "left"){
             bala.setVelocityX(-300);
         } 
-        console.log(bala.body.position.x);
     }
-    // sirve para ejecutar una animación de salto más completa
-   /* if(player.body.velocity.y>245 && player.body.velocity.y<280){  
-        console.log('animationcomplete');
-        player.setFrame(4);     
-        salto = true;   
-                                                               
-     }
-    //sirve para dar una animación de salto más completa
-    if(salto == true && player.body.touching.down){
-          player.anims.playReverse('Mario1Jump','true');
-          player.once('animationcomplete', ()=>{ 
-            salto = false;        
-        });
-        
-      }
-    */
-    if(balaActiva==true && bala.body.position.x <700 && bala.body.position.x > 0){
+    
+    if(balaActiva==true && bala.body.position.x <800 && bala.body.position.x > 0){
+        console.log("brr");
         canShoot=false;
     }
-    else if(balaActiva==true && (bala.body.position.x > 700 || bala.body.position.x < 0)){
+    else if(balaActiva==true && (bala.body.position.x > 800 || bala.body.position.x < 0)){
          bala.destroy();
          balaActiva=false;
          canShoot=true;
