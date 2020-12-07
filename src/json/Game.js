@@ -42,7 +42,7 @@ var playerStateList = {
     crouched: 'crouched',
     gettingUp: 'getUp'
 }
-var iter = 0;
+var warp = false;
 var game = new Phaser.Game(config);
 
 function preload() {
@@ -79,7 +79,8 @@ function preload() {
 
 function create() {
 
-    lab = this.add.tileSprite(400, 200, 32000, 400, 'lab');
+    lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
+    lab2 = this.add.tileSprite(12400, 200, 8000, 400, 'lab');
     tween = this.tweens.addCounter({
         from: 1,
         to: 2,
@@ -154,8 +155,7 @@ function create() {
     objects.platforms.create(12425, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(13925, 384, 'ground').setScale(6, 1).refreshBody();
 
-    player = this.physics.add.sprite(100, 100, 'dudeidle');
-
+    player = this.physics.add.sprite(12100, 100, 'dudeidle');
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
@@ -287,7 +287,10 @@ function update() {
         default:
 
     }
-    //lab.tileScaleX = tween.getValue();
+    if (player.x >= 13000)
+        warp = true
+    if (warp)
+        lab2.tileScaleX = tween.getValue();
 }
 
 function Idle() {
