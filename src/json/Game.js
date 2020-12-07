@@ -1,6 +1,8 @@
-var config = {
-    width: 1600,
-    height: 800,
+
+var config={
+    width: 800,
+    height: 630,
+
     type: Phaser.AUTO,
 
     physics: {
@@ -48,6 +50,7 @@ var game = new Phaser.Game(config);
 function preload() {
     this.load.image('lab', '../../assets/images/enviroment/labtileset/backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/images/test/platform.png');
+
     this.load.spritesheet('dudeWalk',
         '../../assets/images/test/run.png', {
             frameWidth: 50,
