@@ -153,9 +153,20 @@ function create() {
     objects.platforms.create(11800, 250, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(12100, 300, 'ground').setScale(0.4, 7).refreshBody();
     objects.platforms.create(12425, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(13925, 384, 'ground').setScale(6, 1).refreshBody();
+    objects.platforms.create(14000, 384, 'ground').setScale(6.3, 1).refreshBody();
+    objects.platforms.create(13000, 100, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(13400, 350, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(13800, 275, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(14300, 275, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(14800, 275, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(15200, 350, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(15275, 310, 'ground').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(15500, 300, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(15550, 200, 'ground').setScale(0.25, 1).refreshBody();
+    objects.platforms.create(15700, 350, 'ground').setScale(0.5, 1).refreshBody();
 
-    player = this.physics.add.sprite(12100, 100, 'dudeidle');
+
+    player = this.physics.add.sprite(15100, 100, 'dudeidle');
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
