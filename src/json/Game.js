@@ -1,5 +1,5 @@
 var config = {
-    width: 1600,
+    width: 16000,
     height: 800,
     type: Phaser.AUTO,
 
@@ -90,7 +90,7 @@ function create() {
     });
 
     objects.platforms = this.physics.add.staticGroup();
-    objects.platforms.create(0, 384, 'ground').setScale(10, 1).refreshBody();
+    objects.platforms.create(0, 384, 'ground').setScale(12.5, 1).refreshBody();
     objects.platforms.create(0, 200, 'ground').setScale(0.1, 12).refreshBody();
     objects.platforms.create(380, 100, 'ground').setScale(0.1, 9).refreshBody();
     objects.platforms.create(175, 10, 'ground');
@@ -101,17 +101,38 @@ function create() {
     objects.platforms.create(925, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(1200, 250, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(1450, 225, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(1720, 300, 'ground').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(1780, 320, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1840, 340, 'ground').setScale(0.2, 2).refreshBody();
+    objects.platforms.create(2100, 100, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(2700, 300, 'ground').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(2900, 200, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3100, 275, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(3350, 200, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3650, 250, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3750, 150, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3950, 150, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5250, 384, 'ground').setScale(5, 1).refreshBody();
+    objects.platforms.create(4290, 125, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(4350, 275, 'ground').setScale(0.5, 1.5).refreshBody();
+    objects.platforms.create(4700, 225, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5000, 250, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5300, 250, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5500, 150, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5800, 100, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(6200, 350, 'ground').setScale(1, 4).refreshBody();
+    objects.platforms.create(6250, 250, 'ground').setScale(0.75, 3).refreshBody();
 
-    player = this.physics.add.sprite(100, 300, 'dudeidle').setOrigin(0, 0);;
+    player = this.physics.add.sprite(100, 100, 'dudeidle');
 
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
     //Camera control
-    this.cameras.main.setPosition(0, config.height / 2);
-    this.cameras.main.setSize(800, 300);
+    this.cameras.main.setPosition(0, 0);
+    this.cameras.main.setSize(800, 400);
     this.cameras.main.setBackgroundColor('#777777');
-    this.cameras.main.setBounds(0, 0, 1800, 600);
+    this.cameras.main.setBounds(0, 0, 18000, 400);
     this.cameras.main.startFollow(player);
 
     var moabKeys = false;
@@ -320,31 +341,31 @@ function CanJump() {
     }
 }
 
-function Jump(){
-  //Left
-  if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
-      console.log(player.body.position.x);
-      player.setVelocityX(-160);
-      player.flipX = true;
-      //player.anims.play('left', true);
-  }
+function Jump() {
+    //Left
+    if (controls.cursors.left.isDown && CountShoot == 0 && subido == true) {
+        console.log(player.body.position.x);
+        player.setVelocityX(-160);
+        player.flipX = true;
+        //player.anims.play('left', true);
+    }
 
-  //Right
-  if (controls.cursors.right.isDown && CountShoot==0 && subido==true) {
-      console.log(player.body.position.x);
-      player.setVelocityX(160);
-      player.flipX = false;
-      //player.anims.play('left', true);
-  }
+    //Right
+    if (controls.cursors.right.isDown && CountShoot == 0 && subido == true) {
+        console.log(player.body.position.x);
+        player.setVelocityX(160);
+        player.flipX = false;
+        //player.anims.play('left', true);
+    }
 
-  // TODO: Fix jump state change
-  if(player.body.touching.down && !controls.cursors.up.isDown){
-    playerState = playerStateList["idle"];
-  }
+    // TODO: Fix jump state change
+    if (player.body.touching.down && !controls.cursors.up.isDown) {
+        playerState = playerStateList["idle"];
+    }
 
-  if(player.body.touching.down && controls.gunKey.isDown){
-    playerState = playerStateList["shooting"];
-  }
+    if (player.body.touching.down && controls.gunKey.isDown) {
+        playerState = playerStateList["shooting"];
+    }
 }
 
 function Shooting() {
