@@ -102,10 +102,17 @@ function create() {
     objects.platforms.create(1200, 250, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(1450, 225, 'ground').setScale(0.2, 1).refreshBody();
 
-
     player = this.physics.add.sprite(100, 300, 'dudeidle').setOrigin(0, 0);;
+
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
+
+    //Camera control
+    this.cameras.main.setPosition(0, config.height / 2);
+    this.cameras.main.setSize(800, 300);
+    this.cameras.main.setBackgroundColor('#777777');
+    this.cameras.main.setBounds(0, 0, 1800, 600);
+    this.cameras.main.startFollow(player);
 
     var moabKeys = false;
     if (moabKeys) {
@@ -129,6 +136,7 @@ function create() {
         });
     }
 
+    //Makes player collide with borders, change if necessary
     player.setCollideWorldBounds(false);
 
     CountShoot = 0;
@@ -228,7 +236,6 @@ function update() {
 
     }
     //lab.tileScaleX = tween.getValue();
-
 }
 
 function Idle() {
@@ -313,30 +320,31 @@ function CanJump() {
     }
 }
 
-function Jump() {
-    //Left
-    if (controls.cursors.left.isDown && CountShoot == 0 && subido == true) {
-        console.log(player.body.position.x);
-        player.setVelocityX(-160);
-        player.flipX = true;
-        //player.anims.play('left', true);
-    }
+function Jump(){
+  //Left
+  if (controls.cursors.left.isDown && CountShoot==0 && subido==true) {
+      console.log(player.body.position.x);
+      player.setVelocityX(-160);
+      player.flipX = true;
+      //player.anims.play('left', true);
+  }
 
-    //Right
-    if (controls.cursors.right.isDown && CountShoot == 0 && subido == true) {
-        console.log(player.body.position.x);
-        player.setVelocityX(160);
-        player.flipX = false;
-        //player.anims.play('left', true);
-    }
+  //Right
+  if (controls.cursors.right.isDown && CountShoot==0 && subido==true) {
+      console.log(player.body.position.x);
+      player.setVelocityX(160);
+      player.flipX = false;
+      //player.anims.play('left', true);
+  }
 
-    if (player.body.touching.down && !controls.cursors.up.isDown) {
-        playerState = playerStateList["idle"];
-    }
+  // TODO: Fix jump state change
+  if(player.body.touching.down && !controls.cursors.up.isDown){
+    playerState = playerStateList["idle"];
+  }
 
-    if (player.body.touching.down && controls.gunKey.isDown) {
-        playerState = playerStateList["shooting"];
-    }
+  if(player.body.touching.down && controls.gunKey.isDown){
+    playerState = playerStateList["shooting"];
+  }
 }
 
 function Shooting() {
