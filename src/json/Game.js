@@ -1,7 +1,5 @@
-
-
 var config = {
-    width: 16000,
+    width: 19500,
     height: 800,
     type: Phaser.AUTO,
 
@@ -50,16 +48,16 @@ var game = new Phaser.Game(config);
 function preload() {
     this.load.image('lab', '../../assets/images/enviroment/labtileset/backgrounds/1038-0.png');
     this.load.image('platform', '../../assets/images/test/platform.png');
-    
+
     /*Imágenes necesarias para los sprites del mundo*/
-    this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png');/*Suelo del laboratorio 1*/
-    this.load.image('blackBeamV', '../../assets/Images/Enviroment/Space runner/Viga Vertical Larga.png');/*Viga vert. negra 1 (bordes del mapa)*/
-    this.load.image('blackBeamH', '../../assets/Images/Enviroment/Subway/Viga horizontal negra.png');/*Techo*/
-    this.load.image('fan', '../../assets/Images/Enviroment/Warped city/Ventilación 1.png');/*Ventilador*/
-    this.load.image('box', '../../assets/Images/Enviroment/Subway/Box.png');/*Cajas*/
+    this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
+    this.load.image('blackBeamV', '../../assets/Images/Enviroment/Space runner/Viga Vertical Larga.png'); /*Viga vert. negra 1 (bordes del mapa)*/
+    this.load.image('blackBeamH', '../../assets/Images/Enviroment/Subway/Viga horizontal negra.png'); /*Techo*/
+    this.load.image('fan', '../../assets/Images/Enviroment/Warped city/Ventilación 1.png'); /*Ventilador*/
+    this.load.image('box', '../../assets/Images/Enviroment/Subway/Box.png'); /*Cajas*/
     /*Fin imágenes necesarias para los sprites del mundo*/
-    
-    
+
+
     this.load.spritesheet('dudeWalk',
         '../../assets/images/test/run.png', {
             frameWidth: 50,
@@ -87,13 +85,13 @@ function preload() {
     /*this.load.spritesheet(){ frameWidth: 32, frameHeight:48 }
     Esto carga un conjunto de sprites en un array, por lo que el nombre clave del array que pongamos seguido de un [x] nos mostrará distintos sprites de un mismo personaje. Así se usarán para animar.
     */
-    
+
 }
 
 function create() {
 
     lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
-    lab2 = this.add.tileSprite(12400, 200, 8000, 400, 'lab');
+    lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
     tween = this.tweens.addCounter({
         from: 1,
         to: 2,
@@ -102,9 +100,10 @@ function create() {
         yoyo: true,
         repeat: -1
     });
-    
+
     /*Plataformas invisibles*/
     objects.platforms = this.physics.add.staticGroup();
+    //Plataformas del mundo 1
     objects.platforms.create(0, 384, 'platform').setScale(12.5, 0.88).refreshBody();
     objects.platforms.create(0, 200, 'platform').setScale(0.1, 12).refreshBody();
     objects.platforms.create(380, 100, 'platform').setScale(0.1, 9).refreshBody();
@@ -175,49 +174,75 @@ function create() {
     objects.platforms.create(14800, 275, 'platform').setScale(0.1, 1).refreshBody();
     objects.platforms.create(15200, 350, 'platform').setScale(0.2, 4).refreshBody();
     objects.platforms.create(15275, 310, 'platform').setScale(0.2, 6).refreshBody();
-    objects.platforms.create(15500, 300, 'platform').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(15450, 300, 'platform').setScale(0.2, 1).refreshBody();
     objects.platforms.create(15550, 200, 'platform').setScale(0.25, 1).refreshBody();
-    objects.platforms.create(15700, 350, 'platform').setScale(0.5, 1).refreshBody();
-    
+    objects.platforms.create(15700, 360, 'platform').setScale(0.7, 1).refreshBody();
+    objects.platforms.create(15800, 200, 'platform').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(16000, 290, 'platform').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16300, 330, 'platform').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(16300, 225, 'platform').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16600, 175, 'platform').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(16950, 350, 'platform').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17100, 275, 'platform').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(17000, 200, 'platform').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17200, 125, 'platform').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17500, 275, 'platform').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17650, 370, 'platform').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(17700, 175, 'platform').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17850, 275, 'platform').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(18150, 225, 'platform').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(18250, 350, 'platform').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(18475, 350, 'platform').setScale(0.2, 7).refreshBody();
+    objects.platforms.create(18475, 50, 'platform').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(19100, 384, 'platform').setScale(3, 1).refreshBody();
+    objects.platforms.create(18535, 350, 'platform').setScale(0.1, 4).refreshBody();
+    objects.platforms.create(18750, 225, 'platform').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(19050, 175, 'platform').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(19400, 300, 'platform').setScale(0.4, 6).refreshBody(); //sobre esto aparecera el terminal para acabar el juego
+    objects.platforms.create(19500, 200, 'platform').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(19100, 0, 'platform').setScale(3, 1).refreshBody();
+
+    //Plataformas del mundo 2
+
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
-    this.add.tileSprite(0,370,2500,30,'whiteLabGround').setOrigin(0,0);
-    
+    this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
+
     /*Verticales*/
-    this.add.tileSprite(0,25,16,350,'blackBeamV').setScale(1.2,1).setOrigin(0,0);
-    this.add.tileSprite(360,25,16,248,'blackBeamV').setScale(2.5,1).setOrigin(0,0);
-    
+    this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.2, 1).setOrigin(0, 0);
+    this.add.tileSprite(360, 25, 16, 248, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+
     /*Techos*/
-    this.add.tileSprite(0,0,430,16,'blackBeamH').setScale(1,1.6).setOrigin(0,0);
-    
+    this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
+
     /*Plataformas*/
-    this.add.image(395,238,'fan').setScale(1.6,1.8).setOrigin(0,0);
-    this.add.image(535,316,'box').setScale(1.55,1.8).setOrigin(0,0);
-    this.add.image(584,316,'box').setScale(1.55,1.8).setOrigin(0,0);
-    this.add.image(633,316,'box').setScale(1.55,1.8).setOrigin(0,0);
-    this.add.image(682,316,'box').setScale(1.55,1.8).setOrigin(0,0);
-    this.add.image(731,316,'box').setScale(1.55,1.8).setOrigin(0,0);
-    this.add.image(780,316,'box').setScale(1.3,1.8).setOrigin(0,0);
-    this.add.image(584,256,'box').setScale(0.9,2.2).setOrigin(0,0);
-    this.add.image(613,256,'box').setScale(1.55,2.2).setOrigin(0,0);
-    this.add.image(662,256,'box').setScale(1.55,2.2).setOrigin(0,0);
-    this.add.image(711,256,'box').setScale(1.55,2.2).setOrigin(0,0);
-    this.add.image(584,197,'box').setScale(1.55,2.2).setOrigin(0,0);
-    this.add.image(633,197,'box').setScale(1.55,2.2).setOrigin(0,0);
-    this.add.image(682,197,'box').setScale(0.9,2.2).setOrigin(0,0);
-    
+    this.add.image(395, 238, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+    this.add.image(535, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
+    this.add.image(584, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
+    this.add.image(633, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
+    this.add.image(682, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
+    this.add.image(731, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
+    this.add.image(780, 316, 'box').setScale(1.3, 1.8).setOrigin(0, 0);
+    this.add.image(584, 256, 'box').setScale(0.9, 2.2).setOrigin(0, 0);
+    this.add.image(613, 256, 'box').setScale(1.55, 2.2).setOrigin(0, 0);
+    this.add.image(662, 256, 'box').setScale(1.55, 2.2).setOrigin(0, 0);
+    this.add.image(711, 256, 'box').setScale(1.55, 2.2).setOrigin(0, 0);
+    this.add.image(584, 197, 'box').setScale(1.55, 2.2).setOrigin(0, 0);
+    this.add.image(633, 197, 'box').setScale(1.55, 2.2).setOrigin(0, 0);
+    this.add.image(682, 197, 'box').setScale(0.9, 2.2).setOrigin(0, 0);
+
     /*Decoraciones*/
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
-    player = this.physics.add.sprite(634, 100, 'dudeidle');
+    player = this.physics.add.sprite(100, 100, 'dudeidle');
     this.physics.add.collider(player, objects.platforms);
     player.body.setSize(6, 42);
 
     //Camera control
     this.cameras.main.setPosition(0, 0);
-    this.cameras.main.setSize(800, 400);
+    this.cameras.main.setSize(1600, 400);
     this.cameras.main.setBackgroundColor('#777777');
-    this.cameras.main.setBounds(0, 0, 18000, 400);
+    this.cameras.main.setBounds(0, 0, 19500, 400);
     this.cameras.main.startFollow(player);
 
     var moabKeys = false;
@@ -341,10 +366,10 @@ function update() {
         default:
 
     }
-    if (player.x >= 13000)
+    /*if (player.x >= 13000)
         warp = true
     if (warp)
-        lab2.tileScaleX = tween.getValue();
+        lab2.tileScaleX = tween.getValue();*/
 }
 
 function Idle() {
