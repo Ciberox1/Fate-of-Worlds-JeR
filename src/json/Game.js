@@ -1,5 +1,5 @@
 var config = {
-    width: 16000,
+    width: 3000,
     height: 800,
     type: Phaser.AUTO,
 
@@ -49,14 +49,20 @@ function preload(){
     this.load.image('lab', '../../assets/images/enviroment/labtileset/backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/images/test/platform.png');
     
-    /*Imágenes necesarias para los sprites del mundo*/
+    /*------------------------------------------Imágenes necesarias para los sprites del mundo----------------------------------------------------*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png');/*Suelo del laboratorio 1*/
     this.load.image('blackBeamV', '../../assets/Images/Enviroment/Space runner/Viga Vertical Larga.png');/*Viga vert. negra 1 (bordes del mapa)*/
     this.load.image('blackBeamH', '../../assets/Images/Enviroment/Subway/Viga horizontal negra.png');/*Techo*/
     this.load.image('fan', '../../assets/Images/Enviroment/Warped city/Ventilación 1.png');/*Ventilador*/
     this.load.image('box', '../../assets/Images/Enviroment/Subway/Box.png');/*Cajas*/
-    
-    /*Fin imágenes necesarias para los sprites del mundo*/
+    this.load.image('platform1', '../../assets/Images/Enviroment/Subway/Plataforma horizontal infinita 2.png');/*platafromas con rayas*/
+    this.load.image('redBeamV', '../../assets/Images/Enviroment/Subway/Viga roja larga.png');/*platafromas con rayas*/
+    this.load.image('wires', '../../assets/Images/Enviroment/Subway/Cable colgante.png');/*cables colgantes*/
+    this.load.image('lamp1', '../../assets/Images/Enviroment/Subway/Lámpara colgante.png');/*lámpara colgante pequeña*/
+    this.load.image('signalR', '../../assets/Images/Enviroment/Subway/Flecha emergencia derecha.png');/*flecha derecha*/
+    this.load.image('emergency', '../../assets/Images/Enviroment/Space runner/Luz de emergencia.png');/*luz emergencia*/
+    this.load.image('cone', '../../assets/Images/Enviroment/Subway/Cono.png');/*conos*/
+    /*-------------------------------------------Fin imágenes necesarias para los sprites del mundo------------------------------------------------*/
     
     //sprites del personaje
     this.load.image('bala','../../assets/images/protagonista/Mario 1/bala.png');
@@ -124,7 +130,7 @@ function create(){
     });
 
     objects.platforms= this.physics.add.staticGroup();
-    objects.platforms.create(0, 384, 'ground').setScale(12.5, 1).refreshBody();
+    objects.platforms.create(0, 384, 'ground').setScale(12.5, 0.9).refreshBody();
     objects.platforms.create(0, 200, 'ground').setScale(0.1, 12).refreshBody();
     objects.platforms.create(380, 100, 'ground').setScale(0.1, 9).refreshBody();
     objects.platforms.create(175, 10, 'ground');
@@ -205,12 +211,16 @@ function create(){
     /*Verticales*/
     this.add.tileSprite(0,25,16,350,'blackBeamV').setScale(1.2,1).setOrigin(0,0);
     this.add.tileSprite(360,25,16,248,'blackBeamV').setScale(2.5,1).setOrigin(0,0);
+    this.add.tileSprite(915,190,16,180,'redBeamV').setScale(1.3,1).setOrigin(0,0);
+    this.add.tileSprite(2060,0,16,244,'blackBeamV').setScale(2.7,1).setOrigin(0,0);
+    this.add.tileSprite(2095,0,16,244,'blackBeamV').setScale(2.8,1).setOrigin(0,0);
     
     /*Techos*/
     this.add.tileSprite(0,0,430,16,'blackBeamH').setScale(1,1.6).setOrigin(0,0);
     
     /*Plataformas*/
     this.add.image(395,238,'fan').setScale(1.6,1.8).setOrigin(0,0);
+    
     this.add.image(535,316,'box').setScale(1.55,1.8).setOrigin(0,0);
     this.add.image(584,316,'box').setScale(1.55,1.8).setOrigin(0,0);
     this.add.image(633,316,'box').setScale(1.55,1.8).setOrigin(0,0);
@@ -224,17 +234,35 @@ function create(){
     this.add.image(584,197,'box').setScale(1.55,2.2).setOrigin(0,0);
     this.add.image(633,197,'box').setScale(1.55,2.2).setOrigin(0,0);
     this.add.image(682,197,'box').setScale(0.9,2.2).setOrigin(0,0);
+    this.add.image(1680,308,'box').setScale(2,2).setOrigin(0,0);
+    this.add.image(1680,308,'box').setScale(2,2).setOrigin(0,0);
+    this.add.image(1744,308,'box').setScale(2,2).setOrigin(0,0);
+    this.add.image(1808,308,'box').setScale(2.25,2).setOrigin(0,0);
+    this.add.image(1680,256,'box').setScale(2.4,1.9).setOrigin(0,0);
+    this.add.image(1756,256,'box').setScale(2,1.9).setOrigin(0,0);
+    this.add.image(1680,204,'box').setScale(2.5,1.85).setOrigin(0,0);
     
+    this.add.image(885,183,'platform1').setScale(1,2.3).setOrigin(0,0);
+    this.add.image(1160,234,'platform1').setScale(1,2.3).setOrigin(0,0);
+    this.add.image(1410,209,'platform1').setScale(1,2.3).setOrigin(0,0);
+        
     /*Decoraciones*/
+    this.add.image(150,25,'wires').setScale(1.5,1.5).setOrigin(0,0);
+    this.add.image(135,25,'lamp1').setScale(1.5,1.5).setOrigin(0,0);
+    this.add.image(213,25,'lamp1').setScale(1.5,1.5).setOrigin(0,0);
+    this.add.image(370,280,'signalR').setScale(1.2,1.2).setOrigin(0,0);
+    this.add.image(2080,280,'signalR').setScale(1.2,1.2).setOrigin(0,0);
+    this.add.image(158,255,'emergency').setScale(1.2,1.2).setOrigin(0,0);
+    this.add.image(288,255,'emergency').setScale(1.2,1.2).setOrigin(0,0);
+    this.add.image(2480,350,'cone').setScale(1.2,1.2).setOrigin(0,0);
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
-   
     
     //adding physics
-    player = this.physics.add.sprite(150,320, 'Mario1idle');
+    player = this.physics.add.sprite(2300,320, 'Mario1idle');
     this.physics.add.collider(player, objects.platforms);
-    widthPlayer=30;
-    heightPlayer=48;
+    widthPlayer=10;
+    heightPlayer=40;
     
      //camera control
       this.cameras.main.setPosition(0, 0);
@@ -363,6 +391,7 @@ function update(){
          balaActiva=false;
          canShoot=true;
     }
+    
        
 }
 
