@@ -46,8 +46,8 @@ var warp = false;
 var game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('lab', '../../assets/images/enviroment/labtileset/backgrounds/1038-0.png');
-    this.load.image('ground', '../../assets/images/test/platform.png');
+    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
+    this.load.image('ground', '../../assets/Images/Test/platform.png');
 
     /*Imágenes necesarias para los sprites del mundo*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
@@ -65,41 +65,41 @@ function preload() {
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
-    this.load.image('heart', '../../assets/images/protagonista/Mario 1/heart.png')
-    this.load.image('bala', '../../assets/images/protagonista/Mario 1/bala.png');
+    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
+    this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
-        '../../assets/images/protagonista/Mario 1/run.png', {
+        '../../assets/Images/Protagonista/Mario 1/Run.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Aim',
-        '../../assets/images/protagonista/Mario 1/Aim.png', {
+        '../../assets/Images/Protagonista/Mario 1/Aim.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1idle',
-        '../../assets/images/protagonista/Mario 1/idle.png', {
+        '../../assets/Images/Protagonista/Mario 1/Idle.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Shoot',
-        '../../assets/images/protagonista/Mario 1/shoot.png', {
+        '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Jump',
-        '../../assets/images/protagonista/Mario 1/jump.png', {
+        '../../assets/Images/Protagonista/Mario 1/Jump.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
 
     this.load.spritesheet('heartAnim',
-        '../../assets/images/protagonista/Mario 1/heart.png', {
+        '../../assets/Images/Protagonista/Mario 1/Heart.png', {
             frameWidth: 18,
             frameHeight: 18
         }
