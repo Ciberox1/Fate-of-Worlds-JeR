@@ -1,6 +1,6 @@
 var config = {
     width: 19500,
-    height: 800,
+    height: 850,
     type: Phaser.AUTO,
 
     physics: {
@@ -46,8 +46,8 @@ var warp = false;
 var game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('lab', '../../assets/images/enviroment/labtileset/backgrounds/1038-0.png');
-    this.load.image('ground', '../../assets/images/test/platform.png');
+    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
+    this.load.image('ground', '../../assets/Images/Test/platform.png');
 
     /*Imágenes necesarias para los sprites del mundo*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
@@ -65,41 +65,41 @@ function preload() {
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
-    this.load.image('heart', '../../assets/images/protagonista/Mario 1/heart.png')
-    this.load.image('bala', '../../assets/images/protagonista/Mario 1/bala.png');
+    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
+    this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
-        '../../assets/images/protagonista/Mario 1/run.png', {
+        '../../assets/Images/Protagonista/Mario 1/Run.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Aim',
-        '../../assets/images/protagonista/Mario 1/Aim.png', {
+        '../../assets/Images/Protagonista/Mario 1/Aim.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1idle',
-        '../../assets/images/protagonista/Mario 1/idle.png', {
+        '../../assets/Images/Protagonista/Mario 1/Idle.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Shoot',
-        '../../assets/images/protagonista/Mario 1/shoot.png', {
+        '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Jump',
-        '../../assets/images/protagonista/Mario 1/jump.png', {
+        '../../assets/Images/Protagonista/Mario 1/Jump.png', {
             frameWidth: 64,
             frameHeight: 48
         }
     );
 
     this.load.spritesheet('heartAnim',
-        '../../assets/images/protagonista/Mario 1/heart.png', {
+        '../../assets/Images/Protagonista/Mario 1/Heart.png', {
             frameWidth: 18,
             frameHeight: 18
         }
@@ -221,33 +221,32 @@ function create() {
     objects.platforms.create(15500, 300, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(15550, 200, 'ground').setScale(0.25, 1).refreshBody();
     objects.platforms.create(15700, 350, 'ground').setScale(0.5, 1).refreshBody();
-    objects.platforms.create(15800, 200, 'platform').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(16000, 290, 'platform').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(16300, 330, 'platform').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(16300, 225, 'platform').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(16600, 175, 'platform').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(16950, 350, 'platform').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17100, 275, 'platform').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(17000, 200, 'platform').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17200, 125, 'platform').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17500, 275, 'platform').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17650, 370, 'platform').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(17700, 175, 'platform').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17850, 275, 'platform').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(18150, 225, 'platform').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(18250, 350, 'platform').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(18475, 350, 'platform').setScale(0.2, 7).refreshBody();
-    objects.platforms.create(18475, 50, 'platform').setScale(0.2, 6).refreshBody();
-    objects.platforms.create(19100, 384, 'platform').setScale(3, 1).refreshBody();
-    objects.platforms.create(18535, 350, 'platform').setScale(0.1, 4).refreshBody();
-    objects.platforms.create(18750, 225, 'platform').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(19050, 175, 'platform').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(19400, 300, 'platform').setScale(0.4, 6).refreshBody(); //sobre esto aparecera el terminal para acabar el juego
-    objects.platforms.create(19500, 200, 'platform').setScale(0.1, 12).refreshBody();
-    objects.platforms.create(19100, 0, 'platform').setScale(3, 1).refreshBody();
+    objects.platforms.create(15800, 200, 'ground').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(16000, 290, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16300, 330, 'ground').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(16300, 225, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16600, 175, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(16950, 350, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17100, 275, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(17000, 200, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17200, 125, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17500, 275, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17650, 370, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(17700, 175, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17850, 275, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(18150, 225, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(18250, 350, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(18475, 350, 'ground').setScale(0.2, 7).refreshBody();
+    objects.platforms.create(18475, 50, 'ground').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(19100, 384, 'ground').setScale(3, 1).refreshBody();
+    objects.platforms.create(18535, 350, 'ground').setScale(0.1, 4).refreshBody();
+    objects.platforms.create(18750, 225, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(19050, 175, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(19400, 300, 'ground').setScale(0.4, 6).refreshBody(); //sobre esto aparecera el terminal para acabar el juego
+    objects.platforms.create(19500, 200, 'ground').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(19100, 0, 'ground').setScale(3, 1).refreshBody();
 
     //Plataformas del mundo 2
-
 
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
@@ -302,7 +301,7 @@ function create() {
 
 
     //adding physics
-    player = this.physics.add.sprite(2500, 120, 'Mario1idle');
+    player = this.physics.add.sprite(200, 320, 'Mario1idle');
     this.physics.add.collider(player, objects.platforms);
     widthPlayer = 5;
     heightPlayer = 36;
@@ -315,11 +314,9 @@ function create() {
     camera.setBounds(0, 0, 18000, 400);
     camera.startFollow(player);
 
-
-
     //size player
     player.body.setSize(widthPlayer, heightPlayer);
-    player.setCollideWorldBounds(true);
+    player.setCollideWorldBounds(false);
     //adding hearts
 
     hearts = this.add.group();
@@ -436,6 +433,13 @@ function update() {
         warp = true
     if (warp)
         lab2.tileScaleX = tween.getValue();
+    // Muerte por caida (jugador 1)
+    if (player.y > 400) {
+        playerState = playerStateList["movingLeft"];
+        this.registry.destroy();
+        this.events.off();
+        this.scene.restart();
+    }
 
     //draw hearts in screen according to camera´s position
     hearts.setXY((camera.worldView.x + camera.worldView.width - 60), (camera.worldView.y + 20), 20);
