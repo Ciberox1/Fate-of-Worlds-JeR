@@ -1,4 +1,5 @@
 var config = {
+
     width: 1500,
     height: 850,
     type: Phaser.AUTO,
@@ -48,7 +49,8 @@ var game = new Phaser.Game(config);
 var camera1, camera2, camera3;
 
 function preload() {
-    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
+
+    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/Images/Test/platform.png');
 
     /*Imágenes necesarias para los sprites del mundo*/
@@ -68,10 +70,11 @@ function preload() {
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
-    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
+    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/heart.png')
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
-        '../../assets/Images/Protagonista/Mario 1/Run.png', {
+        '../../assets/Images/Protagonista/Mario 1/run.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -82,20 +85,22 @@ function preload() {
             frameHeight: 48
         }
     );
-    this.load.spritesheet('Mario1idle',
-        '../../assets/Images/Protagonista/Mario 1/Idle.png', {
+    this.load.spritesheet('Mario1idle','../../assets/Images/Protagonista/Mario 1/Idle.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Shoot',
         '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Jump',
         '../../assets/Images/Protagonista/Mario 1/Jump.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -103,6 +108,7 @@ function preload() {
 
     this.load.spritesheet('heartAnim',
         '../../assets/Images/Protagonista/Mario 1/Heart.png', {
+      
             frameWidth: 18,
             frameHeight: 18
         }
@@ -310,8 +316,7 @@ function create() {
     player = this.physics.add.sprite(200, 320, 'Mario1idle');
     this.physics.add.collider(player, objects.platforms);
     widthPlayer = 5;
-    heightPlayer = 36;
-    
+    heightPlayer = 36; 
     
     //camera interface
     camera1 = this.cameras.main;
@@ -334,6 +339,7 @@ function create() {
     //camera3.setPosition(0,450);
     //camera3.startFollow(player);
 
+
     //size player
     player.body.setSize(widthPlayer, heightPlayer);
     player.setCollideWorldBounds(false);
@@ -346,8 +352,6 @@ function create() {
     hearts.add(heart2);
     let heart3 = this.add.sprite(140,418, 'heartAnim').setOrigin(0,0);
     hearts.add(heart3);
-
-
 
     //shooting booleans
     balaActiva = false;
