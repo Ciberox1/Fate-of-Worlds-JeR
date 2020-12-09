@@ -1,6 +1,6 @@
 var config = {
-    width: 19500,
-    height: 850,
+    width: 1500,
+    height: 800,
     type: Phaser.AUTO,
 
     physics: {
@@ -110,7 +110,7 @@ function preload() {
 
 
 
-    var moabKeys = true;
+    var moabKeys = false;
     if (moabKeys == true) {
         //These are moab controls
         this.input.keyboard.removeAllKeys();
@@ -135,6 +135,7 @@ function preload() {
 }
 
 function create() {
+    warp = false;
 
     lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
     lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
@@ -400,6 +401,8 @@ function createAnims() {
 
 function update() {
 
+    console.log(player.x + ", " + player.y);
+
     switch (playerState) {
         case playerStateList["idle"]:
             Idle();
@@ -430,7 +433,7 @@ function update() {
     }
 
     if (player.x >= 13000)
-        warp = true
+        warp = true;
     if (warp)
         lab2.tileScaleX = tween.getValue();
     // Muerte por caida (jugador 1)
@@ -572,6 +575,12 @@ function CanJump() {
         player.anims.play('Mario1JumpStart', true);
         playerState = playerStateList["jumping"];
     }
+
+    /**/
+    else {
+      playerState = playerStateList["idle"];
+    }
+    //*/
 }
 
 function Jump() {
@@ -584,6 +593,7 @@ function Jump() {
     }
 
     if (player.body.touching.down && player.anims.currentFrame.index == 6) {
+        player.setVelocityX(0);
         player.anims.play('Mario1JumpEnd', true);
     }
 
