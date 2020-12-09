@@ -1,6 +1,6 @@
 var config = {
     width: 1500,
-    height: 800,
+    height: 850,
     type: Phaser.AUTO,
 
     physics: {
@@ -45,6 +45,8 @@ var playerStateList = {
 var warp = false;
 var game = new Phaser.Game(config);
 
+var camera1, camera2, camera3;
+
 function preload() {
     this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/Images/Test/platform.png');
@@ -56,7 +58,8 @@ function preload() {
     this.load.image('fan', '../../assets/Images/Enviroment/Warped city/Ventilación 1.png'); /*Ventilador*/
     this.load.image('box', '../../assets/Images/Enviroment/Subway/Box.png'); /*Cajas*/
     this.load.image('platform1', '../../assets/Images/Enviroment/Subway/Plataforma horizontal infinita 2.png'); /*platafromas con rayas*/
-    this.load.image('redBeamV', '../../assets/Images/Enviroment/Subway/Viga roja larga.png'); /*platafromas con rayas*/
+    this.load.image('redBeamV', '../../assets/Images/Enviroment/Subway/Viga roja larga.png'); /*Viga roja vertical*/
+    this.load.image('redBeamH', '../../assets/Images/Enviroment/Subway/Viga roja horizontal.png'); /*Viga roja horizontal*/
     this.load.image('wires', '../../assets/Images/Enviroment/Subway/Cable colgante.png'); /*cables colgantes*/
     this.load.image('lamp1', '../../assets/Images/Enviroment/Subway/Lámpara colgante.png'); /*lámpara colgante pequeña*/
     this.load.image('signalR', '../../assets/Images/Enviroment/Subway/Flecha emergencia derecha.png'); /*flecha derecha*/
@@ -299,21 +302,37 @@ function create() {
     this.add.image(2480, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
-
-
+    //-----------------------Divisor de pantalla---------------------------
+    this.add.image(0,400,'blackBeamH').setScale(12.5,3.2).setOrigin(0,0);
+    
+    
     //adding physics
     player = this.physics.add.sprite(200, 320, 'Mario1idle');
     this.physics.add.collider(player, objects.platforms);
     widthPlayer = 5;
     heightPlayer = 36;
+    
+    
+    //camera interface
+    camera1 = this.cameras.main;
+    camera1.setPosition(0, 400);
+    camera1.setSize(800, 50);
+    //camera1.setVisible(false);
+    camera1.setScroll(0,400);
+    
+    //camera up
+    camera2 = this.cameras.add(0,0,800,400);
+    camera2.setBounds(0, 0, 19500, 400);
+    camera2.startFollow(player);
+    camera2.setScroll(0,0);
 
-    //camera control
-    camera = this.cameras.main;
-    camera.setPosition(0, 0);
-    camera.setSize(800, 400);
-    camera.setBackgroundColor('#777777');
-    camera.setBounds(0, 0, 19500, 400);
-    camera.startFollow(player);
+    //camera down
+    camera3 = this.cameras.add(0,450,800,400);
+    camera3.setBounds(0, 0, 19500, 850);
+    camera3.setScroll(0,450);
+    camera3.setBackgroundColor('#113833');
+    //camera3.setPosition(0,450);
+    //camera3.startFollow(player);
 
     //size player
     player.body.setSize(widthPlayer, heightPlayer);
@@ -321,11 +340,11 @@ function create() {
     //adding hearts
 
     hearts = this.add.group();
-    let heart1 = this.add.sprite(player.body.position.x + 620 + 20 * 0, player.body.position.y - 260, 'heartAnim');
+    let heart1 = this.add.sprite(100,418, 'heartAnim').setOrigin(0,0);
     hearts.add(heart1);
-    let heart2 = this.add.sprite(player.body.position.x + 620 + 20 * 1, player.body.position.y - 260, 'heartAnim');
+    let heart2 = this.add.sprite(120,418, 'heartAnim').setOrigin(0,0);
     hearts.add(heart2);
-    let heart3 = this.add.sprite(player.body.position.x + 620 + 20 * 2, player.body.position.y - 260, 'heartAnim');
+    let heart3 = this.add.sprite(140,418, 'heartAnim').setOrigin(0,0);
     hearts.add(heart3);
 
 
@@ -445,7 +464,7 @@ function update() {
     }
 
     //draw hearts in screen according to camera´s position
-    hearts.setXY((camera.worldView.x + camera.worldView.width - 60), (camera.worldView.y + 20), 20);
+    //hearts.setXY((camera2.worldView.x + camera2.worldView.width - 60), (camera2.worldView.y + 20), 20);
 
     // sirve para originar la bala dependiendo de hacia donde mire el personaje
     if (balaDisparada == true) {
@@ -470,10 +489,10 @@ function update() {
         }
     }
 
-    if (balaActiva == true && bala.body.position.x < (camera.worldView.x + camera.worldView.width) && bala.body.position.x > camera.worldView.x) {
+    if (balaActiva == true && bala.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala.body.position.x > camera2.worldView.x) {
         canShoot = false;
-    } else if (balaActiva == true && (bala.body.position.x > (camera.worldView.x + camera.worldView.width) ||
-            bala.body.position.x < camera.worldView.x)) {
+    } else if (balaActiva == true && (bala.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
+            bala.body.position.x < camera2.worldView.x)) {
         bala.destroy();
         balaActiva = false;
         canShoot = true;
