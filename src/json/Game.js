@@ -1,4 +1,5 @@
 var config = {
+
     width: 1600,
     height: 850,
     type: Phaser.AUTO,
@@ -46,6 +47,7 @@ var warp = false;
 var game = new Phaser.Game(config);
 
 function preload() {
+
     this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/Images/Test/platform.png');
 
@@ -69,6 +71,7 @@ function preload() {
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
         '../../assets/Images/Protagonista/Mario 1/run.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -79,27 +82,30 @@ function preload() {
             frameHeight: 48
         }
     );
-    this.load.spritesheet('Mario1idle',
-        '../../assets/Images/Protagonista/Mario 1/idle.png', {
+    this.load.spritesheet('Mario1idle','../../assets/Images/Protagonista/Mario 1/Idle.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Shoot',
-        '../../assets/Images/Protagonista/Mario 1/shoot.png', {
+        '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Jump',
-        '../../assets/Images/Protagonista/Mario 1/jump.png', {
+        '../../assets/Images/Protagonista/Mario 1/Jump.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
 
     this.load.spritesheet('heartAnim',
-        '../../assets/Images/Protagonista/Mario 1/heart.png', {
+        '../../assets/Images/Protagonista/Mario 1/Heart.png', {
+      
             frameWidth: 18,
             frameHeight: 18
         }
@@ -110,7 +116,7 @@ function preload() {
 
 
 
-    var moabKeys = true;
+    var moabKeys = false;
     if (moabKeys == true) {
         //These are moab controls
         this.input.keyboard.removeAllKeys();
@@ -135,8 +141,8 @@ function preload() {
 }
 
 function create() {
-
     warp = false;
+
     lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
     lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
     tween = this.tweens.addCounter({
@@ -401,6 +407,8 @@ function createAnims() {
 
 function update() {
 
+    console.log(player.x + ", " + player.y);
+
     switch (playerState) {
         case playerStateList["idle"]:
             Idle();
@@ -431,7 +439,7 @@ function update() {
     }
 
     if (player.x >= 13000)
-        warp = true
+        warp = true;
     if (warp)
         lab2.tileScaleX = tween.getValue();
     // Muerte por caida (jugador 1)
@@ -573,6 +581,12 @@ function CanJump() {
         player.anims.play('Mario1JumpStart', true);
         playerState = playerStateList["jumping"];
     }
+
+    /**/
+    else {
+      playerState = playerStateList["idle"];
+    }
+    //*/
 }
 
 function Jump() {
@@ -585,6 +599,7 @@ function Jump() {
     }
 
     if (player.body.touching.down && player.anims.currentFrame.index == 6) {
+        player.setVelocityX(0);
         player.anims.play('Mario1JumpEnd', true);
     }
 
