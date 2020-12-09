@@ -136,8 +136,8 @@ function preload() {
 
 function create() {
 
-    lab = this.add.tileSprite(400, 200, 16000, 400, 'lab');
-    lab2 = this.add.tileSprite(12400, 200, 8000, 400, 'lab');
+    lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
+    lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
     tween = this.tweens.addCounter({
         from: 1,
         to: 2,
@@ -311,7 +311,7 @@ function create() {
     camera.setPosition(0, 0);
     camera.setSize(800, 400);
     camera.setBackgroundColor('#777777');
-    camera.setBounds(0, 0, 18000, 400);
+    camera.setBounds(0, 0, 19500, 400);
     camera.startFollow(player);
 
     //size player
