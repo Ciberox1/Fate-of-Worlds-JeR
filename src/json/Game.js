@@ -1,6 +1,8 @@
 var config = {
+  
     width: 1500,
     height: 800,
+  
     type: Phaser.AUTO,
 
     physics: {
