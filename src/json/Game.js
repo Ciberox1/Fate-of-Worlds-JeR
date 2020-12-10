@@ -187,7 +187,7 @@ function create() {
     objects.platforms.create(4350, 275, 'ground').setScale(0.5, 1.5).refreshBody();
     objects.platforms.create(4700, 225, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5000, 250, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5300, 250, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5275, 275, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5500, 150, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5800, 100, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(6200, 350, 'ground').setScale(1, 4).refreshBody();
@@ -259,7 +259,33 @@ function create() {
     objects.platforms.create(19100, 0, 'ground').setScale(3, 1).refreshBody();
 
     //Plataformas del mundo 2
-
+    objects.platforms.create(0, 834, 'ground').setScale(8.5, 1).refreshBody();
+    objects.platforms.create(0, 640, 'ground').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(380, 550, 'ground').setScale(0.1, 9).refreshBody();
+    objects.platforms.create(175, 460, 'ground');
+    objects.platforms.create(560, 680, 'ground').setScale(1, 1.1).refreshBody();
+    objects.platforms.create(825, 825, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1200, 680, 'ground').setScale(1.5, 1.1).refreshBody();
+    objects.platforms.create(1650, 800, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1700, 760, 'ground').setScale(0.15, 8).refreshBody();
+    objects.platforms.create(1900, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(2100, 760, 'ground').setScale(0.2, 8).refreshBody();
+    objects.platforms.create(2300, 834, 'ground').setScale(1, 1).refreshBody();
+    objects.platforms.create(2700, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(2900, 650, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(3100, 725, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(3180, 600, 'ground').setScale(0.6, 2).refreshBody();
+    objects.platforms.create(3800, 834, 'ground').setScale(3.5, 1).refreshBody();
+    objects.platforms.create(3690, 450, 'ground').setScale(3.15, 1).refreshBody();
+    objects.platforms.create(4290, 500, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(4290, 800, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(4600, 775, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(4700, 675, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(5000, 700, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(5275, 700, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(5500, 625, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(6075, 750, 'ground').setScale(1.65, 8).refreshBody();
+    objects.platforms.create(6075, 450, 'ground').setScale(1.65, 1).refreshBody();
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
     this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
@@ -315,7 +341,7 @@ function create() {
 
 
     //adding physics
-    player = this.physics.add.sprite(200, 320, 'Mario1idle');
+    player = this.physics.add.sprite(5500, 520, 'Mario1idle');
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
 
@@ -337,7 +363,8 @@ function create() {
 
     //camera down
     camera3 = this.cameras.add(0, 450, 800, 400);
-    camera3.setBounds(0, 0, 19500, 850);
+    camera3.setBounds(0, 450, 19500, 400);
+    camera3.startFollow(player);
     camera3.setScroll(0, 450);
     camera3.setBackgroundColor('#113833');
     //camera3.setPosition(0,450);
@@ -466,7 +493,7 @@ function update() {
 
 
     // Muerte por caida (jugador 1)
-    if (player.y > 400) {
+    if (player.y > 850) {
         playerState = playerStateList["movingLeft"];
         this.registry.destroy();
         this.events.off();
