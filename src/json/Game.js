@@ -1,4 +1,5 @@
 var config = {
+
     width: 1500,
     height: 850,
     type: Phaser.AUTO,
@@ -43,13 +44,16 @@ var playerStateList = {
     gettingUp: 'getUp'
 }
 var warp = false;
+var collapse;
 var game = new Phaser.Game(config);
 
 var camera1, camera2, camera3;
 
 function preload() {
-    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
+
+    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/Images/Test/platform.png');
+    this.load.image('collapsable', '../../assets/Images/Test/colPlat.png')
 
     /*Imágenes necesarias para los sprites del mundo*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
@@ -68,10 +72,11 @@ function preload() {
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
-    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
+    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/heart.png')
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
-        '../../assets/Images/Protagonista/Mario 1/Run.png', {
+        '../../assets/Images/Protagonista/Mario 1/run.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -82,20 +87,21 @@ function preload() {
             frameHeight: 48
         }
     );
-    this.load.spritesheet('Mario1idle',
-        '../../assets/Images/Protagonista/Mario 1/Idle.png', {
-            frameWidth: 64,
-            frameHeight: 48
-        }
-    );
+    this.load.spritesheet('Mario1idle', '../../assets/Images/Protagonista/Mario 1/Idle.png', {
+
+        frameWidth: 64,
+        frameHeight: 48
+    });
     this.load.spritesheet('Mario1Shoot',
         '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Jump',
         '../../assets/Images/Protagonista/Mario 1/Jump.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -103,6 +109,7 @@ function preload() {
 
     this.load.spritesheet('heartAnim',
         '../../assets/Images/Protagonista/Mario 1/Heart.png', {
+
             frameWidth: 18,
             frameHeight: 18
         }
@@ -113,7 +120,7 @@ function preload() {
 
 
 
-    var moabKeys = false;
+    var moabKeys = true;
     if (moabKeys == true) {
         //These are moab controls
         this.input.keyboard.removeAllKeys();
@@ -152,6 +159,7 @@ function create() {
     });
 
     objects.platforms = this.physics.add.staticGroup();
+    objects.collapsable = this.physics.add.staticGroup();
     objects.platforms.create(0, 384, 'ground').setScale(12.5, 1).refreshBody();
     objects.platforms.create(0, 200, 'ground').setScale(0.1, 12).refreshBody();
     objects.platforms.create(380, 100, 'ground').setScale(0.1, 9).refreshBody();
@@ -167,7 +175,7 @@ function create() {
     objects.platforms.create(1780, 320, 'ground').setScale(0.2, 4).refreshBody();
     objects.platforms.create(1840, 340, 'ground').setScale(0.2, 2).refreshBody();
     objects.platforms.create(2100, 100, 'ground').setScale(0.2, 9).refreshBody();
-    objects.platforms.create(2700, 300, 'ground').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(2700, 300, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(2900, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(3100, 275, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(3350, 200, 'ground').setScale(0.2, 1).refreshBody();
@@ -179,7 +187,7 @@ function create() {
     objects.platforms.create(4350, 275, 'ground').setScale(0.5, 1.5).refreshBody();
     objects.platforms.create(4700, 225, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5000, 250, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5300, 250, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5275, 275, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5500, 150, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5800, 100, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(6200, 350, 'ground').setScale(1, 4).refreshBody();
@@ -188,12 +196,12 @@ function create() {
     objects.platforms.create(6850, 355, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(7200, 250, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(7200, 384, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(7450, 325, 'ground').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(7450, 325, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(7450, 150, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(7600, 355, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(7750, 150, 'ground').setScale(0.3, 1).refreshBody();
     objects.platforms.create(7950, 355, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(8050, 150, 'ground').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(8050, 150, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(8200, 355, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(8450, 355, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(8325, 200, 'ground').setScale(0.2, 1).refreshBody();
@@ -209,9 +217,9 @@ function create() {
     objects.platforms.create(10470, 325, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(10750, 325, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(11000, 275, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(11300, 384, 'ground').setScale(0.4, 2).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(11300, 384, 'collapsable').setScale(0.4, 2).refreshBody(); //esta aparece colapsando
     objects.platforms.create(11550, 300, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(11800, 250, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(11800, 250, 'collapsable').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(12100, 300, 'ground').setScale(0.4, 7).refreshBody();
     objects.platforms.create(12425, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(14000, 384, 'ground').setScale(6.3, 1).refreshBody();
@@ -225,13 +233,13 @@ function create() {
     objects.platforms.create(15500, 300, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(15550, 200, 'ground').setScale(0.25, 1).refreshBody();
     objects.platforms.create(15700, 350, 'ground').setScale(0.5, 1).refreshBody();
-    objects.platforms.create(15800, 200, 'ground').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(15800, 200, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(16000, 290, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(16300, 330, 'ground').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(16300, 330, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(16300, 225, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(16600, 175, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(16950, 350, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17100, 275, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(17100, 275, 'collapsable').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(17000, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(17200, 125, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(17500, 275, 'ground').setScale(0.3, 1).refreshBody();
@@ -251,7 +259,33 @@ function create() {
     objects.platforms.create(19100, 0, 'ground').setScale(3, 1).refreshBody();
 
     //Plataformas del mundo 2
-
+    objects.platforms.create(0, 834, 'ground').setScale(8.5, 1).refreshBody();
+    objects.platforms.create(0, 640, 'ground').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(380, 550, 'ground').setScale(0.1, 9).refreshBody();
+    objects.platforms.create(175, 460, 'ground');
+    objects.platforms.create(560, 680, 'ground').setScale(1, 1.1).refreshBody();
+    objects.platforms.create(825, 825, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1200, 680, 'ground').setScale(1.5, 1.1).refreshBody();
+    objects.platforms.create(1650, 800, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1700, 760, 'ground').setScale(0.15, 8).refreshBody();
+    objects.platforms.create(1900, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(2100, 760, 'ground').setScale(0.2, 8).refreshBody();
+    objects.platforms.create(2300, 834, 'ground').setScale(1, 1).refreshBody();
+    objects.platforms.create(2700, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(2900, 650, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(3100, 725, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(3180, 600, 'ground').setScale(0.6, 2).refreshBody();
+    objects.platforms.create(3800, 834, 'ground').setScale(3.5, 1).refreshBody();
+    objects.platforms.create(3690, 450, 'ground').setScale(3.15, 1).refreshBody();
+    objects.platforms.create(4290, 500, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(4290, 800, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(4600, 775, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(4700, 675, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(5000, 700, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(5275, 700, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(5500, 625, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(6075, 750, 'ground').setScale(1.65, 8).refreshBody();
+    objects.platforms.create(6075, 450, 'ground').setScale(1.65, 1).refreshBody();
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
     this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
@@ -303,51 +337,52 @@ function create() {
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
     //-----------------------Divisor de pantalla---------------------------
-    this.add.image(0,400,'blackBeamH').setScale(12.5,3.2).setOrigin(0,0);
-    
-    
+    this.add.image(0, 400, 'blackBeamH').setScale(12.5, 3.2).setOrigin(0, 0);
+
+
     //adding physics
-    player = this.physics.add.sprite(200, 320, 'Mario1idle');
+    player = this.physics.add.sprite(5500, 520, 'Mario1idle');
     this.physics.add.collider(player, objects.platforms);
+    this.physics.add.collider(player, objects.collapsable);
+
     widthPlayer = 5;
     heightPlayer = 36;
-    
-    
+
     //camera interface
     camera1 = this.cameras.main;
     camera1.setPosition(0, 400);
     camera1.setSize(800, 50);
     //camera1.setVisible(false);
-    camera1.setScroll(0,400);
-    
+    camera1.setScroll(0, 400);
+
     //camera up
-    camera2 = this.cameras.add(0,0,800,400);
+    camera2 = this.cameras.add(0, 0, 800, 400);
     camera2.setBounds(0, 0, 19500, 400);
     camera2.startFollow(player);
-    camera2.setScroll(0,0);
+    camera2.setScroll(0, 0);
 
     //camera down
-    camera3 = this.cameras.add(0,450,800,400);
-    camera3.setBounds(0, 0, 19500, 850);
-    camera3.setScroll(0,450);
+    camera3 = this.cameras.add(0, 450, 800, 400);
+    camera3.setBounds(0, 450, 19500, 400);
+    camera3.startFollow(player);
+    camera3.setScroll(0, 450);
     camera3.setBackgroundColor('#113833');
     //camera3.setPosition(0,450);
     //camera3.startFollow(player);
 
+
     //size player
     player.body.setSize(widthPlayer, heightPlayer);
     player.setCollideWorldBounds(false);
+
     //adding hearts
-
     hearts = this.add.group();
-    let heart1 = this.add.sprite(100,418, 'heartAnim').setOrigin(0,0);
+    let heart1 = this.add.sprite(100, 418, 'heartAnim').setOrigin(0, 0);
     hearts.add(heart1);
-    let heart2 = this.add.sprite(120,418, 'heartAnim').setOrigin(0,0);
+    let heart2 = this.add.sprite(120, 418, 'heartAnim').setOrigin(0, 0);
     hearts.add(heart2);
-    let heart3 = this.add.sprite(140,418, 'heartAnim').setOrigin(0,0);
+    let heart3 = this.add.sprite(140, 418, 'heartAnim').setOrigin(0, 0);
     hearts.add(heart3);
-
-
 
     //shooting booleans
     balaActiva = false;
@@ -455,8 +490,10 @@ function update() {
         warp = true;
     if (warp)
         lab2.tileScaleX = tween.getValue();
+
+
     // Muerte por caida (jugador 1)
-    if (player.y > 400) {
+    if (player.y > 850) {
         playerState = playerStateList["movingLeft"];
         this.registry.destroy();
         this.events.off();
@@ -497,8 +534,6 @@ function update() {
         balaActiva = false;
         canShoot = true;
     }
-
-
 }
 
 function Idle() {
@@ -526,6 +561,7 @@ function Idle() {
             playerState = playerStateList["shooting"];
         }
     }
+
 }
 
 function Left() {
@@ -537,8 +573,6 @@ function Left() {
     player.setVelocityX(-160);
     player.anims.play('Mario1Walk', true);
     player.flipX = true;
-
-
 
 
     if (controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]) {
@@ -597,7 +631,7 @@ function CanJump() {
 
     /**/
     else {
-      playerState = playerStateList["idle"];
+        playerState = playerStateList["idle"];
     }
     //*/
 }
