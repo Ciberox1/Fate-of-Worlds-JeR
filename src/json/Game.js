@@ -76,6 +76,7 @@ function preload() {
     this.load.image('beamCross', '../../assets/Images/Enviroment/Space runner/Cruce de vigas con verticales a los lados.png'); /*cruce de vigas*/
     this.load.image('metalPlate', '../../assets/Images/Enviroment/Subway/Plancha metal.png'); /*placa metálica*/
     this.load.image('vPipe', '../../assets/Images/Enviroment/Warped city/Tubería vertical.png'); /*placa metálica*/
+    this.load.image('diagonalBeamB', '../../assets/Images/Enviroment/Space runner/Viga diagonal 1.png'); /*placa metálica*/
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
@@ -336,19 +337,24 @@ function create() {
     this.add.tileSprite(4250, 370, 2150, 30, 'whiteLabGround').setOrigin(0, 0);
 
     /*Verticales*/
-    this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.2, 1).setOrigin(0, 0);
+    this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(360, 25, 16, 248, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
-    this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
+    //this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(2060, 0, 16, 244, 'blackBeamV').setScale(2.7, 1).setOrigin(0, 0);
     this.add.tileSprite(2095, 0, 16, 244, 'blackBeamV').setScale(2.8, 1).setOrigin(0, 0);
     this.add.tileSprite(3070, 150, 32, 135, 'metalPlate').setScale(1.9, 1.9).setOrigin(0, 0);
     this.add.image(3059, 150, 'beamCross').setScale(0.85, 1).setOrigin(0, 0);
     this.add.tileSprite(3059, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
     this.add.tileSprite(3127, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
+    this.add.tileSprite(4250, 0, 32, 299, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+    this.add.tileSprite(5760, 0, 32, 245, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
 
     /*Techos*/
     this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
-
+    
+    /*Diagonales*/
+    this.add.image(4330, 202, 'diagonalBeamB').setScale(1, 1.5).setOrigin(0, 0);
+    
     /*Plataformas*/
     this.add.image(395, 237, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
     this.add.image(535, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
@@ -371,7 +377,7 @@ function create() {
     this.add.image(1756, 256, 'box').setScale(2, 1.9).setOrigin(0, 0);
     this.add.image(1680, 204, 'box').setScale(2.5, 1.85).setOrigin(0, 0);
 
-    this.add.image(885, 183, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(885, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(1160, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(1410, 209, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(2860, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
@@ -379,8 +385,13 @@ function create() {
     this.add.image(3610, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(3710, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(3910, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(4660, 209, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(4960, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(5235, 259, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(5460, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
 
     this.add.image(3059, 130, 'blackBeamH').setScale(1.28, 1.4).setOrigin(0, 0);
+    this.add.tileSprite(4330, 251, 120, 32, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
 
     /*Decoraciones*/
     this.add.image(150, 25, 'wires').setScale(1.5, 1.5).setOrigin(0, 0);
@@ -407,7 +418,7 @@ function create() {
 
 
     //adding physics
-    player = this.physics.add.sprite(12450, 500, 'Mario1idle').setScale(1.25); //5500,520 era la última de Mario.
+    player = this.physics.add.sprite(100, 300, 'Mario1idle').setScale(1.25); //5500,520 era la última de Mario.
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
 
