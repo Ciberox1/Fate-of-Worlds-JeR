@@ -137,16 +137,9 @@ function preload() {
 function create() {
     warp = false;
 
-    lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
-    lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
-    tween = this.tweens.addCounter({
-        from: 1,
-        to: 2,
-        duration: 5000,
-        ease: 'Sine.easeInOut',
-        yoyo: true,
-        repeat: -1
-    });
+    lab = this.add.tileSprite(400, 200, 12000, 400, 'lab');
+    lab2 = this.add.tileSprite(12000, 200, 16000, 400, 'lab');
+
 
     objects.platforms = this.physics.add.staticGroup();
     objects.platforms.create(0, 384, 'ground').setScale(12.5, 1).refreshBody();
@@ -432,10 +425,23 @@ function update() {
 
     }
 
-    if (player.x >= 13000)
+    if(!warp){
+      tween = this.tweens.addCounter({
+          from: 0,
+          to: 1,
+          duration: 5000,
+          ease: ('Sine.easeInOut'),
+          yoyo: true,
+          repeat: -1
+      });
+    }
+    if (player.x >= 13000){
         warp = true;
-    if (warp)
-        lab2.tileScaleX = tween.getValue();
+    }
+
+    if (warp){
+        lab2.tileScaleX = 1 + tween.getValue();
+    }
     // Muerte por caida (jugador 1)
     if (player.y > 400) {
         playerState = playerStateList["movingLeft"];
