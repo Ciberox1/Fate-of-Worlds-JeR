@@ -52,7 +52,7 @@ var camera1, camera2, camera3;
 
 function preload() {
 
-    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/1038-0.png');
+    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
     this.load.image('ground', '../../assets/Images/Test/platform.png');
     this.load.image('collapsable', '../../assets/Images/Test/colPlat.png')
 
@@ -76,10 +76,10 @@ function preload() {
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
-    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/heart.png')
+    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
-        '../../assets/Images/Protagonista/Mario 1/run.png', {
+        '../../assets/Images/Protagonista/Mario 1/Run.png', {
 
             frameWidth: 64,
             frameHeight: 48
@@ -305,7 +305,7 @@ function create() {
     this.add.image(3059, 150, 'beamCross').setScale(0.85, 1).setOrigin(0, 0);
     this.add.tileSprite(3059, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
     this.add.tileSprite(3127, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
-    
+
     /*Techos*/
     this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
 
@@ -339,26 +339,26 @@ function create() {
     this.add.image(3610, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(3710, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(3910, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
-    
+
     this.add.image(3059, 130, 'blackBeamH').setScale(1.28, 1.4).setOrigin(0, 0);
 
     /*Decoraciones*/
     this.add.image(150, 25, 'wires').setScale(1.5, 1.5).setOrigin(0, 0);
-    
+
     this.add.image(135, 25, 'lamp1').setScale(1.5, 1.5).setOrigin(0, 0);
     this.add.image(213, 25, 'lamp1').setScale(1.5, 1.5).setOrigin(0, 0);
-    
+
     this.add.image(370, 280, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(2080, 280, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(4350, 310, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-    
+
     this.add.image(158, 255, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(288, 255, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(3090, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-    
+
     this.add.image(2480, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(4250, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-    
+
     this.add.tileSprite(3072, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
