@@ -52,7 +52,10 @@ var camera1, camera2, camera3;
 
 function preload() {
 
-    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
+
+    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo.png');
+    this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png')
+
     this.load.image('ground', '../../assets/Images/Test/platform.png');
     this.load.image('collapsable', '../../assets/Images/Test/colPlat.png')
 
@@ -151,8 +154,10 @@ function preload() {
 function create() {
     warp = false;
 
-    lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
-    lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
+    this.add.tileSprite(400, 200, 24000, 400, 'lab');
+    lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
+    this.add.tileSprite(400, 650, 24000, 400, 'lab2');
+    lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
     tween = this.tweens.addCounter({
         from: 1,
         to: 2,
@@ -284,12 +289,47 @@ function create() {
     objects.platforms.create(4290, 500, 'ground').setScale(0.2, 5).refreshBody();
     objects.platforms.create(4290, 800, 'ground').setScale(0.2, 5).refreshBody();
     objects.platforms.create(4600, 775, 'ground').setScale(0.2, 1).refreshBody();
-    objects.collapsable.create(4700, 675, 'collapsable').setScale(0.2, 1).refreshBody();
-    objects.collapsable.create(5000, 700, 'collapsable').setScale(0.2, 1).refreshBody();
-    objects.collapsable.create(5275, 700, 'collapsable').setScale(0.2, 1).refreshBody();
-    objects.collapsable.create(5500, 625, 'collapsable').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(4700, 675, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(5000, 700, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(5275, 700, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(5500, 625, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(6075, 750, 'ground').setScale(1.65, 8).refreshBody();
     objects.platforms.create(6075, 450, 'ground').setScale(1.65, 1).refreshBody();
+    objects.platforms.create(6700, 800, 'ground').setScale(0.4, 6).refreshBody();
+    objects.platforms.create(6950, 625, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7225, 625, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(7450, 775, 'ground').setScale(0.25, 1).refreshBody();
+    objects.collapsable.create(7600, 805, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(7775, 700, 'ground').setScale(0.3, 1).refreshBody();
+    objects.collapsable.create(7950, 805, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(8050, 585, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(8225, 775, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8450, 834, 'ground').setScale(0.25, 1).refreshBody();
+    objects.platforms.create(8550, 675, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8710, 775, 'ground').setScale(0.5, 1).refreshBody();
+    objects.platforms.create(8800, 625, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9100, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9325, 800, 'ground').setScale(0.5, 8).refreshBody();
+    objects.platforms.create(9600, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9750, 675, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(9900, 675, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(10100, 800, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(10350, 800, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(10550, 750, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(10750, 700, 'ground').setScale(0.1, 1).refreshBody();
+    objects.collapsable.create(11000, 725, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(11150, 650, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11350, 600, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(11300, 834, 'ground').setScale(0.4, 2).refreshBody();
+    objects.platforms.create(11550, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11800, 700, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(12050, 800, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(12250, 700, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(12450, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(12825, 834, 'collapsable').setScale(0.5, 1).refreshBody(); // esta aparece colapsando
+    objects.platforms.create(13400, 834, 'ground').setScale(2.75, 1).refreshBody();
+
+
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
     this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
@@ -367,7 +407,7 @@ function create() {
 
 
     //adding physics
-    player = this.physics.add.sprite(100, 100, 'Mario1idle');//5500,520 era la última de Mario.
+    player = this.physics.add.sprite(12450, 500, 'Mario1idle').setScale(1.25); //5500,520 era la última de Mario.
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
 
@@ -514,8 +554,10 @@ function update() {
 
     if (player.x >= 13000)
         warp = true;
-    if (warp)
+    if (warp) {
+        lab.tileScaleX = tween.getValue();
         lab2.tileScaleX = tween.getValue();
+    }
 
 
     // Muerte por caida (jugador 1)
