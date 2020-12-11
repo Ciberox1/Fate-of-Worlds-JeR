@@ -2,6 +2,7 @@ var config = {
 
     width: 1500,
     height: 850,
+
     type: Phaser.AUTO,
 
     physics: {
@@ -51,8 +52,10 @@ var camera1, camera2, camera3;
 
 function preload() {
 
+
     this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo.png');
     this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png')
+
     this.load.image('ground', '../../assets/Images/Test/platform.png');
     this.load.image('collapsable', '../../assets/Images/Test/colPlat.png')
 
@@ -76,10 +79,10 @@ function preload() {
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
-    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/heart.png')
+    this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
-        '../../assets/Images/Protagonista/Mario 1/run.png', {
+        '../../assets/Images/Protagonista/Mario 1/Run.png', {
 
             frameWidth: 64,
             frameHeight: 48
