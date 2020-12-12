@@ -1,6 +1,8 @@
 var config = {
+
     width: 1500,
-    height: 800,
+    height: 850,
+
     type: Phaser.AUTO,
 
     physics: {
@@ -43,11 +45,19 @@ var playerStateList = {
     gettingUp: 'getUp'
 }
 var warp = false;
+var collapse;
 var game = new Phaser.Game(config);
 
+var camera1, camera2, camera3;
+
 function preload() {
-    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/1038-0.png');
+
+
+    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo.png');
+    this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png')
+
     this.load.image('ground', '../../assets/Images/Test/platform.png');
+    this.load.image('collapsable', '../../assets/Images/Test/colPlat.png')
 
     /*Imágenes necesarias para los sprites del mundo*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
@@ -56,12 +66,18 @@ function preload() {
     this.load.image('fan', '../../assets/Images/Enviroment/Warped city/Ventilación 1.png'); /*Ventilador*/
     this.load.image('box', '../../assets/Images/Enviroment/Subway/Box.png'); /*Cajas*/
     this.load.image('platform1', '../../assets/Images/Enviroment/Subway/Plataforma horizontal infinita 2.png'); /*platafromas con rayas*/
-    this.load.image('redBeamV', '../../assets/Images/Enviroment/Subway/Viga roja larga.png'); /*platafromas con rayas*/
+    this.load.image('redBeamV', '../../assets/Images/Enviroment/Subway/Viga roja larga.png'); /*Viga roja vertical*/
+    this.load.image('redBeamH', '../../assets/Images/Enviroment/Subway/Viga roja horizontal.png'); /*Viga roja horizontal*/
     this.load.image('wires', '../../assets/Images/Enviroment/Subway/Cable colgante.png'); /*cables colgantes*/
     this.load.image('lamp1', '../../assets/Images/Enviroment/Subway/Lámpara colgante.png'); /*lámpara colgante pequeña*/
     this.load.image('signalR', '../../assets/Images/Enviroment/Subway/Flecha emergencia derecha.png'); /*flecha derecha*/
     this.load.image('emergency', '../../assets/Images/Enviroment/Space runner/Luz de emergencia.png'); /*luz emergencia*/
     this.load.image('cone', '../../assets/Images/Enviroment/Subway/Cono.png'); /*conos*/
+    this.load.image('beamCross', '../../assets/Images/Enviroment/Space runner/Cruce de vigas con verticales a los lados.png'); /*cruce de vigas*/
+    this.load.image('metalPlate', '../../assets/Images/Enviroment/Subway/Plancha metal.png'); /*placa metálica*/
+    this.load.image('vPipe', '../../assets/Images/Enviroment/Warped city/Tubería vertical.png'); /*tubería*/
+    this.load.image('diagonalBeamB', '../../assets/Images/Enviroment/Space runner/Viga diagonal 1.png'); /*viga diagonal*/
+    this.load.image('diagonalBeamB2', '../../assets/Images/Enviroment/Space runner/Viga diagonal 2.png'); /*viga diagonal*/
     /*Fin imágenes necesarias para los sprites del mundo*/
 
     //sprites del personaje y relacionados
@@ -69,6 +85,7 @@ function preload() {
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
     this.load.spritesheet('Mario1Walk',
         '../../assets/Images/Protagonista/Mario 1/Run.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -79,20 +96,21 @@ function preload() {
             frameHeight: 48
         }
     );
-    this.load.spritesheet('Mario1idle',
-        '../../assets/Images/Protagonista/Mario 1/Idle.png', {
-            frameWidth: 64,
-            frameHeight: 48
-        }
-    );
+    this.load.spritesheet('Mario1idle', '../../assets/Images/Protagonista/Mario 1/Idle.png', {
+
+        frameWidth: 64,
+        frameHeight: 48
+    });
     this.load.spritesheet('Mario1Shoot',
         '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
     );
     this.load.spritesheet('Mario1Jump',
         '../../assets/Images/Protagonista/Mario 1/Jump.png', {
+
             frameWidth: 64,
             frameHeight: 48
         }
@@ -100,6 +118,7 @@ function preload() {
 
     this.load.spritesheet('heartAnim',
         '../../assets/Images/Protagonista/Mario 1/Heart.png', {
+
             frameWidth: 18,
             frameHeight: 18
         }
@@ -110,7 +129,7 @@ function preload() {
 
 
 
-    var moabKeys = false;
+    var moabKeys = true;
     if (moabKeys == true) {
         //These are moab controls
         this.input.keyboard.removeAllKeys();
@@ -137,8 +156,10 @@ function preload() {
 function create() {
     warp = false;
 
-    lab = this.add.tileSprite(400, 200, 24000, 400, 'lab');
-    lab2 = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
+    this.add.tileSprite(400, 200, 24000, 400, 'lab');
+    lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
+    this.add.tileSprite(400, 650, 24000, 400, 'lab2');
+    lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
     tween = this.tweens.addCounter({
         from: 1,
         to: 2,
@@ -149,6 +170,7 @@ function create() {
     });
 
     objects.platforms = this.physics.add.staticGroup();
+    objects.collapsable = this.physics.add.staticGroup();
     objects.platforms.create(0, 384, 'ground').setScale(12.5, 1).refreshBody();
     objects.platforms.create(0, 200, 'ground').setScale(0.1, 12).refreshBody();
     objects.platforms.create(380, 100, 'ground').setScale(0.1, 9).refreshBody();
@@ -164,7 +186,7 @@ function create() {
     objects.platforms.create(1780, 320, 'ground').setScale(0.2, 4).refreshBody();
     objects.platforms.create(1840, 340, 'ground').setScale(0.2, 2).refreshBody();
     objects.platforms.create(2100, 100, 'ground').setScale(0.2, 9).refreshBody();
-    objects.platforms.create(2700, 300, 'ground').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(2700, 300, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(2900, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(3100, 275, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(3350, 200, 'ground').setScale(0.2, 1).refreshBody();
@@ -176,7 +198,7 @@ function create() {
     objects.platforms.create(4350, 275, 'ground').setScale(0.5, 1.5).refreshBody();
     objects.platforms.create(4700, 225, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5000, 250, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5300, 250, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5275, 275, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5500, 150, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(5800, 100, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(6200, 350, 'ground').setScale(1, 4).refreshBody();
@@ -185,12 +207,12 @@ function create() {
     objects.platforms.create(6850, 355, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(7200, 250, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(7200, 384, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(7450, 325, 'ground').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(7450, 325, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(7450, 150, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(7600, 355, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(7750, 150, 'ground').setScale(0.3, 1).refreshBody();
     objects.platforms.create(7950, 355, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(8050, 150, 'ground').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(8050, 150, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(8200, 355, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(8450, 355, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(8325, 200, 'ground').setScale(0.2, 1).refreshBody();
@@ -206,9 +228,9 @@ function create() {
     objects.platforms.create(10470, 325, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(10750, 325, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(11000, 275, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(11300, 384, 'ground').setScale(0.4, 2).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(11300, 384, 'collapsable').setScale(0.4, 2).refreshBody(); //esta aparece colapsando
     objects.platforms.create(11550, 300, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(11800, 250, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(11800, 250, 'collapsable').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(12100, 300, 'ground').setScale(0.4, 7).refreshBody();
     objects.platforms.create(12425, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(14000, 384, 'ground').setScale(6.3, 1).refreshBody();
@@ -222,13 +244,13 @@ function create() {
     objects.platforms.create(15500, 300, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(15550, 200, 'ground').setScale(0.25, 1).refreshBody();
     objects.platforms.create(15700, 350, 'ground').setScale(0.5, 1).refreshBody();
-    objects.platforms.create(15800, 200, 'ground').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(15800, 200, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(16000, 290, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(16300, 330, 'ground').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(16300, 330, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(16300, 225, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(16600, 175, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(16950, 350, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17100, 275, 'ground').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(17100, 275, 'collapsable').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(17000, 200, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(17200, 125, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(17500, 275, 'ground').setScale(0.3, 1).refreshBody();
@@ -248,22 +270,117 @@ function create() {
     objects.platforms.create(19100, 0, 'ground').setScale(3, 1).refreshBody();
 
     //Plataformas del mundo 2
+    objects.platforms.create(0, 834, 'ground').setScale(8.5, 1).refreshBody();
+    objects.platforms.create(0, 640, 'ground').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(380, 550, 'ground').setScale(0.1, 9).refreshBody();
+    objects.platforms.create(175, 460, 'ground');
+    objects.platforms.create(560, 680, 'ground').setScale(1, 1.1).refreshBody();
+    objects.platforms.create(825, 825, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1200, 680, 'ground').setScale(1.5, 1.1).refreshBody();
+    objects.platforms.create(1650, 800, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1700, 760, 'ground').setScale(0.15, 8).refreshBody();
+    objects.platforms.create(1900, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(2100, 760, 'ground').setScale(0.2, 8).refreshBody();
+    objects.platforms.create(2300, 834, 'ground').setScale(1, 1).refreshBody();
+    objects.platforms.create(2700, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(2900, 650, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(3100, 725, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(3180, 600, 'ground').setScale(0.6, 2).refreshBody();
+    objects.platforms.create(3800, 834, 'ground').setScale(3.5, 1).refreshBody();
+    objects.platforms.create(3690, 450, 'ground').setScale(3.15, 1).refreshBody();
+    objects.platforms.create(4290, 500, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(4290, 800, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(4600, 775, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(4700, 675, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(5000, 700, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(5275, 700, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(5500, 625, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(6075, 750, 'ground').setScale(1.65, 8).refreshBody();
+    objects.platforms.create(6075, 450, 'ground').setScale(1.65, 1).refreshBody();
+    objects.platforms.create(6700, 800, 'ground').setScale(0.4, 6).refreshBody();
+    objects.platforms.create(6950, 625, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7225, 625, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(7450, 775, 'ground').setScale(0.25, 1).refreshBody();
+    objects.collapsable.create(7600, 805, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(7775, 700, 'ground').setScale(0.3, 1).refreshBody();
+    objects.collapsable.create(7950, 805, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(8050, 585, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(8225, 775, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8450, 834, 'ground').setScale(0.25, 1).refreshBody();
+    objects.platforms.create(8550, 675, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8710, 775, 'ground').setScale(0.5, 1).refreshBody();
+    objects.platforms.create(8800, 625, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9100, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9325, 800, 'ground').setScale(0.5, 8).refreshBody();
+    objects.platforms.create(9600, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9750, 675, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(9900, 675, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(10100, 800, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(10350, 800, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(10550, 750, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(10750, 700, 'ground').setScale(0.1, 1).refreshBody();
+    objects.collapsable.create(11000, 725, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(11150, 650, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11350, 600, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(11300, 834, 'ground').setScale(0.4, 2).refreshBody();
+    objects.platforms.create(11550, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11800, 700, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(12050, 800, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(12250, 700, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(12450, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.collapsable.create(12825, 834, 'collapsable').setScale(0.5, 1).refreshBody(); // esta aparece colapsando
+    objects.platforms.create(13400, 834, 'ground').setScale(2.75, 1).refreshBody();
+
 
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
     this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
+    this.add.tileSprite(4250, 370, 2150, 30, 'whiteLabGround').setOrigin(0, 0);
+    this.add.tileSprite(7120, 370, 160, 30, 'whiteLabGround').setOrigin(0, 0);
+    this.add.tileSprite(12740, 370, 2574, 30, 'whiteLabGround').setOrigin(0, 0);
 
     /*Verticales*/
-    this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.2, 1).setOrigin(0, 0);
+    this.add.tileSprite(3070, 150, 32, 135, 'metalPlate').setScale(1.9, 1.9).setOrigin(0, 0);
+    this.add.tileSprite(6013, 300, 32, 37, 'metalPlate').setScale(2.3, 1.9).setOrigin(0, 0);
+    this.add.tileSprite(6110, 225, 128, 76, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
+    this.add.tileSprite(12030, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
+    
+    this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(360, 25, 16, 248, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
-    this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
+    //this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(2060, 0, 16, 244, 'blackBeamV').setScale(2.7, 1).setOrigin(0, 0);
-    this.add.tileSprite(2095, 0, 16, 244, 'blackBeamV').setScale(2.8, 1).setOrigin(0, 0);
+    this.add.tileSprite(2095, 0, 16, 244, 'blackBeamV').setScale(2.8, 1).setOrigin(0, 0);    
+    this.add.tileSprite(3059, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
+    this.add.tileSprite(3127, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
+    this.add.tileSprite(4250, 0, 32, 299, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+    this.add.tileSprite(5760, 0, 32, 245, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+    this.add.tileSprite(6100, 225, 16, 145, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(6384, 225, 16, 145, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(6170, 225, 16, 145, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(6240, 225, 16, 145, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(6310, 225, 16, 145, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(12020, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(12164, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(12090, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
+    this.add.tileSprite(12960, 0, 32, 245, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+    
+    this.add.image(3059, 150, 'beamCross').setScale(0.85, 1).setOrigin(0, 0);
+    this.add.image(6000, 305, 'beamCross').setScale(1.04, 1.01).setOrigin(0, 0);
+
     /*Techos*/
     this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
-
+    
+    /*Diagonales*/
+    this.add.image(4330, 202, 'diagonalBeamB').setScale(1, 1.5).setOrigin(0, 0);
+    this.add.image(6320, 204, 'diagonalBeamB').setScale(1, 1.5).setOrigin(0, 0);
+    this.add.image(6113, 204, 'diagonalBeamB2').setScale(1, 1.5).setOrigin(0, 0);
+    
     /*Plataformas*/
-    this.add.image(395, 238, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+    this.add.image(395, 237, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+    this.add.image(13775, 259, 'fan').setScale(1.55, 1.6).setOrigin(0, 0);
+    this.add.image(14275, 259, 'fan').setScale(1.55, 1.6).setOrigin(0, 0);
+    this.add.image(14775, 259, 'fan').setScale(1.55, 1.6).setOrigin(0, 0);
+    
     this.add.image(535, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
     this.add.image(584, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
     this.add.image(633, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
@@ -283,52 +400,132 @@ function create() {
     this.add.image(1680, 256, 'box').setScale(2.4, 1.9).setOrigin(0, 0);
     this.add.image(1756, 256, 'box').setScale(2, 1.9).setOrigin(0, 0);
     this.add.image(1680, 204, 'box').setScale(2.5, 1.85).setOrigin(0, 0);
+    this.add.image(13360, 284, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
+    this.add.tileSprite(15150, 284, 64, 32, 'box').setScale(2.58, 2.7).setOrigin(0, 0);
+    this.add.image(15235, 212, 'box').setScale(2.5, 2.6).setOrigin(0, 0);
 
-    this.add.image(885, 183, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(885, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(1160, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(1410, 209, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(2860, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(3310, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(3610, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(3710, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(3910, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(4660, 209, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(4960, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(5235, 259, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(5460, 134, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(6545, 134, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(6770, 339, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(7120, 234, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(7370, 134, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(7560, 339, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(7690, 134, 'platform1').setScale(1.5, 2.3).setOrigin(0, 0);
+    this.add.image(7910, 339, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(8160, 339, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(8285, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(8410, 339, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(8595, 284, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(8870, 339, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(8865, 184, 'platform1').setScale(1.5, 2.3).setOrigin(0, 0);
+    this.add.image(9140, 184, 'platform1').setScale(1.5, 2.3).setOrigin(0, 0);
+    this.add.tileSprite(9185, 339, 187, 14, 'platform1').setScale(1.5, 2.3).setOrigin(0, 0);
+    this.add.image(9420, 134, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(9560, 284, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(9720, 234, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(10040, 159, 'platform1').setScale(1.5, 2.3).setOrigin(0, 0);
+    this.add.image(10430, 309, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(10670, 309, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(10960, 259, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(11510, 284, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    this.add.image(12385, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+
+    this.add.image(3059, 130, 'blackBeamH').setScale(1.28, 1.4).setOrigin(0, 0);
+    this.add.tileSprite(4330, 251, 120, 32, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
+    this.add.tileSprite(6000, 286, 100, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
+    this.add.tileSprite(6100, 202, 300, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
+    this.add.tileSprite(12020, 188, 160, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
 
     /*Decoraciones*/
     this.add.image(150, 25, 'wires').setScale(1.5, 1.5).setOrigin(0, 0);
+
     this.add.image(135, 25, 'lamp1').setScale(1.5, 1.5).setOrigin(0, 0);
     this.add.image(213, 25, 'lamp1').setScale(1.5, 1.5).setOrigin(0, 0);
+
     this.add.image(370, 280, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(2080, 280, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(4350, 310, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(5780, 270, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(12980, 270, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+
     this.add.image(158, 255, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
     this.add.image(288, 255, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(3090, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(6200, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(6275, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(12050, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(12125, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+
     this.add.image(2480, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(4250, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(6380, 182, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(7120, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(7265, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+    this.add.image(12740, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+
+    this.add.tileSprite(3072, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
+    this.add.tileSprite(12035, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
+    this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
+    //-----------------------Divisor de pantalla---------------------------
+    this.add.image(0, 400, 'blackBeamH').setScale(12.5, 3.2).setOrigin(0, 0);
 
 
     //adding physics
-    player = this.physics.add.sprite(200, 320, 'Mario1idle');
+    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25); 
     this.physics.add.collider(player, objects.platforms);
+    this.physics.add.collider(player, objects.collapsable);
+
     widthPlayer = 5;
     heightPlayer = 36;
 
-    //camera control
-    camera = this.cameras.main;
-    camera.setPosition(0, 0);
-    camera.setSize(800, 400);
-    camera.setBackgroundColor('#777777');
-    camera.setBounds(0, 0, 19500, 400);
-    camera.startFollow(player);
+    //camera interface
+    camera1 = this.cameras.main;
+    camera1.setPosition(0, 400);
+    camera1.setSize(800, 50);
+    //camera1.setVisible(false);
+    camera1.setScroll(0, 400);
+
+    //camera up
+    camera2 = this.cameras.add(0, 0, 800, 400);
+    camera2.setBounds(0, 0, 19500, 400);
+    camera2.startFollow(player);
+    camera2.setScroll(0, 0);
+
+    //camera down
+    camera3 = this.cameras.add(0, 450, 800, 400);
+    camera3.setBounds(0, 450, 19500, 400);
+    camera3.startFollow(player);
+    camera3.setScroll(0, 450);
+    camera3.setBackgroundColor('#113833');
+    //camera3.setPosition(0,450);
+    //camera3.startFollow(player);
+
 
     //size player
     player.body.setSize(widthPlayer, heightPlayer);
     player.setCollideWorldBounds(false);
+
     //adding hearts
-
     hearts = this.add.group();
-    let heart1 = this.add.sprite(player.body.position.x + 620 + 20 * 0, player.body.position.y - 260, 'heartAnim');
+    let heart1 = this.add.sprite(100, 418, 'heartAnim').setOrigin(0, 0);
     hearts.add(heart1);
-    let heart2 = this.add.sprite(player.body.position.x + 620 + 20 * 1, player.body.position.y - 260, 'heartAnim');
+    let heart2 = this.add.sprite(120, 418, 'heartAnim').setOrigin(0, 0);
     hearts.add(heart2);
-    let heart3 = this.add.sprite(player.body.position.x + 620 + 20 * 2, player.body.position.y - 260, 'heartAnim');
+    let heart3 = this.add.sprite(140, 418, 'heartAnim').setOrigin(0, 0);
     hearts.add(heart3);
-
-
 
     //shooting booleans
     balaActiva = false;
@@ -434,10 +631,14 @@ function update() {
 
     if (player.x >= 13000)
         warp = true;
-    if (warp)
+    if (warp) {
+        lab.tileScaleX = tween.getValue();
         lab2.tileScaleX = tween.getValue();
+    }
+
+
     // Muerte por caida (jugador 1)
-    if (player.y > 400) {
+    if (player.y > 850) {
         playerState = playerStateList["movingLeft"];
         this.registry.destroy();
         this.events.off();
@@ -445,7 +646,7 @@ function update() {
     }
 
     //draw hearts in screen according to camera´s position
-    hearts.setXY((camera.worldView.x + camera.worldView.width - 60), (camera.worldView.y + 20), 20);
+    //hearts.setXY((camera2.worldView.x + camera2.worldView.width - 60), (camera2.worldView.y + 20), 20);
 
     // sirve para originar la bala dependiendo de hacia donde mire el personaje
     if (balaDisparada == true) {
@@ -470,16 +671,14 @@ function update() {
         }
     }
 
-    if (balaActiva == true && bala.body.position.x < (camera.worldView.x + camera.worldView.width) && bala.body.position.x > camera.worldView.x) {
+    if (balaActiva == true && bala.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala.body.position.x > camera2.worldView.x) {
         canShoot = false;
-    } else if (balaActiva == true && (bala.body.position.x > (camera.worldView.x + camera.worldView.width) ||
-            bala.body.position.x < camera.worldView.x)) {
+    } else if (balaActiva == true && (bala.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
+            bala.body.position.x < camera2.worldView.x)) {
         bala.destroy();
         balaActiva = false;
         canShoot = true;
     }
-
-
 }
 
 function Idle() {
@@ -507,6 +706,7 @@ function Idle() {
             playerState = playerStateList["shooting"];
         }
     }
+
 }
 
 function Left() {
@@ -518,8 +718,6 @@ function Left() {
     player.setVelocityX(-160);
     player.anims.play('Mario1Walk', true);
     player.flipX = true;
-
-
 
 
     if (controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]) {
@@ -578,7 +776,7 @@ function CanJump() {
 
     /**/
     else {
-      playerState = playerStateList["idle"];
+        playerState = playerStateList["idle"];
     }
     //*/
 }
