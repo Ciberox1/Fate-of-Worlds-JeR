@@ -247,7 +247,7 @@ function create() {
     objects.platforms.create(14800, 275, 'ground').setScale(0.1, 1).refreshBody();
     objects.platforms.create(15200, 350, 'ground').setScale(0.2, 4).refreshBody();
     objects.platforms.create(15275, 310, 'ground').setScale(0.2, 6).refreshBody();
-    objects.platforms.create(15500, 300, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(15475, 300, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(15550, 200, 'ground').setScale(0.25, 1).refreshBody();
     objects.platforms.create(15700, 350, 'ground').setScale(0.5, 1).refreshBody();
     objects.collapsable.create(15800, 200, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
@@ -334,9 +334,40 @@ function create() {
     objects.platforms.create(12050, 800, 'ground').setScale(0.4, 1).refreshBody();
     objects.platforms.create(12250, 700, 'ground').setScale(0.2, 1).refreshBody();
     objects.platforms.create(12450, 600, 'ground').setScale(0.2, 1).refreshBody();
-    objects.collapsable.create(12825, 834, 'collapsable').setScale(0.5, 1).refreshBody(); // esta aparece colapsando
-    objects.platforms.create(13400, 834, 'ground').setScale(2.75, 1).refreshBody();
-
+    objects.collapsable.create(12825, 834, 'collapsable').setScale(0.5, 1).refreshBody(); //Sesta aparece colapsando
+    objects.platforms.create(13000, 550, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(13250, 834, 'ground').setScale(2, 1).refreshBody();
+    objects.platforms.create(13400, 800, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(13900, 725, 'ground').setScale(0.7, 1).refreshBody();
+    objects.platforms.create(14225, 650, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(14400, 750, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(14600, 675, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(14800, 600, 'ground').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(15150, 834, 'ground').setScale(0.6, 1).refreshBody();
+    objects.collapsable.create(15475, 750, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(15650, 675, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(15825, 650, 'ground').setScale(0.3, 1).refreshBody();
+    objects.collapsable.create(16000, 740, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(16300, 780, 'ground').setScale(0.4, 1).refreshBody();
+    objects.collapsable.create(16300, 675, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
+    objects.collapsable.create(16600, 625, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
+    objects.platforms.create(16850, 600, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17100, 725, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17300, 650, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17450, 775, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17725, 834, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17900, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17750, 675, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(18050, 600, 'ground').setScale(0.6, 1).refreshBody();
+    objects.platforms.create(17550, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(19050, 834, 'ground').setScale(3, 1).refreshBody();
+    objects.platforms.create(18475, 550, 'ground').setScale(0.2, 8).refreshBody();
+    objects.platforms.create(18625, 800, 'ground').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(18850, 750, 'ground').setScale(0.2, 5).refreshBody();
+    objects.platforms.create(19100, 750, 'ground').setScale(0.2, 8).refreshBody();
+    objects.platforms.create(19400, 750, 'ground').setScale(0.4, 6).refreshBody(); //sobre esto esta el terminal, debe colapsarse para mandarlo al otro mundo
+    objects.platforms.create(19500, 650, 'ground').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(19100, 450, 'ground').setScale(3, 1).refreshBody();
 
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
     /*Suelo blanco del lab*/
@@ -350,12 +381,12 @@ function create() {
     this.add.tileSprite(6013, 300, 32, 37, 'metalPlate').setScale(2.3, 1.9).setOrigin(0, 0);
     this.add.tileSprite(6110, 225, 128, 76, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(12030, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
-    
+
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(360, 25, 16, 248, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     //this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(2060, 0, 16, 244, 'blackBeamV').setScale(2.7, 1).setOrigin(0, 0);
-    this.add.tileSprite(2095, 0, 16, 244, 'blackBeamV').setScale(2.8, 1).setOrigin(0, 0);    
+    this.add.tileSprite(2095, 0, 16, 244, 'blackBeamV').setScale(2.8, 1).setOrigin(0, 0);
     this.add.tileSprite(3059, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
     this.add.tileSprite(3127, 214, 16, 187, 'blackBeamV').setScale(0.85, 1).setOrigin(0, 0);
     this.add.tileSprite(4250, 0, 32, 299, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
@@ -369,24 +400,24 @@ function create() {
     this.add.tileSprite(12164, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
     this.add.tileSprite(12090, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
     this.add.tileSprite(12960, 0, 32, 245, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
-    
+
     this.add.image(3059, 150, 'beamCross').setScale(0.85, 1).setOrigin(0, 0);
     this.add.image(6000, 305, 'beamCross').setScale(1.04, 1.01).setOrigin(0, 0);
 
     /*Techos*/
     this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
-    
+
     /*Diagonales*/
     this.add.image(4330, 202, 'diagonalBeamB').setScale(1, 1.5).setOrigin(0, 0);
     this.add.image(6320, 204, 'diagonalBeamB').setScale(1, 1.5).setOrigin(0, 0);
     this.add.image(6113, 204, 'diagonalBeamB2').setScale(1, 1.5).setOrigin(0, 0);
-    
+
     /*Plataformas*/
     this.add.image(395, 237, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
     this.add.image(13775, 259, 'fan').setScale(1.55, 1.6).setOrigin(0, 0);
     this.add.image(14275, 259, 'fan').setScale(1.55, 1.6).setOrigin(0, 0);
     this.add.image(14775, 259, 'fan').setScale(1.55, 1.6).setOrigin(0, 0);
-    
+
     this.add.image(535, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
     this.add.image(584, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
     this.add.image(633, 316, 'box').setScale(1.55, 1.8).setOrigin(0, 0);
@@ -489,59 +520,86 @@ function create() {
     this.add.image(0, 400, 'blackBeamH').setScale(12.5, 3.2).setOrigin(0, 0);
 
 
+
     //adding physics to player
-    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25); 
+    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
+
+    //adding physics
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
     widthPlayer = 5;
     heightPlayer = 36;
-    
+
     //-------------------adding physics to enemies---------------------------
-    
+
     //enemies create
     widthAmalgama = 40;
     heightAmalgama = 50;
-    enemiesArray=this.physics.add.group();
-    
+    enemiesArray = this.physics.add.group();
+
     //adding to a group
-    for(i=0;i<16;i++){
-        enemie=this.physics.add.sprite(0,0,'AmalgamaRun');
+    for (i = 0; i < 16; i++) {
+        enemie = this.physics.add.sprite(0, 0, 'AmalgamaRun');
         enemie.setBounce(0);
         enemie.body.setSize(widthAmalgama, heightAmalgama);
         enemie.setCollideWorldBounds(false);
         enemiesArray.add(enemie);
     }
-    
+
     //getChildren of group
-    children=[];
+    children = [];
     children = enemiesArray.getChildren();
-    children[0].setPosition(900,330);
-    children[1].setPosition(1000,330);
-    children[2].setPosition(4400,200);
-    children[3].setPosition(6300,200);
-    children[4].setPosition(7200,200);
-    children[5].setPosition(7760,200);
-    children[6].setPosition(8950,200);
-    children[7].setPosition(10750,200);
-    children[8].setPosition(13730,200);
-    children[9].setPosition(14251,200);
-    children[10].setPosition(14730,200);
-    children[11].setPosition(15603,200);
-    children[12].setPosition(15761,200);
-    children[13].setPosition(17506,200);
-    children[14].setPosition(17658,200);
-    children[15].setPosition(17850,200);
-    enemiesQuantity=16;
+    children[0].setPosition(900, 330);
+    children[1].setPosition(4400, 200);
+    children[2].setPosition(4800, 200);
+    children[3].setPosition(6600, 110);
+    children[4].setPosition(7200, 350);
+    children[5].setPosition(7760, 100);
+    children[6].setPosition(8950, 330);
+    children[7].setPosition(10750, 200);
+    children[8].setPosition(13730, 200);
+    children[9].setPosition(14251, 200);
+    children[10].setPosition(14730, 200);
+    children[11].setPosition(15603, 310);
+    children[12].setPosition(15761, 310);
+    children[13].setPosition(17500, 235);
+    children[14].setPosition(17600, 330);
+    children[15].setPosition(17850, 235);
+    enemiesQuantity = 16;
     //setting velocity for each enemie
-    velocityXEnemie=[];
-    for(i=0;i<enemiesArray.countActive(true);i++){
-        velocityXEnemie[i]=-100;
+    velocityXEnemie = [];
+    for (i = 0; i < enemiesArray.countActive(true); i++) {
+        velocityXEnemie[i] = -75;
         enemiesArray.setVelocityX(velocityXEnemie[i]);
     }
-    //adding collider enemies-platforms
-    enemiesColliderPlatforms=this.physics.add.collider(enemiesArray, objects.platforms,changeDirectionEnemie);
-    
-    
+    //invisible barriers
+    objects.invBar = this.physics.add.staticGroup();
+    objects.invBar.create(4250, 300, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(6500, 110, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(6725, 110, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(7075, 300, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(7280, 300, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(7650, 110, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(7825, 110, 'ground').setScale(0.1, 4).refreshBody();
+    objects.invBar.create(8825, 300, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(9050, 300, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(10625, 286, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(10850, 286, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(15550, 310, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(15825, 310, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17390, 235, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17590, 235, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17525, 330, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17750, 330, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17740, 235, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17925, 235, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.setVisible(false);
+
+    //adding collissions enviroment and invisible walls
+    enemiesColliderInvBar = this.physics.add.collider(enemiesArray, objects.invBar, changeDirectionEnemie);
+    enemiesColliderPlatforms = this.physics.add.collider(enemiesArray, objects.platforms, changeDirectionEnemie);
+
+
     //camera interface
     camera1 = this.cameras.main;
     camera1.setPosition(0, 400);
@@ -570,7 +628,7 @@ function create() {
     player.setCollideWorldBounds(false);
 
 
-    
+
     //adding hearts
     hearts = this.add.group();
     let heart1 = this.add.sprite(100, 418, 'heartAnim').setOrigin(0, 0);
@@ -585,20 +643,20 @@ function create() {
     balaDisparada = false;
     ShootDirection = "";
     canShoot = true;
-    
+
     //animations
     createAnims();
     hearts.playAnimation('heart');
     enemiesArray.playAnimation('AmalgamaRun');
-    
+
     //player booleans
-    colisionPlayer=true;
-    
+    colisionPlayer = true;
+
     //enemies booleans
-    EnemieDead=false;
+    EnemieDead = false;
     //collision player-enemies
-    playerCollidesEnemies=this.physics.add.collider(player, enemiesArray, KillPlayer);
-    timerInitiated=false;
+    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer);
+    timerInitiated = false;
 }
 
 function createAnims() {
@@ -658,7 +716,7 @@ function createAnims() {
         frameRate: 10,
         repeat: -1
     });
-     game.anims.create({
+    game.anims.create({
         key: 'AmalgamaRun',
         frames: game.anims.generateFrameNumbers('Amalgama', {
             start: 0,
@@ -667,7 +725,7 @@ function createAnims() {
         frameRate: 10,
         repeat: -1
     });
-     game.anims.create({
+    game.anims.create({
         key: 'AmalgamaDeath',
         frames: game.anims.generateFrameNumbers('Amalgama', {
             start: 14,
@@ -720,7 +778,7 @@ function update() {
 
 
     // Muerte por caida (jugador 1)
-     if (player.y > 850) {
+    if (player.y > 850) {
         playerState = playerStateList["movingLeft"];
         game.registry.destroy();
         game.events.off();
@@ -760,54 +818,54 @@ function update() {
         balaActiva = false;
         canShoot = true;
     }
-    
+
     /*--------instructions of Amalgama's death and movement----------*/
-    
+
     children = enemiesArray.getChildren();
-    
-    if(balaActiva==true){
-         this.physics.add.collider(bala, enemiesArray, KillEnemie);
+
+    if (balaActiva == true) {
+        this.physics.add.collider(bala, enemiesArray, KillEnemie);
     }
-         
-    
-    if(EnemieDead==true){
-        children=enemiesArray.getChildren();
-        i=0;
-        while(children[i]!=undefined && i < enemiesQuantity){                   
-            if(children[i].anims.currentKey=='AmalgamaDeath'){
-                    console.log("Mosntruo muerto " + i);
-                    if(children[i].anims.currentFrame.index==7){
-                        enemiesArray.remove(children[i],true);
-                        console.log("animation complete");
-                        EnemieDead=false;
-                    }
-                    for(k=i;k<enemiesQuantity-1;k++){
-                         velocityXEnemie[k]= velocityXEnemie[k+1];
-                         children[k]=children[k+1];
-                    }
-                       
-                } 
+
+
+    if (EnemieDead == true) {
+        children = enemiesArray.getChildren();
+        i = 0;
+        while (children[i] != undefined && i < enemiesQuantity) {
+            if (children[i].anims.currentKey == 'AmalgamaDeath') {
+                console.log("Mosntruo muerto " + i);
+                if (children[i].anims.currentFrame.index == 7) {
+                    enemiesArray.remove(children[i], true);
+                    console.log("animation complete");
+                    EnemieDead = false;
+                }
+                for (k = i; k < enemiesQuantity - 1; k++) {
+                    velocityXEnemie[k] = velocityXEnemie[k + 1];
+                    children[k] = children[k + 1];
+                }
+
+            }
             i++;
         }
     }
-    
+
     /*--------instructions of Player's death and movement----------*/
-    if(colisionPlayer==false){
-       // console.log("ahora mismo no puedes morir");
-        playerCollidesEnemies.active=false;
-        if(timerInitiated==false){
-            timedEvent = this.time.delayedCall(5000, enableColisionPlayer, this,false);
-            timerInitiated=true;
+    if (colisionPlayer == false) {
+        // console.log("ahora mismo no puedes morir");
+        playerCollidesEnemies.active = false;
+        if (timerInitiated == false) {
+            timedEvent = this.time.delayedCall(5000, enableColisionPlayer, this, false);
+            timerInitiated = true;
         }
     }
-       
-    
-    if(colisionPlayer==true){
-        playerCollidesEnemies.active=true;
-        timerInitiated=false;
-        
-    } 
-    
+
+
+    if (colisionPlayer == true) {
+        playerCollidesEnemies.active = true;
+        timerInitiated = false;
+
+    }
+
 }
 
 function Idle() {
@@ -1009,67 +1067,67 @@ function Killbala() {
     balaActiva = false;
 }
 
-function KillEnemie(){ 
-    i=0;
-     while(i<enemiesQuantity && children[i]!= undefined){
-            if(Math.abs(Phaser.Math.Distance.Between(bala.body.position.x, bala.body.position.y,
-                                        children[i].body.position.x,children[i].body.position.y))<50){
-            children[i].anims.play('AmalgamaDeath','true');
-            children[i].anims.currentKey='AmalgamaDeath';
-            children[i].body.velocity.x=0;
+function KillEnemie() {
+    i = 0;
+    while (i < enemiesQuantity && children[i] != undefined) {
+        if (Math.abs(Phaser.Math.Distance.Between(bala.body.position.x, bala.body.position.y,
+                children[i].body.position.x, children[i].body.position.y)) < 50) {
+            children[i].anims.play('AmalgamaDeath', 'true');
+            children[i].anims.currentKey = 'AmalgamaDeath';
+            children[i].body.velocity.x = 0;
             console.log(i);
-        }   
-         i++;
+        }
+        i++;
     }
-    EnemieDead=true;
+    EnemieDead = true;
     Killbala();
-    
+
 }
 
 
-function changeDirectionEnemie(){
+function changeDirectionEnemie() {
     //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
-    for(i=0;i<enemiesQuantity;i++){
-         if(children[i]!=undefined && children[i].body.touching.left  && children[i].flipX==false){
-           //  console.log(children[i].body.velocity.x);
-           //  console.log(velocityXEnemie[8]);
-              velocityXEnemie[i]=-velocityXEnemie[i];
-               children[i].body.velocity.x=velocityXEnemie[i];
-               children[i].flipX=true;
-             //  console.log("toca izquierda" + i );
+    for (i = 0; i < enemiesQuantity; i++) {
+        if (children[i] != undefined && children[i].body.touching.left && children[i].flipX == false) {
+            //  console.log(children[i].body.velocity.x);
+            //  console.log(velocityXEnemie[8]);
+            velocityXEnemie[i] = -velocityXEnemie[i];
+            children[i].body.velocity.x = velocityXEnemie[i];
+            children[i].flipX = true;
+            //  console.log("toca izquierda" + i );
             // console.log(children[i].body.velocity.x);
-         }
-          if(children[i]!=undefined && children[i].body.touching.right && children[i].flipX==true){
-            // console.log("toca derecha" + i);
-              velocityXEnemie[i]=-velocityXEnemie[i];
-              children[i].body.velocity.x=velocityXEnemie[i];
-              children[i].flipX=false;
-               
-            }
-           
-        
         }
-   // console.log(children[8].body.velocity.x);
- }    
+        if (children[i] != undefined && children[i].body.touching.right && children[i].flipX == true) {
+            // console.log("toca derecha" + i);
+            velocityXEnemie[i] = -velocityXEnemie[i];
+            children[i].body.velocity.x = velocityXEnemie[i];
+            children[i].flipX = false;
 
-function KillPlayer(){
-   // console.log("mata");
-    colisionPlayer=false;
-    if(hearts.countActive(true)==1){
+        }
+
+
+    }
+    // console.log(children[8].body.velocity.x);
+}
+
+function KillPlayer() {
+    // console.log("mata");
+    colisionPlayer = false;
+    if (hearts.countActive(true) == 1) {
         playerState = playerStateList["movingLeft"];
         game.registry.destroy();
         game.events.off();
         this.scene.restart();
     }
-    hearts.remove(hearts.getFirstAlive(),true);
-    for(i=0;i<enemiesQuantity;i++)
-        if(children[i]!=undefined)
+    hearts.remove(hearts.getFirstAlive(), true);
+    for (i = 0; i < enemiesQuantity; i++)
+        if (children[i] != undefined)
             children[i].body.setVelocityX(velocityXEnemie[i]);
 }
 
 
-function enableColisionPlayer(){
-    colisionPlayer=true;
+function enableColisionPlayer() {
+    colisionPlayer = true;
     //console.log("ya puedes morir");
     timedEvent.remove();
 }
