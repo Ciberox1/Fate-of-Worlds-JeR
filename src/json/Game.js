@@ -123,6 +123,12 @@ function preload() {
             frameHeight: 18
         }
     );
+    this.load.spritesheet('Amalgama',
+        '../../assets/Images/Enemies/Amalgama/Trash Monster-Sprite sheet.png', {
+            frameWidth: 64,
+            frameHeight: 64
+        }
+    );
 
 
     /************Fin de carga de sprites del juego**********/
@@ -483,14 +489,60 @@ function create() {
     this.add.image(0, 400, 'blackBeamH').setScale(12.5, 3.2).setOrigin(0, 0);
 
 
-    //adding physics
-    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
+    //adding physics to player
+    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25); 
+
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
-
     widthPlayer = 5;
     heightPlayer = 36;
-
+    
+    //-------------------adding physics to enemies---------------------------
+    
+    //enemies create
+    widthAmalgama = 40;
+    heightAmalgama = 50;
+    enemiesArray=this.physics.add.group();
+    
+    //adding to a group
+    for(i=0;i<16;i++){
+        enemie=this.physics.add.sprite(0,0,'AmalgamaRun');
+        enemie.setBounce(0);
+        enemie.body.setSize(widthAmalgama, heightAmalgama);
+        enemie.setCollideWorldBounds(false);
+        enemiesArray.add(enemie);
+    }
+    
+    //getChildren of group
+    children=[];
+    children = enemiesArray.getChildren();
+    children[0].setPosition(900,330);
+    children[1].setPosition(1000,330);
+    children[2].setPosition(4400,200);
+    children[3].setPosition(6300,200);
+    children[4].setPosition(7200,200);
+    children[5].setPosition(7760,200);
+    children[6].setPosition(8950,200);
+    children[7].setPosition(10750,200);
+    children[8].setPosition(13730,200);
+    children[9].setPosition(14251,200);
+    children[10].setPosition(14730,200);
+    children[11].setPosition(15603,200);
+    children[12].setPosition(15761,200);
+    children[13].setPosition(17506,200);
+    children[14].setPosition(17658,200);
+    children[15].setPosition(17850,200);
+    enemiesQuantity=16;
+    //setting velocity for each enemie
+    velocityXEnemie=[];
+    for(i=0;i<enemiesArray.countActive(true);i++){
+        velocityXEnemie[i]=-100;
+        enemiesArray.setVelocityX(velocityXEnemie[i]);
+    }
+    //adding collider enemies-platforms
+    enemiesColliderPlatforms=this.physics.add.collider(enemiesArray, objects.platforms,changeDirectionEnemie);
+    
+    
     //camera interface
     camera1 = this.cameras.main;
     camera1.setPosition(0, 400);
@@ -518,6 +570,8 @@ function create() {
     player.body.setSize(widthPlayer, heightPlayer);
     player.setCollideWorldBounds(false);
 
+
+    
     //adding hearts
     hearts = this.add.group();
     let heart1 = this.add.sprite(100, 418, 'heartAnim').setOrigin(0, 0);
@@ -532,9 +586,20 @@ function create() {
     balaDisparada = false;
     ShootDirection = "";
     canShoot = true;
+    
     //animations
     createAnims();
     hearts.playAnimation('heart');
+    enemiesArray.playAnimation('AmalgamaRun');
+    
+    //player booleans
+    colisionPlayer=true;
+    
+    //enemies booleans
+    EnemieDead=false;
+    //collision player-enemies
+    playerCollidesEnemies=this.physics.add.collider(player, enemiesArray, KillPlayer);
+    timerInitiated=false;
 }
 
 function createAnims() {
@@ -594,6 +659,24 @@ function createAnims() {
         frameRate: 10,
         repeat: -1
     });
+     game.anims.create({
+        key: 'AmalgamaRun',
+        frames: game.anims.generateFrameNumbers('Amalgama', {
+            start: 0,
+            end: 6
+        }),
+        frameRate: 10,
+        repeat: -1
+    });
+     game.anims.create({
+        key: 'AmalgamaDeath',
+        frames: game.anims.generateFrameNumbers('Amalgama', {
+            start: 14,
+            end: 22
+        }),
+        frameRate: 10,
+        repeat: 0
+    });
 }
 
 function update() {
@@ -638,15 +721,14 @@ function update() {
 
 
     // Muerte por caida (jugador 1)
-    if (player.y > 850) {
+     if (player.y > 850) {
         playerState = playerStateList["movingLeft"];
-        this.registry.destroy();
-        this.events.off();
+        game.registry.destroy();
+        game.events.off();
         this.scene.restart();
     }
 
-    //draw hearts in screen according to camera´s position
-    //hearts.setXY((camera2.worldView.x + camera2.worldView.width - 60), (camera2.worldView.y + 20), 20);
+
 
     // sirve para originar la bala dependiendo de hacia donde mire el personaje
     if (balaDisparada == true) {
@@ -679,6 +761,54 @@ function update() {
         balaActiva = false;
         canShoot = true;
     }
+    
+    /*--------instructions of Amalgama's death and movement----------*/
+    
+    children = enemiesArray.getChildren();
+    
+    if(balaActiva==true){
+         this.physics.add.collider(bala, enemiesArray, KillEnemie);
+    }
+         
+    
+    if(EnemieDead==true){
+        children=enemiesArray.getChildren();
+        i=0;
+        while(children[i]!=undefined && i < enemiesQuantity){                   
+            if(children[i].anims.currentKey=='AmalgamaDeath'){
+                    console.log("Mosntruo muerto " + i);
+                    if(children[i].anims.currentFrame.index==7){
+                        enemiesArray.remove(children[i],true);
+                        console.log("animation complete");
+                        EnemieDead=false;
+                    }
+                    for(k=i;k<enemiesQuantity-1;k++){
+                         velocityXEnemie[k]= velocityXEnemie[k+1];
+                         children[k]=children[k+1];
+                    }
+                       
+                } 
+            i++;
+        }
+    }
+    
+    /*--------instructions of Player's death and movement----------*/
+    if(colisionPlayer==false){
+       // console.log("ahora mismo no puedes morir");
+        playerCollidesEnemies.active=false;
+        if(timerInitiated==false){
+            timedEvent = this.time.delayedCall(5000, enableColisionPlayer, this,false);
+            timerInitiated=true;
+        }
+    }
+       
+    
+    if(colisionPlayer==true){
+        playerCollidesEnemies.active=true;
+        timerInitiated=false;
+        
+    } 
+    
 }
 
 function Idle() {
@@ -878,4 +1008,69 @@ function Killbala() {
     bala.destroy();
     canShoot = true;
     balaActiva = false;
+}
+
+function KillEnemie(){ 
+    i=0;
+     while(i<enemiesQuantity && children[i]!= undefined){
+            if(Math.abs(Phaser.Math.Distance.Between(bala.body.position.x, bala.body.position.y,
+                                        children[i].body.position.x,children[i].body.position.y))<50){
+            children[i].anims.play('AmalgamaDeath','true');
+            children[i].anims.currentKey='AmalgamaDeath';
+            children[i].body.velocity.x=0;
+            console.log(i);
+        }   
+         i++;
+    }
+    EnemieDead=true;
+    Killbala();
+    
+}
+
+
+function changeDirectionEnemie(){
+    //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
+    for(i=0;i<enemiesQuantity;i++){
+         if(children[i]!=undefined && children[i].body.touching.left  && children[i].flipX==false){
+           //  console.log(children[i].body.velocity.x);
+           //  console.log(velocityXEnemie[8]);
+              velocityXEnemie[i]=-velocityXEnemie[i];
+               children[i].body.velocity.x=velocityXEnemie[i];
+               children[i].flipX=true;
+             //  console.log("toca izquierda" + i );
+            // console.log(children[i].body.velocity.x);
+         }
+          if(children[i]!=undefined && children[i].body.touching.right && children[i].flipX==true){
+            // console.log("toca derecha" + i);
+              velocityXEnemie[i]=-velocityXEnemie[i];
+              children[i].body.velocity.x=velocityXEnemie[i];
+              children[i].flipX=false;
+               
+            }
+           
+        
+        }
+   // console.log(children[8].body.velocity.x);
+ }    
+
+function KillPlayer(){
+   // console.log("mata");
+    colisionPlayer=false;
+    if(hearts.countActive(true)==1){
+        playerState = playerStateList["movingLeft"];
+        game.registry.destroy();
+        game.events.off();
+        this.scene.restart();
+    }
+    hearts.remove(hearts.getFirstAlive(),true);
+    for(i=0;i<enemiesQuantity;i++)
+        if(children[i]!=undefined)
+            children[i].body.setVelocityX(velocityXEnemie[i]);
+}
+
+
+function enableColisionPlayer(){
+    colisionPlayer=true;
+    //console.log("ya puedes morir");
+    timedEvent.remove();
 }
