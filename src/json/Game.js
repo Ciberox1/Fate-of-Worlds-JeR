@@ -167,14 +167,7 @@ function create() {
     lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
     this.add.tileSprite(400, 650, 24000, 400, 'lab2');
     lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
-    tween = this.tweens.addCounter({
-        from: 1,
-        to: 2,
-        duration: 5000,
-        ease: 'Sine.easeInOut',
-        yoyo: true,
-        repeat: -1
-    });
+
 
     objects.platforms = this.physics.add.staticGroup();
     objects.collapsable = this.physics.add.staticGroup();
@@ -812,13 +805,23 @@ function update() {
 
     }
 
-    if (player.x >= 13000)
+    if(!warp){
+      tween = this.tweens.addCounter({
+          from: 1,
+          to: 2,
+          duration: 5000,
+          ease: ('Sine.easeInOut'),
+          yoyo: true,
+          repeat: -1
+      });
+    }
+    if (player.x >= 13000){
         warp = true;
+
     if (warp) {
         lab.tileScaleX = tween.getValue();
         lab2.tileScaleX = tween.getValue();
     }
-
 
     // Muerte por caida (jugador 1)
     if (player.y > 850) {
