@@ -30,7 +30,8 @@ var controls = {
     cursors: '',
     gunKey: '',
     interactKey: '',
-    dropKey: ''
+    dropKey: '',
+    collapseKey: ''
 };
 var playerState = 'idle';
 var playerStateList = {
@@ -46,6 +47,8 @@ var playerStateList = {
 }
 var warp = false;
 var collapse;
+var collapsablePlats;
+
 var game = new Phaser.Game(config);
 
 var camera1, camera2, camera3;
@@ -143,6 +146,7 @@ function preload() {
         controls.interactKey = this.input.keyboard.addKey('E');
         controls.gunKey = this.input.keyboard.addKey('W');
         controls.dropKey = this.input.keyboard.addKey('Q');
+        controls.collapseKey = this.input.keyboard.addKey('SPACE');
         controls.cursors = this.input.keyboard.createCursorKeys();
     } else {
         //These are WASD controls
@@ -150,6 +154,7 @@ function preload() {
         controls.interactKey = this.input.keyboard.addKey('K');
         controls.gunKey = this.input.keyboard.addKey('J');
         controls.dropKey = this.input.keyboard.addKey('L');
+        controls.collapseKey = this.input.keyboard.addKey('SPACE');
         controls.cursors = this.input.keyboard.addKeys({
             'up': Phaser.Input.Keyboard.KeyCodes.W,
             'down': Phaser.Input.Keyboard.KeyCodes.S,
@@ -364,14 +369,14 @@ function create() {
     objects.platforms.create(19100, 450, 'ground').setScale(3, 1).refreshBody();
 
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
-    
+
     /*-----------------------------------------------------MUNDO 1------------------------------------------------------------*/
     /*Suelo blanco del lab*/
     this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
     this.add.tileSprite(4250, 370, 2150, 30, 'whiteLabGround').setOrigin(0, 0);
     this.add.tileSprite(7120, 370, 160, 30, 'whiteLabGround').setOrigin(0, 0);
     this.add.tileSprite(12740, 370, 2574, 30, 'whiteLabGround').setOrigin(0, 0);
-    this.add.tileSprite(18555, 370, 765, 30, 'whiteLabGround').setOrigin(0, 0);    
+    this.add.tileSprite(18555, 370, 765, 30, 'whiteLabGround').setOrigin(0, 0);
 
     /*Verticales*/
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.2, 1).setOrigin(0, 0);
@@ -380,7 +385,7 @@ function create() {
     this.add.tileSprite(6110, 225, 128, 76, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(12030, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(19330, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
-    
+
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(360, 25, 16, 248, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     //this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
@@ -406,7 +411,7 @@ function create() {
     this.add.tileSprite(19320, 320, 16, 80, 'blackBeamV').setScale(1.68, 1).setOrigin(0, 0);
     this.add.tileSprite(19454.5, 320, 16, 80, 'blackBeamV').setScale(1.68, 1).setOrigin(0, 0);
     this.add.tileSprite(19385, 228, 16, 172, 'blackBeamV').setScale(1.68, 1).setOrigin(0, 0);
-    
+
     this.add.image(3059, 150, 'beamCross').setScale(0.85, 1).setOrigin(0, 0);
     this.add.image(6000, 305, 'beamCross').setScale(1.04, 1.01).setOrigin(0, 0);
     this.add.image(19320, 220, 'beamCross').setScale(1.68, 1.6).setOrigin(0, 0);
@@ -546,12 +551,12 @@ function create() {
     this.add.tileSprite(3072, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
     this.add.tileSprite(12035, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
     this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
-    
+
     this.add.tileSprite(19400, 172, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
-    
+
     /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
-    
-    
+
+
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
     //-----------------------Divisor de pantalla---------------------------
@@ -562,7 +567,8 @@ function create() {
     //adding physics to player
     player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
     this.physics.add.collider(player, objects.platforms);
-    this.physics.add.collider(player, objects.collapsable);
+    collapsablePlats = this.physics.add.collider(player, objects.collapsable);
+    collapsablePlats.active = false;
     widthPlayer = 5;
     heightPlayer = 36;
 
@@ -774,7 +780,7 @@ function createAnims() {
 
 function update() {
 
-    console.log(player.x + ", " + player.y);
+    //console.log(player.x + ", " + player.y);
 
     switch (playerState) {
         case playerStateList["idle"]:
@@ -805,6 +811,15 @@ function update() {
 
     }
 
+    //Collapse code
+    if(controls.collapseKey.isDown){
+      collapsablePlats.active = true;
+    }
+
+    if(controls.collapseKey.isUp){
+      collapsablePlats.active = false;
+    }
+
     if(!warp){
       tween = this.tweens.addCounter({
           from: 1,
@@ -815,7 +830,7 @@ function update() {
           repeat: -1
       });
     }
-    if (player.x >= 13000){
+    if (player.x >= 13000)
         warp = true;
 
     if (warp) {
