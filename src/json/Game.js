@@ -54,10 +54,10 @@ function preload() {
 
 
     this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo.png');
-    this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png')
+    this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png');
 
     this.load.image('ground', '../../assets/Images/Test/platform.png');
-    this.load.image('collapsable', '../../assets/Images/Test/colPlat.png')
+    this.load.image('collapsable', '../../assets/Images/Enviroment/Subway/Plataforma horizontal colapsable2.png');
 
     /*Imágenes necesarias para los sprites del mundo*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
@@ -65,7 +65,7 @@ function preload() {
     this.load.image('blackBeamH', '../../assets/Images/Enviroment/Subway/Viga horizontal negra.png'); /*Techo*/
     this.load.image('fan', '../../assets/Images/Enviroment/Warped city/Ventilación 1.png'); /*Ventilador*/
     this.load.image('box', '../../assets/Images/Enviroment/Subway/Box.png'); /*Cajas*/
-    this.load.image('platform1', '../../assets/Images/Enviroment/Subway/Plataforma horizontal infinita 2.png'); /*platafromas con rayas*/
+    this.load.image('platform1', '../../assets/Images/Enviroment/Subway/Plataforma horizontal2.png'); /*platafromas con rayas*/
     this.load.image('redBeamV', '../../assets/Images/Enviroment/Subway/Viga roja larga.png'); /*Viga roja vertical*/
     this.load.image('redBeamH', '../../assets/Images/Enviroment/Subway/Viga roja horizontal.png'); /*Viga roja horizontal*/
     this.load.image('wires', '../../assets/Images/Enviroment/Subway/Cable colgante.png'); /*cables colgantes*/
@@ -80,6 +80,9 @@ function preload() {
     this.load.image('diagonalBeamB2', '../../assets/Images/Enviroment/Space runner/Viga diagonal 2.png'); /*viga diagonal*/
     this.load.image('machine', '../../assets/Images/Enviroment/Warped city/Máquina con pantalla.png'); /*viga diagonal*/
     /*Fin imágenes necesarias para los sprites del mundo*/
+
+    //Sprites de objetos
+    this.load.image('hpRestore', '../../assets/Images/Items/vida.png');
 
     //sprites del personaje y relacionados
     this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png')
@@ -175,106 +178,106 @@ function create() {
         yoyo: true,
         repeat: -1
     });
-
+    // Plataformas y muros del mundo de arriba
     objects.platforms = this.physics.add.staticGroup();
     objects.collapsable = this.physics.add.staticGroup();
-    objects.platforms.create(0, 384, 'ground').setScale(12.5, 1).refreshBody();
-    objects.platforms.create(0, 200, 'ground').setScale(0.1, 12).refreshBody();
-    objects.platforms.create(380, 100, 'ground').setScale(0.1, 9).refreshBody();
-    objects.platforms.create(175, 10, 'ground');
-    objects.platforms.create(400, 255, 'ground').setScale(0.2, 1.1).refreshBody();
-    objects.platforms.create(675, 350, 'ground').setScale(0.7, 2).refreshBody();
-    objects.platforms.create(645, 280, 'ground').setScale(0.3, 5).refreshBody();
-    objects.platforms.create(710, 290, 'ground').setScale(0.25, 2).refreshBody();
-    objects.platforms.create(925, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(1200, 250, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(1450, 225, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(1720, 300, 'ground').setScale(0.2, 6).refreshBody();
-    objects.platforms.create(1780, 320, 'ground').setScale(0.2, 4).refreshBody();
-    objects.platforms.create(1840, 340, 'ground').setScale(0.2, 2).refreshBody();
-    objects.platforms.create(2100, 100, 'ground').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(0, 384, 'platform1').setScale(12.5, 1).refreshBody();
+    objects.platforms.create(0, 200, 'platform1').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(380, 100, 'platform1').setScale(0.1, 9).refreshBody();
+    objects.platforms.create(175, 10, 'platform1');
+    objects.platforms.create(400, 255, 'platform1').setScale(0.2, 1.1).refreshBody();
+    objects.platforms.create(675, 350, 'platform1').setScale(0.7, 2).refreshBody();
+    objects.platforms.create(645, 280, 'platform1').setScale(0.3, 5).refreshBody();
+    objects.platforms.create(710, 290, 'platform1').setScale(0.25, 2).refreshBody();
+    objects.platforms.create(925, 200, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(1200, 250, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(1450, 225, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(1720, 300, 'platform1').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(1780, 320, 'platform1').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(1840, 340, 'platform1').setScale(0.2, 2).refreshBody();
+    objects.platforms.create(2100, 100, 'platform1').setScale(0.2, 9).refreshBody();
     objects.collapsable.create(2700, 300, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(2900, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(3100, 275, 'ground').setScale(0.2, 9).refreshBody();
-    objects.platforms.create(3350, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(3650, 250, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(3750, 150, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(3950, 150, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5250, 384, 'ground').setScale(5, 1).refreshBody();
-    objects.platforms.create(4290, 125, 'ground').setScale(0.2, 9).refreshBody();
-    objects.platforms.create(4350, 275, 'ground').setScale(0.5, 1.5).refreshBody();
-    objects.platforms.create(4700, 225, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5000, 250, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5275, 275, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5500, 150, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(5800, 100, 'ground').setScale(0.2, 9).refreshBody();
-    objects.platforms.create(6200, 350, 'ground').setScale(1, 4).refreshBody();
-    objects.platforms.create(6250, 250, 'ground').setScale(0.75, 3).refreshBody();
-    objects.platforms.create(6625, 150, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(6850, 355, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(7200, 250, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(7200, 384, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(2900, 200, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3100, 275, 'platform1').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(3350, 200, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3650, 250, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3750, 150, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(3950, 150, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5250, 384, 'platform1').setScale(5, 1).refreshBody();
+    objects.platforms.create(4290, 125, 'platform1').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(4350, 275, 'platform1').setScale(0.5, 1.5).refreshBody();
+    objects.platforms.create(4700, 225, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5000, 250, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5275, 275, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5500, 150, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(5800, 100, 'platform1').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(6200, 350, 'platform1').setScale(1, 4).refreshBody();
+    objects.platforms.create(6250, 250, 'platform1').setScale(0.75, 3).refreshBody();
+    objects.platforms.create(6625, 150, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(6850, 355, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7200, 250, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7200, 384, 'platform1').setScale(0.4, 1).refreshBody();
     objects.collapsable.create(7450, 325, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(7450, 150, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(7600, 355, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(7750, 150, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(7950, 355, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(7450, 150, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7600, 355, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(7750, 150, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(7950, 355, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(8050, 150, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(8200, 355, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(8450, 355, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(8325, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(8675, 300, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(8925, 200, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(8950, 355, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(9200, 200, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(9325, 355, 'ground').setScale(0.7, 1).refreshBody();
-    objects.platforms.create(9500, 150, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(9600, 300, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(9800, 250, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(10100, 175, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(10470, 325, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(10750, 325, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(11000, 275, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8200, 355, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8450, 355, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8325, 200, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8675, 300, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(8925, 200, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8950, 355, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9200, 200, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(9325, 355, 'platform1').setScale(0.7, 1).refreshBody();
+    objects.platforms.create(9500, 150, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9600, 300, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9800, 250, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(10100, 175, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(10470, 325, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(10750, 325, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(11000, 275, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(11300, 384, 'collapsable').setScale(0.4, 2).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(11550, 300, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11550, 300, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(11800, 250, 'collapsable').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(12100, 300, 'ground').setScale(0.4, 7).refreshBody();
-    objects.platforms.create(12425, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(14000, 384, 'ground').setScale(6.3, 1).refreshBody();
-    objects.platforms.create(13000, 100, 'ground').setScale(0.2, 9).refreshBody();
-    objects.platforms.create(13400, 350, 'ground').setScale(0.2, 4).refreshBody();
-    objects.platforms.create(13800, 275, 'ground').setScale(0.1, 1).refreshBody();
-    objects.platforms.create(14300, 275, 'ground').setScale(0.1, 1).refreshBody();
-    objects.platforms.create(14800, 275, 'ground').setScale(0.1, 1).refreshBody();
-    objects.platforms.create(15200, 350, 'ground').setScale(0.2, 4).refreshBody();
-    objects.platforms.create(15275, 310, 'ground').setScale(0.2, 6).refreshBody();
-    objects.platforms.create(15475, 300, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(15550, 200, 'ground').setScale(0.25, 1).refreshBody();
-    objects.platforms.create(15700, 350, 'ground').setScale(0.5, 1).refreshBody();
+    objects.platforms.create(12100, 300, 'platform1').setScale(0.4, 7).refreshBody();
+    objects.platforms.create(12425, 200, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(14000, 384, 'platform1').setScale(6.3, 1).refreshBody();
+    objects.platforms.create(13000, 100, 'platform1').setScale(0.2, 9).refreshBody();
+    objects.platforms.create(13400, 350, 'platform1').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(13800, 275, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(14300, 275, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(14800, 275, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.platforms.create(15200, 350, 'platform1').setScale(0.2, 4).refreshBody();
+    objects.platforms.create(15275, 310, 'platform1').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(15475, 300, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(15550, 200, 'platform1').setScale(0.25, 1).refreshBody();
+    objects.platforms.create(15700, 350, 'platform1').setScale(0.5, 1).refreshBody();
     objects.collapsable.create(15800, 200, 'collapsable').setScale(0.25, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(16000, 290, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16000, 290, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(16300, 330, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(16300, 225, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(16600, 175, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(16950, 350, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(16300, 225, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16600, 175, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(16950, 350, 'platform1').setScale(0.3, 1).refreshBody();
     objects.collapsable.create(17100, 275, 'collapsable').setScale(0.3, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(17000, 200, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17200, 125, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17500, 275, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17650, 370, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(17700, 175, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17850, 275, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(18150, 225, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(18250, 350, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(18475, 350, 'ground').setScale(0.2, 7).refreshBody();
-    objects.platforms.create(18475, 50, 'ground').setScale(0.2, 6).refreshBody();
-    objects.platforms.create(19100, 384, 'ground').setScale(3, 1).refreshBody();
-    objects.platforms.create(18535, 350, 'ground').setScale(0.1, 4).refreshBody();
-    objects.platforms.create(18750, 225, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(19050, 175, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(19400, 300, 'ground').setScale(0.4, 6).refreshBody(); //sobre esto aparecera el terminal para acabar el juego
-    objects.platforms.create(19500, 200, 'ground').setScale(0.1, 12).refreshBody();
-    objects.platforms.create(19100, 0, 'ground').setScale(3, 1).refreshBody();
+    objects.platforms.create(17000, 200, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17200, 125, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17500, 275, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17650, 370, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(17700, 175, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17850, 275, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(18150, 225, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(18250, 350, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(18475, 350, 'platform1').setScale(0.2, 7).refreshBody();
+    objects.platforms.create(18475, 50, 'platform1').setScale(0.2, 6).refreshBody();
+    objects.platforms.create(19100, 384, 'platform1').setScale(3, 1).refreshBody();
+    objects.platforms.create(18535, 350, 'platform1').setScale(0.1, 4).refreshBody();
+    objects.platforms.create(18750, 225, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(19050, 175, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(19400, 300, 'platform1').setScale(0.4, 6).refreshBody(); //sobre esto aparecera el terminal para acabar el juego
+    objects.platforms.create(19500, 200, 'platform1').setScale(0.1, 12).refreshBody();
+    objects.platforms.create(19100, 0, 'platform1').setScale(3, 1).refreshBody();
 
     //Plataformas del mundo 2
     objects.platforms.create(0, 834, 'ground').setScale(8.5, 1).refreshBody();
@@ -286,10 +289,10 @@ function create() {
     objects.platforms.create(1200, 680, 'ground').setScale(1.5, 1.1).refreshBody();
     objects.platforms.create(1650, 800, 'ground').setScale(0.2, 4).refreshBody();
     objects.platforms.create(1700, 760, 'ground').setScale(0.15, 8).refreshBody();
-    objects.platforms.create(1900, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(1900, 600, 'platform1').setScale(0.2, 1).refreshBody();
     objects.platforms.create(2100, 760, 'ground').setScale(0.2, 8).refreshBody();
     objects.platforms.create(2300, 834, 'ground').setScale(1, 1).refreshBody();
-    objects.platforms.create(2700, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(2700, 750, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(2900, 650, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.platforms.create(3100, 725, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(3180, 600, 'ground').setScale(0.6, 2).refreshBody();
@@ -297,7 +300,7 @@ function create() {
     objects.platforms.create(3690, 450, 'ground').setScale(3.15, 1).refreshBody();
     objects.platforms.create(4290, 500, 'ground').setScale(0.2, 5).refreshBody();
     objects.platforms.create(4290, 800, 'ground').setScale(0.2, 5).refreshBody();
-    objects.platforms.create(4600, 775, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(4600, 775, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(4700, 675, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.collapsable.create(5000, 700, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.collapsable.create(5275, 700, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
@@ -305,62 +308,62 @@ function create() {
     objects.platforms.create(6075, 750, 'ground').setScale(1.65, 8).refreshBody();
     objects.platforms.create(6075, 450, 'ground').setScale(1.65, 1).refreshBody();
     objects.platforms.create(6700, 800, 'ground').setScale(0.4, 6).refreshBody();
-    objects.platforms.create(6950, 625, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(7225, 625, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(7450, 775, 'ground').setScale(0.25, 1).refreshBody();
+    objects.platforms.create(6950, 625, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(7225, 625, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(7450, 775, 'platform1').setScale(0.25, 1).refreshBody();
     objects.collapsable.create(7600, 805, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(7775, 700, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(7775, 700, 'platform1').setScale(0.3, 1).refreshBody();
     objects.collapsable.create(7950, 805, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(8050, 585, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(8225, 775, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(8450, 834, 'ground').setScale(0.25, 1).refreshBody();
-    objects.platforms.create(8550, 675, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(8710, 775, 'ground').setScale(0.5, 1).refreshBody();
-    objects.platforms.create(8800, 625, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(9100, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(8050, 585, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(8225, 775, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8450, 834, 'platform1').setScale(0.25, 1).refreshBody();
+    objects.platforms.create(8550, 675, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(8710, 775, 'platform1').setScale(0.5, 1).refreshBody();
+    objects.platforms.create(8800, 625, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(9100, 750, 'platform1').setScale(0.2, 1).refreshBody();
     objects.platforms.create(9325, 800, 'ground').setScale(0.5, 8).refreshBody();
-    objects.platforms.create(9600, 750, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(9600, 750, 'platform1').setScale(0.2, 1).refreshBody();
     objects.platforms.create(9750, 675, 'ground').setScale(0.1, 1).refreshBody();
     objects.platforms.create(9900, 675, 'ground').setScale(0.1, 1).refreshBody();
-    objects.platforms.create(10100, 800, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(10350, 800, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(10550, 750, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(10100, 800, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(10350, 800, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(10550, 750, 'platform1').setScale(0.4, 1).refreshBody();
     objects.platforms.create(10750, 700, 'ground').setScale(0.1, 1).refreshBody();
     objects.collapsable.create(11000, 725, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(11150, 650, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11150, 650, 'platform1').setScale(0.2, 1).refreshBody();
     objects.platforms.create(11350, 600, 'ground').setScale(0.1, 1).refreshBody();
-    objects.platforms.create(11300, 834, 'ground').setScale(0.4, 2).refreshBody();
-    objects.platforms.create(11550, 600, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(11800, 700, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(12050, 800, 'ground').setScale(0.4, 1).refreshBody();
-    objects.platforms.create(12250, 700, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(12450, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11300, 834, 'platform1').setScale(0.4, 2).refreshBody();
+    objects.platforms.create(11550, 600, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(11800, 700, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(12050, 800, 'platform1').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(12250, 700, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(12450, 600, 'platform1').setScale(0.2, 1).refreshBody();
     objects.collapsable.create(12825, 834, 'collapsable').setScale(0.5, 1).refreshBody(); //Sesta aparece colapsando
     objects.platforms.create(13000, 550, 'ground').setScale(0.2, 9).refreshBody();
     objects.platforms.create(13250, 834, 'ground').setScale(2, 1).refreshBody();
     objects.platforms.create(13400, 800, 'ground').setScale(0.2, 4).refreshBody();
-    objects.platforms.create(13900, 725, 'ground').setScale(0.7, 1).refreshBody();
-    objects.platforms.create(14225, 650, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(13900, 725, 'platform1').setScale(0.7, 1).refreshBody();
+    objects.platforms.create(14225, 650, 'platform1').setScale(0.3, 1).refreshBody();
     objects.platforms.create(14400, 750, 'ground').setScale(0.1, 1).refreshBody();
     objects.platforms.create(14600, 675, 'ground').setScale(0.1, 1).refreshBody();
     objects.platforms.create(14800, 600, 'ground').setScale(0.1, 1).refreshBody();
-    objects.platforms.create(15150, 834, 'ground').setScale(0.6, 1).refreshBody();
+    objects.platforms.create(15150, 834, 'platform1').setScale(0.6, 1).refreshBody();
     objects.collapsable.create(15475, 750, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(15650, 675, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(15825, 650, 'ground').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(15650, 675, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(15825, 650, 'platform1').setScale(0.3, 1).refreshBody();
     objects.collapsable.create(16000, 740, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(16300, 780, 'ground').setScale(0.4, 1).refreshBody();
+    objects.platforms.create(16300, 780, 'platform1').setScale(0.4, 1).refreshBody();
     objects.collapsable.create(16300, 675, 'collapsable').setScale(0.2, 1).refreshBody(); //esta aparece colapsando
     objects.collapsable.create(16600, 625, 'collapsable').setScale(0.4, 1).refreshBody(); //esta aparece colapsando
-    objects.platforms.create(16850, 600, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17100, 725, 'ground').setScale(0.3, 1).refreshBody();
-    objects.platforms.create(17300, 650, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17450, 775, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17725, 834, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17900, 750, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(17750, 675, 'ground').setScale(0.2, 1).refreshBody();
-    objects.platforms.create(18050, 600, 'ground').setScale(0.6, 1).refreshBody();
-    objects.platforms.create(17550, 600, 'ground').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(16850, 600, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17100, 725, 'platform1').setScale(0.3, 1).refreshBody();
+    objects.platforms.create(17300, 650, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17450, 775, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17725, 834, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17900, 750, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(17750, 675, 'platform1').setScale(0.2, 1).refreshBody();
+    objects.platforms.create(18050, 600, 'platform1').setScale(0.6, 1).refreshBody();
+    objects.platforms.create(17550, 600, 'platform1').setScale(0.2, 1).refreshBody();
     objects.platforms.create(19050, 834, 'ground').setScale(3, 1).refreshBody();
     objects.platforms.create(18475, 550, 'ground').setScale(0.2, 8).refreshBody();
     objects.platforms.create(18625, 800, 'ground').setScale(0.2, 4).refreshBody();
@@ -371,14 +374,14 @@ function create() {
     objects.platforms.create(19100, 450, 'ground').setScale(3, 1).refreshBody();
 
     /*-----------------------------------------------------Sprites----------------------------------------------------------*/
-    
+
     /*-----------------------------------------------------MUNDO 1------------------------------------------------------------*/
     /*Suelo blanco del lab*/
     this.add.tileSprite(0, 370, 2500, 30, 'whiteLabGround').setOrigin(0, 0);
     this.add.tileSprite(4250, 370, 2150, 30, 'whiteLabGround').setOrigin(0, 0);
     this.add.tileSprite(7120, 370, 160, 30, 'whiteLabGround').setOrigin(0, 0);
     this.add.tileSprite(12740, 370, 2574, 30, 'whiteLabGround').setOrigin(0, 0);
-    this.add.tileSprite(18555, 370, 765, 30, 'whiteLabGround').setOrigin(0, 0);    
+    this.add.tileSprite(18555, 370, 765, 30, 'whiteLabGround').setOrigin(0, 0);
 
     /*Verticales*/
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.2, 1).setOrigin(0, 0);
@@ -387,7 +390,7 @@ function create() {
     this.add.tileSprite(6110, 225, 128, 76, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(12030, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(19330, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
-    
+
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
     this.add.tileSprite(360, 25, 16, 248, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     //this.add.tileSprite(915, 190, 16, 180, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
@@ -413,7 +416,7 @@ function create() {
     this.add.tileSprite(19320, 320, 16, 80, 'blackBeamV').setScale(1.68, 1).setOrigin(0, 0);
     this.add.tileSprite(19454.5, 320, 16, 80, 'blackBeamV').setScale(1.68, 1).setOrigin(0, 0);
     this.add.tileSprite(19385, 228, 16, 172, 'blackBeamV').setScale(1.68, 1).setOrigin(0, 0);
-    
+
     this.add.image(3059, 150, 'beamCross').setScale(0.85, 1).setOrigin(0, 0);
     this.add.image(6000, 305, 'beamCross').setScale(1.04, 1.01).setOrigin(0, 0);
     this.add.image(19320, 220, 'beamCross').setScale(1.68, 1.6).setOrigin(0, 0);
@@ -456,7 +459,7 @@ function create() {
     this.add.tileSprite(15150, 284, 64, 32, 'box').setScale(2.58, 2.7).setOrigin(0, 0);
     this.add.image(15235, 212, 'box').setScale(2.5, 2.6).setOrigin(0, 0);
 
-    this.add.image(885, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
+    /*this.add.image(885, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(1160, 234, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(1410, 209, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
     this.add.image(2860, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);
@@ -509,6 +512,7 @@ function create() {
     this.add.image(18190, 334, 'platform1').setScale(1.5, 2.3).setOrigin(0, 0);
     this.add.image(18670, 209, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
     this.add.image(18970, 159, 'platform1').setScale(2, 2.3).setOrigin(0, 0);
+    this.add.image(12385, 184, 'platform1').setScale(1, 2.3).setOrigin(0, 0);*/
 
     this.add.image(3059, 130, 'blackBeamH').setScale(1.28, 1.4).setOrigin(0, 0);
     this.add.tileSprite(4330, 251, 120, 32, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
@@ -553,12 +557,12 @@ function create() {
     this.add.tileSprite(3072, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
     this.add.tileSprite(12035, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
     this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
-    
+
     this.add.tileSprite(19400, 172, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
-    
+
     /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
-    
-    
+
+
     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
     //-----------------------Divisor de pantalla---------------------------
@@ -568,6 +572,8 @@ function create() {
 
     //adding physics to player
     player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
+
+    //adding physics
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
     widthPlayer = 5;
@@ -579,9 +585,9 @@ function create() {
     widthAmalgama = 40;
     heightAmalgama = 50;
     enemiesArray = this.physics.add.group();
-
+    enemiesQuantity = 30;
     //adding to a group
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < enemiesQuantity; i++) {
         enemie = this.physics.add.sprite(0, 0, 'AmalgamaRun');
         enemie.setBounce(0);
         enemie.body.setSize(widthAmalgama, heightAmalgama);
@@ -608,7 +614,21 @@ function create() {
     children[13].setPosition(17500, 235);
     children[14].setPosition(17600, 330);
     children[15].setPosition(17850, 235);
-    enemiesQuantity = 16;
+    children[16].setPosition(1550, 795);
+    children[17].setPosition(3800, 795);
+    children[18].setPosition(4000, 795);
+    children[19].setPosition(4300, 695);
+    children[20].setPosition(6950, 580);
+    children[21].setPosition(7750, 650);
+    children[22].setPosition(8800, 580);
+    children[23].setPosition(10100, 760);
+    children[24].setPosition(10600, 710);
+    children[25].setPosition(11800, 650);
+    children[26].setPosition(13900, 680);
+    children[27].setPosition(15200, 760);
+    children[28].setPosition(18000, 550);
+    children[29].setPosition(19800, 760);
+
     //setting velocity for each enemie
     velocityXEnemie = [];
     for (i = 0; i < enemiesArray.countActive(true); i++) {
@@ -616,6 +636,7 @@ function create() {
         enemiesArray.setVelocityX(velocityXEnemie[i]);
     }
     //invisible barriers
+    //World 1
     objects.invBar = this.physics.add.staticGroup();
     objects.invBar.create(4250, 300, 'ground').setScale(0.1, 4).refreshBody();
     objects.invBar.create(6500, 110, 'ground').setScale(0.1, 4).refreshBody();
@@ -636,6 +657,25 @@ function create() {
     objects.invBar.create(17750, 330, 'ground').setScale(0.1, 1).refreshBody();
     objects.invBar.create(17740, 235, 'ground').setScale(0.1, 1).refreshBody();
     objects.invBar.create(17925, 235, 'ground').setScale(0.1, 1).refreshBody();
+    //World 2
+    objects.invBar.create(6825, 586, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(7050, 586, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(7675, 661, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(7850, 661, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(8675, 586, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(8900, 586, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(10000, 761, 'ground').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(10175, 761, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(10425, 711, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(10650, 711, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(11700, 661, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(11875, 661, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(13710, 686, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(14050, 686, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(15000, 795, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(15275, 795, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(17900, 561, 'platform1').setScale(0.1, 1).refreshBody();
+    objects.invBar.create(18175, 561, 'platform1').setScale(0.1, 1).refreshBody();
     objects.invBar.setVisible(false);
 
     //adding collissions enviroment and invisible walls
@@ -698,7 +738,7 @@ function create() {
     //enemies booleans
     EnemieDead = false;
     //collision player-enemies
-    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer);
+    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer, null, this);
     timerInitiated = false;
 }
 
