@@ -699,6 +699,7 @@ function create() {
     //collision player-enemies
     playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer);
     timerInitiated = false;
+    collapseTimer = false;
 }
 
 function createAnims() {
@@ -781,6 +782,7 @@ function createAnims() {
 function update() {
 
     //console.log(player.x + ", " + player.y);
+    console.log(collapseTimer);
 
     switch (playerState) {
         case playerStateList["idle"]:
@@ -814,10 +816,10 @@ function update() {
     //Collapse code
     if(controls.collapseKey.isDown){
       collapsablePlats.active = true;
-    }
-
-    if(controls.collapseKey.isUp){
-      collapsablePlats.active = false;
+      if(collapseTimer === false){
+        collapseEvent = this.time.delayedCall(15000, removeCollapse);
+        collapseTimer = true;
+      }
     }
 
     if(!warp){
@@ -1186,6 +1188,11 @@ function KillPlayer() {
             children[i].body.setVelocityX(velocityXEnemie[i]);
 }
 
+function removeCollapse(){
+  collapsablePlats.active = false;
+  collapseTimer = false;
+  collapseEvent.remove();
+}
 
 function enableColisionPlayer() {
     colisionPlayer = true;
