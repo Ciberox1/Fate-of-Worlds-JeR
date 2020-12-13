@@ -571,7 +571,7 @@ function create() {
 
 
     //adding physics to player
-    player = this.physics.add.sprite(18000, 500, 'Mario1idle').setScale(1.25);
+    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
     //adding physics
     this.physics.add.collider(player, objects.platforms);
@@ -738,7 +738,7 @@ function create() {
     //enemies booleans
     EnemieDead = false;
     //collision player-enemies
-    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer(this), null, this);
+    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer, null, this);
     timerInitiated = false;
 }
 
@@ -1193,14 +1193,14 @@ function changeDirectionEnemie() {
     // console.log(children[8].body.velocity.x);
 }
 
-function KillPlayer(that) {
+function KillPlayer() {
     // console.log("mata");
     colisionPlayer = false;
     if (hearts.countActive(true) == 1) {
         playerState = playerStateList["movingLeft"];
         game.registry.destroy();
         game.events.off();
-        that.scene.restart();
+        this.scene.restart();
     }
     hearts.remove(hearts.getFirstAlive(), true);
     for (i = 0; i < enemiesQuantity; i++)
