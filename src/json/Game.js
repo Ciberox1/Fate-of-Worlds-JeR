@@ -52,9 +52,8 @@ var camera1, camera2, camera3;
 
 function preload() {
 
-
-    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo.png');
-    this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png');
+    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo.png');
+    this.load.image('lab2', '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo2R.png')
 
     this.load.image('ground', '../../assets/Images/Test/platform.png');
     this.load.image('collapsable', '../../assets/Images/Enviroment/Subway/Plataforma horizontal colapsable2.png');
@@ -389,6 +388,7 @@ function create() {
     this.add.tileSprite(6013, 300, 32, 37, 'metalPlate').setScale(2.3, 1.9).setOrigin(0, 0);
     this.add.tileSprite(6110, 225, 128, 76, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(12030, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
+
     this.add.tileSprite(19330, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
 
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
@@ -409,6 +409,7 @@ function create() {
     this.add.tileSprite(12164, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
     this.add.tileSprite(12090, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
     this.add.tileSprite(12960, 0, 32, 245, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+
     this.add.tileSprite(18435, 0, 32, 147, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     this.add.tileSprite(18435, 258, 32, 147, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     this.add.tileSprite(18515, 305, 16, 95, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
@@ -423,6 +424,7 @@ function create() {
 
     /*Techos*/
     this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
+
     this.add.tileSprite(18515, 0, 430, 16, 'blackBeamH').setScale(2.3, 1).setOrigin(0, 0);
 
     /*Diagonales*/
@@ -571,9 +573,9 @@ function create() {
 
 
     //adding physics to player
+  
     player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
-    //adding physics
     this.physics.add.collider(player, objects.platforms);
     this.physics.add.collider(player, objects.collapsable);
     widthPlayer = 5;
