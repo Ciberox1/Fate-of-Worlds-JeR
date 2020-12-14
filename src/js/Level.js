@@ -33,9 +33,9 @@ class Level extends Phaser.Scene {
       warp = false;
 
       this.add.tileSprite(400, 200, 24000, 400, 'lab');
-      var lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
+      lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
       this.add.tileSprite(400, 650, 24000, 400, 'lab2');
-      var lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
+      lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
       tween = this.tweens.addCounter({
           from: 1,
           to: 2,
@@ -384,7 +384,7 @@ class Level extends Phaser.Scene {
 
 
     //adding physics to player
-    player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
+    player = this.physics.add.sprite(100, 500, 'Mario1idle').setScale(1.25);
 
     this.physics.add.collider(player, objects.platforms);
     collapsablePlats = this.physics.add.collider(player, objects.collapsable);
@@ -619,6 +619,8 @@ class Level extends Phaser.Scene {
 
   update() {
 
+    console.log(collapseTimer);
+
       switch (playerState) {
           case playerStateList["idle"]:
               Idle();
@@ -645,6 +647,9 @@ class Level extends Phaser.Scene {
       //Collapse code
       if(controls.collapseKey.isDown){
         collapsablePlats.active = true;
+        for(let i = 0; i < objects.collapsable.children.entries.length; i++){
+          objects.collapsable.children.entries[i].setTexture('platform1');
+        }
         if(collapseTimer === false){
           var collapseEvent = this.time.delayedCall(15000, removeCollapse);
           collapseTimer = true;
@@ -941,6 +946,9 @@ class Level extends Phaser.Scene {
 
       function removeCollapse(){
         collapsablePlats.active = false;
+        for(let i = 0; i < objects.collapsable.children.entries.length; i++){
+          objects.collapsable.children.entries[i].setTexture('collapsable');
+        }
         collapseTimer = false;
         collapseEvent.remove();
       }
