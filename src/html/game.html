@@ -67,6 +67,7 @@
       }
       var colisionPlayer = true;
       var tween;
+      var playerDead=false;
 
       //shooting booleans
       var bala;
@@ -119,11 +120,8 @@
           player.alpha = 0.5;
           colisionPlayer = false;
           if (hearts.countActive(true) == 1) {
-              playerState = playerStateList["movingRight"];
-              this.registry.destroy();
-              this.events.off();
-              this.scene.start('MainMenu');
-              this.game.sound.stopAll();
+              playerDead=true;
+              colisionPlayer=true;
           }
           hearts.remove(hearts.getFirstAlive(), true);
           for (i = 0; i < enemiesQuantity; i++)
