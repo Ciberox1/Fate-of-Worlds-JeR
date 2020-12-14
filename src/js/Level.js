@@ -27,6 +27,7 @@ class Level extends Phaser.Scene {
              'right': Phaser.Input.Keyboard.KeyCodes.D
          });
      }
+      
   }
 
   create() {
@@ -384,7 +385,7 @@ class Level extends Phaser.Scene {
 
 
     //adding physics to player
-    player = this.physics.add.sprite(100, 500, 'Mario1idle').setScale(1.25);
+    player = this.physics.add.sprite(100, 700, 'Mario1idle').setScale(1.25);
 
     this.physics.add.collider(player, objects.platforms);
     collapsablePlats = this.physics.add.collider(player, objects.collapsable);
@@ -537,6 +538,15 @@ class Level extends Phaser.Scene {
 
     //collision player-enemies
     playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer, null, this);
+      
+    //adding sound
+      soundBackground=this.sound.add('BackgroundSound',{volume: 0.10});
+      soundShoot= this.sound.add('shootSound');
+      soundHit= this.sound.add('hitSound');
+      soundDeathAmalgama=this.sound.add('AmalgamaDeathSound');
+      soundCollapse=this.sound.add('CollapseSound');
+      soundJump=this.sound.add('JumpSound');
+      soundBackground.play();
 
     function createAnims() {
 
@@ -646,6 +656,7 @@ class Level extends Phaser.Scene {
 
       //Collapse code
       if(controls.collapseKey.isDown){
+        soundCollapse.play();
         collapsablePlats.active = true;
         for(let i = 0; i < objects.collapsable.children.entries.length; i++){
           objects.collapsable.children.entries[i].setTexture('platform1');
@@ -676,19 +687,21 @@ class Level extends Phaser.Scene {
 
       // Muerte por caida (jugador 1)
       if (player.y > 850) {
-          playerState = playerStateList["movingLeft"];
+          playerState = playerStateList["movingRight"];
           this.registry.destroy();
           this.events.off();
           this.scene.start('MainMenu');
+          this.sound.stopAll();
       }
 
       // sirve para originar la bala dependiendo de hacia donde mire el personaje
       if (balaDisparada == true) {
+          soundShoot.play();
           if (ShootDirection == "right") {
-              bala = this.physics.add.sprite(player.body.position.x + 30, player.body.position.y + heightPlayer / 2 - 5, 'bala');
+              bala = this.physics.add.sprite(player.body.position.x + 30, player.body.position.y + heightPlayer / 2+2, 'bala');
               this.physics.add.collider(bala, objects.platforms, Killbala);
           } else if (ShootDirection == "left") {
-              bala = this.physics.add.sprite(player.body.position.x - 30, player.body.position.y + heightPlayer / 2 - 5, 'bala');
+              bala = this.physics.add.sprite(player.body.position.x - 30, player.body.position.y + heightPlayer / 2+2, 'bala');
               this.physics.add.collider(bala, objects.platforms, Killbala);
           }
           bala.setGravityY(-490);
@@ -852,6 +865,7 @@ class Level extends Phaser.Scene {
           if (controls.cursors.up.isDown && player.body.touching.down) {
               player.anims.play('Mario1JumpStart', true);
               playerState = playerStateList["jumping"];
+              soundJump.play();
           }
 
           /**/
@@ -928,6 +942,7 @@ class Level extends Phaser.Scene {
       }
 
       function KillEnemie() {
+          soundDeathAmalgama.play();
           var i = 0;
           while (i < enemiesQuantity && children[i] != undefined) {
               if (Math.abs(Phaser.Math.Distance.Between(bala.body.position.x, bala.body.position.y,
