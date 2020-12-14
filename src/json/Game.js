@@ -30,7 +30,8 @@ var controls = {
     cursors: '',
     gunKey: '',
     interactKey: '',
-    dropKey: ''
+    dropKey: '',
+    collapseKey: ''
 };
 var playerState = 'idle';
 var playerStateList = {
@@ -46,15 +47,16 @@ var playerStateList = {
 }
 var warp = false;
 var collapse;
+var collapsablePlats;
+
 var game = new Phaser.Game(config);
 
 var camera1, camera2, camera3;
 
 function preload() {
 
-
-    this.load.image('lab', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo.png');
-    this.load.image('lab2', '../../assets/Images/Enviroment/Labtileset/Backgrounds/fondo2R.png');
+    this.load.image('lab', '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo.png');
+    this.load.image('lab2', '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo2R.png')
 
     this.load.image('ground', '../../assets/Images/Test/platform.png');
     this.load.image('collapsable', '../../assets/Images/Enviroment/Subway/Plataforma horizontal colapsable2.png');
@@ -146,6 +148,7 @@ function preload() {
         controls.interactKey = this.input.keyboard.addKey('E');
         controls.gunKey = this.input.keyboard.addKey('W');
         controls.dropKey = this.input.keyboard.addKey('Q');
+        controls.collapseKey = this.input.keyboard.addKey('SPACE');
         controls.cursors = this.input.keyboard.createCursorKeys();
     } else {
         //These are WASD controls
@@ -153,6 +156,7 @@ function preload() {
         controls.interactKey = this.input.keyboard.addKey('K');
         controls.gunKey = this.input.keyboard.addKey('J');
         controls.dropKey = this.input.keyboard.addKey('L');
+        controls.collapseKey = this.input.keyboard.addKey('SPACE');
         controls.cursors = this.input.keyboard.addKeys({
             'up': Phaser.Input.Keyboard.KeyCodes.W,
             'down': Phaser.Input.Keyboard.KeyCodes.S,
@@ -170,14 +174,7 @@ function create() {
     lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
     this.add.tileSprite(400, 650, 24000, 400, 'lab2');
     lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
-    tween = this.tweens.addCounter({
-        from: 1,
-        to: 2,
-        duration: 5000,
-        ease: 'Sine.easeInOut',
-        yoyo: true,
-        repeat: -1
-    });
+
     // Plataformas y muros del mundo de arriba
     objects.platforms = this.physics.add.staticGroup();
     objects.collapsable = this.physics.add.staticGroup();
@@ -389,6 +386,7 @@ function create() {
     this.add.tileSprite(6013, 300, 32, 37, 'metalPlate').setScale(2.3, 1.9).setOrigin(0, 0);
     this.add.tileSprite(6110, 225, 128, 76, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
     this.add.tileSprite(12030, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
+
     this.add.tileSprite(19330, 210, 64, 100, 'metalPlate').setScale(2.2, 1.9).setOrigin(0, 0);
 
     this.add.tileSprite(0, 25, 16, 350, 'blackBeamV').setScale(1.3, 1).setOrigin(0, 0);
@@ -409,6 +407,7 @@ function create() {
     this.add.tileSprite(12164, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
     this.add.tileSprite(12090, 212, 16, 188, 'blackBeamV').setOrigin(0, 0);
     this.add.tileSprite(12960, 0, 32, 245, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
+
     this.add.tileSprite(18435, 0, 32, 147, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     this.add.tileSprite(18435, 258, 32, 147, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
     this.add.tileSprite(18515, 305, 16, 95, 'blackBeamV').setScale(2.5, 1).setOrigin(0, 0);
@@ -423,6 +422,7 @@ function create() {
 
     /*Techos*/
     this.add.tileSprite(0, 0, 430, 16, 'blackBeamH').setScale(1, 1.6).setOrigin(0, 0);
+
     this.add.tileSprite(18515, 0, 430, 16, 'blackBeamH').setScale(2.3, 1).setOrigin(0, 0);
 
     /*Diagonales*/
@@ -571,11 +571,12 @@ function create() {
 
 
     //adding physics to player
+  
     player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
-    //adding physics
     this.physics.add.collider(player, objects.platforms);
-    this.physics.add.collider(player, objects.collapsable);
+    collapsablePlats = this.physics.add.collider(player, objects.collapsable);
+    collapsablePlats.active = false;
     widthPlayer = 5;
     heightPlayer = 36;
 
@@ -740,6 +741,7 @@ function create() {
     //collision player-enemies
     playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer, null, this);
     timerInitiated = false;
+    collapseTimer = false;
 }
 
 function createAnims() {
@@ -821,7 +823,8 @@ function createAnims() {
 
 function update() {
 
-    console.log(player.x + ", " + player.y);
+    //console.log(player.x + ", " + player.y);
+    console.log(collapseTimer);
 
     switch (playerState) {
         case playerStateList["idle"]:
@@ -852,13 +855,32 @@ function update() {
 
     }
 
+    //Collapse code
+    if(controls.collapseKey.isDown){
+      collapsablePlats.active = true;
+      if(collapseTimer === false){
+        collapseEvent = this.time.delayedCall(15000, removeCollapse);
+        collapseTimer = true;
+      }
+    }
+
+    if(!warp){
+      tween = this.tweens.addCounter({
+          from: 1,
+          to: 2,
+          duration: 5000,
+          ease: ('Sine.easeInOut'),
+          yoyo: true,
+          repeat: -1
+      });
+    }
     if (player.x >= 13000)
         warp = true;
+
     if (warp) {
         lab.tileScaleX = tween.getValue();
         lab2.tileScaleX = tween.getValue();
     }
-
 
     // Muerte por caida (jugador 1)
     if (player.y > 850) {
@@ -1208,6 +1230,11 @@ function KillPlayer() {
             children[i].body.setVelocityX(velocityXEnemie[i]);
 }
 
+function removeCollapse(){
+  collapsablePlats.active = false;
+  collapseTimer = false;
+  collapseEvent.remove();
+}
 
 function enableColisionPlayer() {
     colisionPlayer = true;
