@@ -1,23 +1,143 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
+  <head>
+      <meta charset="utf-8">
+      <title>Fate of Worlds</title>
+      <style media="screen">
+          * {
+              margin: 0;
+              padding: 0;
+          }
 
-<head>
-    <meta charset="utf-8">
-    <title>Fate of Worlds</title>
-    <style media="screen">
-        * {
-            margin: 0;
-            padding: 0;
+      </style>
+  </head>
+
+  <body>
+      <script src="../../src/js/phaser.js"></script>
+      <script src="../../src/js/Preloader.js"></script>
+      <script src="../../src/js/MainMenu.js"></script>
+      <script src="../../src/js/Level.js"></script>
+
+      <script type="text/javascript">
+
+      var config = {
+          type: Phaser.AUTO,
+          parent: 'phaser-example',
+          width: 1200,
+          height: 850,
+          physics: {
+              default: 'arcade',
+              arcade: {
+                  gravity: {
+                      y: 490
+                  },
+                  debug: false
+              }
+          },
+          scene: [MainMenu, Preloader, Level]
+      };
+
+      var objects = {
+          platforms: '',
+          collapsable:'',
+          bullets: ''
+      };
+      var controls = {
+          cursors: '',
+          gunKey: '',
+          interactKey: '',
+          dropKey: ''
+      };
+      var player;
+      var widthPlayer;
+      var heightPlayer;
+      var playerCollidesEnemies;
+      var hearts;
+      var playerState = 'idle';
+      var playerStateList = {
+          idle: 'idle',
+          movingLeft: 'left',
+          movingRight: 'right',
+          canJump: 'canJump',
+          jumping: 'jumping',
+          shooting: 'shooting',
+          crouching: 'crouching',
+          crouched: 'crouched',
+          gettingUp: 'getUp'
+      }
+      var colisionPlayer = true;
+      var tween;
+
+      //shooting booleans
+      var bala;
+      var balaActiva = false;
+      var balaDisparada = false;
+      var ShootDirection = "";
+      var canShoot = true;
+
+      //Enemies Variables
+      var enemiesArray;
+      var widthAmalgama;
+      var heightAmalgama;
+      var children = [];
+      var enemiesQuantity = 30;
+      var velocityXEnemie = [];
+      var EnemieDead = false;
+      var timerInitiated = false;
+      var timedEvent;
+
+      //Global Function
+      function changeDirectionEnemie() {
+        //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
+        for (i = 0; i < enemiesQuantity; i++) {
+            if (children[i] != undefined && children[i].body.touching.left && children[i].flipX == false) {
+                //  console.log(children[i].body.velocity.x);
+                //  console.log(velocityXEnemie[8]);
+                velocityXEnemie[i] = -velocityXEnemie[i];
+                children[i].body.velocity.x = velocityXEnemie[i];
+                children[i].flipX = true;
+                //  console.log("toca izquierda" + i );
+                // console.log(children[i].body.velocity.x);
+            }
+            if (children[i] != undefined && children[i].body.touching.right && children[i].flipX == true) {
+                // console.log("toca derecha" + i);
+                velocityXEnemie[i] = -velocityXEnemie[i];
+                children[i].body.velocity.x = velocityXEnemie[i];
+                children[i].flipX = false;
+            }
         }
+        // console.log(children[8].body.velocity.x);
+      }
 
-    </style>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
-</head>
+      function KillPlayer() {
+          // console.log("mata");
+          colisionPlayer = false;
+          if (hearts.countActive(true) == 1) {
+              playerState = playerStateList["movingLeft"];
+              game.registry.destroy();
+              game.events.off();
+              this.scene.start('MainMenu');
+          }
+          hearts.remove(hearts.getFirstAlive(), true);
+          for (i = 0; i < enemiesQuantity; i++)
+              if (children[i] != undefined)
+                  children[i].body.setVelocityX(velocityXEnemie[i]);
+      }
 
-<body>
-    <script type="text/javascript" src="../json/Game.js">
+      function enableColisionPlayer() {
+          colisionPlayer = true;
+          console.log("ya puedes morir");
+          timedEvent.remove();
+      }
 
-    </script>
-</body>
+      var warp = false;
+      var collapse;
+      var collapsablePlats;
+      var collapseTimer = false;
+      var camera1, camera2, camera3;
 
+      var game = new Phaser.Game(config);
+
+      </script>
+  </body>
 </html>
