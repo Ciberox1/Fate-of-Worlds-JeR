@@ -571,7 +571,7 @@ function create() {
 
 
     //adding physics to player
-  
+
     player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
     this.physics.add.collider(player, objects.platforms);
@@ -858,6 +858,9 @@ function update() {
     //Collapse code
     if(controls.collapseKey.isDown){
       collapsablePlats.active = true;
+      for(let i = 0; i < objects.collapsable.children.entries.length; i++){
+        objects.collapsable.children.entries[i].setTexture('platform1');
+      }
       if(collapseTimer === false){
         collapseEvent = this.time.delayedCall(15000, removeCollapse);
         collapseTimer = true;
@@ -1232,6 +1235,9 @@ function KillPlayer() {
 
 function removeCollapse(){
   collapsablePlats.active = false;
+  for(let i = 0; i < objects.collapsable.children.entries.length; i++){
+    objects.collapsable.children.entries[i].setTexture('collapsable');
+  }
   collapseTimer = false;
   collapseEvent.remove();
 }
