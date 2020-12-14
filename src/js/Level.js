@@ -537,7 +537,7 @@ class Level extends Phaser.Scene {
     enemiesArray.playAnimation('AmalgamaRun');
 
     //collision player-enemies
-    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer, null, this);
+    playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer);
       
     //adding sound
       soundBackground=this.sound.add('BackgroundSound',{volume: 0.10});
@@ -628,9 +628,7 @@ class Level extends Phaser.Scene {
   }
 
   update() {
-
-    console.log(collapseTimer);
-
+      
       switch (playerState) {
           case playerStateList["idle"]:
               Idle();
@@ -687,11 +685,11 @@ class Level extends Phaser.Scene {
 
       // Muerte por caida (jugador 1)
       if (player.y > 850) {
-          playerState = playerStateList["movingRight"];
-          this.registry.destroy();
-          this.events.off();
-          this.scene.start('MainMenu');
-          this.sound.stopAll();
+          playerDead=true;
+      }
+      
+      if(playerDead==true){
+          GameOver(this.scene);
       }
 
       // sirve para originar la bala dependiendo de hacia donde mire el personaje
@@ -966,6 +964,14 @@ class Level extends Phaser.Scene {
         }
         collapseTimer = false;
         collapseEvent.remove();
+      }
+      function GameOver(scene){
+              playerState = playerStateList["movingRight"];
+              game.registry.destroy();
+              game.events.off();
+              scene.start('MainMenu');
+              game.sound.stopAll();
+              playerDead=false;
       }
   }
 }
