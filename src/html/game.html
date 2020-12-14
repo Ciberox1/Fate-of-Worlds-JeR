@@ -85,7 +85,12 @@
       var EnemieDead = false;
       var timerInitiated = false;
       var timedEvent;
-
+      var soundShoot;
+      var soundHit;
+      var soundDeathAmalgama;
+      var soundJump;
+      var soundCollapse;
+      var soundBackground;
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
@@ -110,13 +115,15 @@
       }
 
       function KillPlayer() {
-          // console.log("mata");
+          soundHit.play();
+          player.alpha = 0.5;
           colisionPlayer = false;
           if (hearts.countActive(true) == 1) {
-              playerState = playerStateList["movingLeft"];
-              game.registry.destroy();
-              game.events.off();
+              playerState = playerStateList["movingRight"];
+              this.registry.destroy();
+              this.events.off();
               this.scene.start('MainMenu');
+              this.game.sound.stopAll();
           }
           hearts.remove(hearts.getFirstAlive(), true);
           for (i = 0; i < enemiesQuantity; i++)
@@ -125,6 +132,7 @@
       }
 
       function enableColisionPlayer() {
+          player.alpha = 1;
           colisionPlayer = true;
           console.log("ya puedes morir");
           timedEvent.remove();
