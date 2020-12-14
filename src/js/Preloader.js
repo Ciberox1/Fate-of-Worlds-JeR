@@ -9,7 +9,7 @@ class Preloader extends Phaser.Scene {
       var progressBar = this.add.graphics();
       var progressBox = this.add.graphics();
       progressBox.fillStyle(0x222222, 0.8);
-      progressBox.fillRect(230, 395, 320, 50);
+      progressBox.fillRect(430, 395, 320, 50);
 
       var width = this.cameras.main.width;
       var height = this.cameras.main.height;
@@ -38,7 +38,7 @@ class Preloader extends Phaser.Scene {
       this.load.on('progress', function (value) {
         progressBar.clear();
         progressBar.fillStyle(0xffffff, 1);
-        progressBar.fillRect(240, 405, 300 * value, 30);
+        progressBar.fillRect(440, 405, 300 * value, 30);
         percentText.setText(parseInt(value * 100) + '%');
       });
 

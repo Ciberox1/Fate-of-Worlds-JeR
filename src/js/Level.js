@@ -377,58 +377,7 @@ class Level extends Phaser.Scene {
 
       /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
 
-
       /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
-
-     this.add.image(3059, 130, 'blackBeamH').setScale(1.28, 1.4).setOrigin(0, 0);
-     this.add.tileSprite(4330, 251, 120, 32, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(6000, 286, 100, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(6100, 202, 300, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(12020, 188, 160, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(18435, 234, 80, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(18435, 234, 80, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(18515, 284, 40, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-     this.add.tileSprite(19320, 204, 161, 16, 'blackBeamH').setScale(1, 1.5).setOrigin(0, 0);
-
-     /*Decoraciones*/
-     this.add.image(150, 25, 'wires').setScale(1.5, 1.5).setOrigin(0, 0);
-
-     this.add.image(135, 25, 'lamp1').setScale(1.5, 1.5).setOrigin(0, 0);
-     this.add.image(213, 25, 'lamp1').setScale(1.5, 1.5).setOrigin(0, 0);
-
-     this.add.image(370, 280, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(2080, 280, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(4350, 310, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(5780, 270, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(12980, 270, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(18460, 160, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-
-     this.add.image(158, 255, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(288, 255, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(3090, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(6200, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(6275, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(12050, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(12125, 250, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(18442, 265, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(18482, 265, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-
-     this.add.image(2480, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(4250, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(6380, 182, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(7120, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(7265, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-     this.add.image(12740, 350, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-
-     this.add.tileSprite(3072, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
-     this.add.tileSprite(12035, 300, 56, 32, 'vPipe').setScale(1, 1).setOrigin(0, 0);
-     this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
-
-     this.add.tileSprite(19400, 172, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
-
-     /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
-
-     /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
     //-----------------------Divisor de pantalla---------------------------
     this.add.tileSprite(0, 400, 160, 16, 'blackBeamH').setScale(12.5, 3.2).setOrigin(0, 0);
@@ -795,7 +744,7 @@ class Level extends Phaser.Scene {
           // console.log("ahora mismo no puedes morir");
           playerCollidesEnemies.active = false;
           if (timerInitiated == false) {
-              timedEvent = this.time.delayedCall(5000, enableColisionPlayer, this, false);
+              timedEvent = this.time.delayedCall(1000, enableColisionPlayer, this, false);
               timerInitiated = true;
           }
       }
