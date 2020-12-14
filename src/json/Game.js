@@ -30,7 +30,8 @@ var controls = {
     cursors: '',
     gunKey: '',
     interactKey: '',
-    dropKey: ''
+    dropKey: '',
+    collapseKey: ''
 };
 var playerState = 'idle';
 var playerStateList = {
@@ -46,6 +47,8 @@ var playerStateList = {
 }
 var warp = false;
 var collapse;
+var collapsablePlats;
+
 var game = new Phaser.Game(config);
 
 var camera1, camera2, camera3;
@@ -145,6 +148,7 @@ function preload() {
         controls.interactKey = this.input.keyboard.addKey('E');
         controls.gunKey = this.input.keyboard.addKey('W');
         controls.dropKey = this.input.keyboard.addKey('Q');
+        controls.collapseKey = this.input.keyboard.addKey('SPACE');
         controls.cursors = this.input.keyboard.createCursorKeys();
     } else {
         //These are WASD controls
@@ -152,6 +156,7 @@ function preload() {
         controls.interactKey = this.input.keyboard.addKey('K');
         controls.gunKey = this.input.keyboard.addKey('J');
         controls.dropKey = this.input.keyboard.addKey('L');
+        controls.collapseKey = this.input.keyboard.addKey('SPACE');
         controls.cursors = this.input.keyboard.addKeys({
             'up': Phaser.Input.Keyboard.KeyCodes.W,
             'down': Phaser.Input.Keyboard.KeyCodes.S,
@@ -169,14 +174,7 @@ function create() {
     lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
     this.add.tileSprite(400, 650, 24000, 400, 'lab2');
     lab2 = this.add.tileSprite(12400, 650, 16000, 400, 'lab2');
-    tween = this.tweens.addCounter({
-        from: 1,
-        to: 2,
-        duration: 5000,
-        ease: 'Sine.easeInOut',
-        yoyo: true,
-        repeat: -1
-    });
+
     // Plataformas y muros del mundo de arriba
     objects.platforms = this.physics.add.staticGroup();
     objects.collapsable = this.physics.add.staticGroup();
@@ -577,7 +575,8 @@ function create() {
     player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
     this.physics.add.collider(player, objects.platforms);
-    this.physics.add.collider(player, objects.collapsable);
+    collapsablePlats = this.physics.add.collider(player, objects.collapsable);
+    collapsablePlats.active = false;
     widthPlayer = 5;
     heightPlayer = 36;
 
@@ -742,6 +741,7 @@ function create() {
     //collision player-enemies
     playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer, null, this);
     timerInitiated = false;
+    collapseTimer = false;
 }
 
 function createAnims() {
@@ -823,7 +823,8 @@ function createAnims() {
 
 function update() {
 
-    console.log(player.x + ", " + player.y);
+    //console.log(player.x + ", " + player.y);
+    console.log(collapseTimer);
 
     switch (playerState) {
         case playerStateList["idle"]:
@@ -854,13 +855,32 @@ function update() {
 
     }
 
+    //Collapse code
+    if(controls.collapseKey.isDown){
+      collapsablePlats.active = true;
+      if(collapseTimer === false){
+        collapseEvent = this.time.delayedCall(15000, removeCollapse);
+        collapseTimer = true;
+      }
+    }
+
+    if(!warp){
+      tween = this.tweens.addCounter({
+          from: 1,
+          to: 2,
+          duration: 5000,
+          ease: ('Sine.easeInOut'),
+          yoyo: true,
+          repeat: -1
+      });
+    }
     if (player.x >= 13000)
         warp = true;
+
     if (warp) {
         lab.tileScaleX = tween.getValue();
         lab2.tileScaleX = tween.getValue();
     }
-
 
     // Muerte por caida (jugador 1)
     if (player.y > 850) {
@@ -1210,6 +1230,11 @@ function KillPlayer() {
             children[i].body.setVelocityX(velocityXEnemie[i]);
 }
 
+function removeCollapse(){
+  collapsablePlats.active = false;
+  collapseTimer = false;
+  collapseEvent.remove();
+}
 
 function enableColisionPlayer() {
     colisionPlayer = true;
