@@ -118,6 +118,24 @@ class Preloader extends Phaser.Scene {
                 frameWidth: 64,
                 frameHeight: 64
         });
+    this.load.audio('shootSound', [
+        '../../assets/Music/shoot.wav'
+        ]);
+    this.load.audio('hitSound', [
+        '../../assets/Music/hit.mp3'
+        ]);
+      this.load.audio('JumpSound', [
+        '../../assets/Music/jump.ogg'
+        ]);
+      this.load.audio('AmalgamaDeathSound', [
+        '../../assets/Music/deathAmalgama.wav'
+        ]);
+      this.load.audio('CollapseSound', [
+        '../../assets/Music/teleport.mp3'
+        ]);
+      this.load.audio('BackgroundSound', [
+        '../../assets/Music/LabBackground.mp3'
+        ]);
 
     for (var i = 0; i < 50; i++) {
       this.load.image('car'+i, '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo.png');
