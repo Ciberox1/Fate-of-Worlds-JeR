@@ -16,6 +16,7 @@
       <script src="../../src/js/phaser.js"></script>
       <script src="../../src/js/Preloader.js"></script>
       <script src="../../src/js/MainMenu.js"></script>
+      <script src="../../src/js/OptionsMenu.js"></script>
       <script src="../../src/js/Level.js"></script>
 
       <script type="text/javascript">
@@ -34,7 +35,7 @@
                   debug: false
               }
           },
-          scene: [MainMenu, Preloader, Level]
+          scene: [MainMenu, Preloader, OptionsMenu, Level]
       };
 
       var objects = {
@@ -46,7 +47,8 @@
           cursors: '',
           gunKey: '',
           interactKey: '',
-          dropKey: ''
+          dropKey: '',
+          continueKey: ''
       };
       var player;
       var widthPlayer;

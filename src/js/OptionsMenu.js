@@ -1,28 +1,19 @@
-class MainMenu extends Phaser.Scene {
+class OptionsMenu extends Phaser.Scene {
   constructor() {
-    super({ key: 'MainMenu' });
+    super({ key: 'OptionsMenu' });
   }
 
   preload(){
 
     //Assets del MainMenu
     this.load.image("fondo" , "../../assets/Images/Enviroment/Lab/Fondo laboratorio infinito.png");
-    this.load.image("title" , "../../assets/Images/Menu/Título.png")
-    this.load.image("play" , "../../assets/Images/Menu/play_button.png");
-    this.load.image("Hplay" , "../../assets/Images/Menu/Hplay_button.png");
-    this.load.image("options" , "../../assets/Images/Menu/options_button.png");
-    this.load.image("Hoptions" , "../../assets/Images/Menu/Hoptions_button.png");
 
   }
 
   create() {
     this.add.image(0,0, "fondo").setOrigin(0).setDepth(0);
 
-    var title = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 - 50, "title").setDepth(1);
-
-    title.setScale(3,2);
-
-    let playButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 150, "play").setDepth(1);
+    /*let playButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 100, "play").setDepth(1);
 
     playButton.setScale(2);
 
@@ -31,7 +22,7 @@ class MainMenu extends Phaser.Scene {
     HplayButton.setScale(2);
     HplayButton.setVisible(false);
 
-    let optionsButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 250, "options").setDepth(1);
+    let optionsButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 200, "options").setDepth(1);
 
     optionsButton.setScale(2);
 
@@ -69,7 +60,7 @@ class MainMenu extends Phaser.Scene {
     })
 
     optionsButton.on("pointerup",()=>{
-      this.scene.start('OptionsMenu');
-    })
+      console.log("hola");
+    })*/
   }
 }
