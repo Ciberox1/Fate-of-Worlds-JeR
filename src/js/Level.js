@@ -1406,6 +1406,9 @@ class Level extends Phaser.Scene {
 
         function GameOver(scene) {
             playerState1 = playerStateList["movingRight"];
+            playerState2 = playerStateList["movingRight"];
+            balaActiva1 = false;
+            balaActiva2 = false;
             game.registry.destroy();
             game.events.off();
             scene.start('MainMenu');
