@@ -680,6 +680,7 @@ class Level extends Phaser.Scene {
         soundDeathAmalgama = this.sound.add('AmalgamaDeathSound');
         soundCollapse = this.sound.add('CollapseSound');
         soundJump = this.sound.add('JumpSound');
+        soundBackground.loop = true;
         soundBackground.play();
 
         function createAnims() {
@@ -807,8 +808,6 @@ class Level extends Phaser.Scene {
     }
 
     update() {
-
-        console.log(collapseTimer);
 
         updatePlayer1 = true;
         updatePlayer2 = false;
