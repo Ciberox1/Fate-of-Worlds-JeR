@@ -69,7 +69,7 @@ class MainMenu extends Phaser.Scene {
     })
 
     optionsButton.on("pointerup",()=>{
-      this.scene.start('OptionsMenu');
+      this.scene.start('Creditos');
     })
   }
 }

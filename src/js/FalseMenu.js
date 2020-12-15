@@ -1,6 +1,6 @@
-class OptionsMenu extends Phaser.Scene {
+class FalseMenu extends Phaser.Scene {
   constructor() {
-    super({ key: 'OptionsMenu' });
+    super({ key: 'FalseMenu' });
   }
 
   preload(){
@@ -13,7 +13,11 @@ class OptionsMenu extends Phaser.Scene {
   create() {
     this.add.image(0,0, "fondo").setOrigin(0).setDepth(0);
 
-    /*let playButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 100, "play").setDepth(1);
+    var title = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 - 50, "title").setDepth(1);
+
+    title.setScale(3,2);
+
+    let playButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 100, "play").setDepth(1);
 
     playButton.setScale(2);
 
@@ -44,7 +48,7 @@ class OptionsMenu extends Phaser.Scene {
     })
 
     playButton.on("pointerup",()=>{
-      this.scene.start('Preloader');
+      this.scene.start('FalsePreloader');
     })
 
     optionsButton.setInteractive();
@@ -60,7 +64,7 @@ class OptionsMenu extends Phaser.Scene {
     })
 
     optionsButton.on("pointerup",()=>{
-      console.log("hola");
-    })*/
+      this.scene.start('Creditos');
+    })
   }
 }
