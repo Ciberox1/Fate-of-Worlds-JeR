@@ -1403,7 +1403,7 @@ class Level extends Phaser.Scene {
             playerState1 = playerStateList["movingRight"];
             game.registry.destroy();
             game.events.off();
-            scene.start('FalseMenu');
+            scene.start('MainMenu');
             game.sound.stopAll();
             playerDead = false;
         }
