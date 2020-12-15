@@ -94,7 +94,9 @@ class Preloader extends Phaser.Scene {
           this.load.image('diagonalBeamB', '../../assets/Images/Enviroment/Space runner/Viga diagonal 1.png'); /*viga diagonal*/
           this.load.image('diagonalBeamB2', '../../assets/Images/Enviroment/Space runner/Viga diagonal 2.png'); /*viga diagonal*/
           this.load.image('machine', '../../assets/Images/Enviroment/Warped city/Máquina con pantalla.png');
-
+          this.load.image('redBeamD', '../../assets/Images/Enviroment/Subway/Viga roja diagonal 1.png');
+          this.load.image('redBeamD2', '../../assets/Images/Enviroment/Subway/Viga roja diagonal 2.png');
+          this.load.image('exit', '../../assets/Images/Enviroment/Subway/Salida emergencia.png');
           /*Fin imágenes necesarias para los sprites del mundo*/
 
           //Sprites de objetos
