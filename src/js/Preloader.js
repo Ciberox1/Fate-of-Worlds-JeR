@@ -130,31 +130,26 @@ class Preloader extends Phaser.Scene {
 
 
         /*-------------------------------------- MARIO 2 -----------------------------------------------*/
-        this.load.spritesheet('Mario2Walk', '../../assets/Images/Protagonista/Mario 1/Run.png', {
-            frameWidth: 64,
-            frameHeight: 48
+      
+        this.load.spritesheet('Mario2Walk','../../assets/Images/Protagonista/Mario 2/Run.png', {
+            frameWidth: 50,
+            frameHeight: 40
         });
 
-        this.load.spritesheet('Mario2Aim', '../../assets/Images/Protagonista/Mario 1/Aim.png', {
-            frameWidth: 64,
-            frameHeight: 48
+        this.load.spritesheet('Mario2idle', '../../assets/Images/Protagonista/Mario 2/Idle.png', {
+            frameWidth: 50,
+            frameHeight: 40
         });
 
-        this.load.spritesheet('Mario2idle', '../../assets/Images/Protagonista/Mario 1/Idle.png', {
-            frameWidth: 64,
-            frameHeight: 48
+        this.load.spritesheet('Mario2Shoot','../../assets/Images/Protagonista/Mario 2/Shoot.png', {
+            frameWidth: 50,
+            frameHeight: 40
         });
 
-        this.load.spritesheet('Mario2Shoot', '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
-            frameWidth: 64,
-            frameHeight: 48
+        this.load.spritesheet('Mario2Jump','../../assets/Images/Protagonista/Mario 2/Jump.png', {
+            frameWidth: 50,
+            frameHeight: 41
         });
-
-        this.load.spritesheet('Mario2Jump', '../../assets/Images/Protagonista/Mario 1/Jump.png', {
-            frameWidth: 64,
-            frameHeight: 48
-        });
-
 
 
 
