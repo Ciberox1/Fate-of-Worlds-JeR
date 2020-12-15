@@ -7,11 +7,12 @@ class MainMenu extends Phaser.Scene {
 
     //Assets del MainMenu
     this.load.image("fondo" , "../../assets/Images/Enviroment/Lab/Fondo laboratorio infinito.png");
+    this.load.image('load','../../assets/Images/Menu/Loading.png');
     this.load.image("title" , "../../assets/Images/Menu/Título.png")
-    this.load.image("play" , "../../assets/Images/Menu/play_button.png");
-    this.load.image("Hplay" , "../../assets/Images/Menu/Hplay_button.png");
-    this.load.image("options" , "../../assets/Images/Menu/options_button.png");
-    this.load.image("Hoptions" , "../../assets/Images/Menu/Hoptions_button.png");
+    this.load.image("play" , "../../assets/Images/Menu/play.png");
+    this.load.image("Hplay" , "../../assets/Images/Menu/playh.png");
+    this.load.image("options" , "../../assets/Images/Menu/credits.png");
+    this.load.image("Hoptions" , "../../assets/Images/Menu/creditsh.png");
 
   }
 
@@ -24,20 +25,20 @@ class MainMenu extends Phaser.Scene {
 
     let playButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 150, "play").setDepth(1);
 
-    playButton.setScale(2);
+    playButton.setScale(0.5);
 
     let HplayButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2, "Hplay").setDepth(1);
 
-    HplayButton.setScale(2);
+    HplayButton.setScale(0.5);
     HplayButton.setVisible(false);
 
     let optionsButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2 + 250, "options").setDepth(1);
 
-    optionsButton.setScale(2);
+    optionsButton.setScale(0.5);
 
     let HoptionsButton = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2, "Hoptions").setDepth(1);
 
-    HoptionsButton.setScale(2);
+    HoptionsButton.setScale(0.5);
     HoptionsButton.setVisible(false);
 
     playButton.setInteractive();
@@ -53,7 +54,11 @@ class MainMenu extends Phaser.Scene {
     })
 
     playButton.on("pointerup",()=>{
-      this.scene.start('Preloader');
+      if (notLoad) {
+        this.scene.start('Preloader');
+      } else if (!notLoad){
+        this.scene.start('Level');
+      }
     })
 
     optionsButton.setInteractive();
