@@ -35,6 +35,18 @@ class Preloader extends Phaser.Scene {
       });
       percentText.setOrigin(0.5, 0.5);
 
+      var continueText = this.make.text({
+          x: width / 2,
+          y: 2 * height / 3,
+          text: 'Pulsa ENTER para continuar',
+          style: {
+            font: '18px monospace',
+            fill: '#ffffff'
+          }
+      });
+      continueText.setOrigin(0.5, 0.5);
+      continueText.setVisible(false);
+
       this.load.on('progress', function (value) {
         progressBar.clear();
         progressBar.fillStyle(0xffffff, 1);
@@ -43,7 +55,7 @@ class Preloader extends Phaser.Scene {
       });
 
       this.load.on('complete', function () {
-          console.log('complete');
+          continueText.setVisible(true);
           progressBar.destroy();
           progressBox.destroy();
           loadingText.destroy();
@@ -85,64 +97,103 @@ class Preloader extends Phaser.Scene {
     //sprites del personaje y relacionados
     this.load.image('heart', '../../assets/Images/Protagonista/Mario 1/Heart.png');
     this.load.image('bala', '../../assets/Images/Protagonista/Mario 1/bala.png');
+
+    /*-------------------------------------- MARIO 1 -----------------------------------------------*/
     this.load.spritesheet('Mario1Walk','../../assets/Images/Protagonista/Mario 1/Run.png', {
+
             frameWidth: 64,
             frameHeight: 48
         });
 
-    this.load.spritesheet('Mario1Aim','../../assets/Images/Protagonista/Mario 1/Aim.png', {
+        this.load.spritesheet('Mario1Aim', '../../assets/Images/Protagonista/Mario 1/Aim.png', {
             frameWidth: 64,
             frameHeight: 48
         });
 
-    this.load.spritesheet('Mario1idle', '../../assets/Images/Protagonista/Mario 1/Idle.png', {
+        this.load.spritesheet('Mario1idle', '../../assets/Images/Protagonista/Mario 1/Idle.png', {
             frameWidth: 64,
             frameHeight: 48
         });
 
-    this.load.spritesheet('Mario1Shoot','../../assets/Images/Protagonista/Mario 1/Shoot.png', {
+        this.load.spritesheet('Mario1Shoot', '../../assets/Images/Protagonista/Mario 1/Shoot.png', {
             frameWidth: 64,
             frameHeight: 48
         });
 
-    this.load.spritesheet('Mario1Jump','../../assets/Images/Protagonista/Mario 1/Jump.png', {
+        this.load.spritesheet('Mario1Jump', '../../assets/Images/Protagonista/Mario 1/Jump.png', {
             frameWidth: 64,
             frameHeight: 48
         });
 
-    this.load.spritesheet('heartAnim','../../assets/Images/Protagonista/Mario 1/Heart.png', {
+
+    /*-------------------------------------- MARIO 2 -----------------------------------------------*/
+    this.load.spritesheet('Mario2Walk','../../assets/Images/Protagonista/Mario 1/Run.png', {
+            frameWidth: 64,
+            frameHeight: 48
+        });
+
+    this.load.spritesheet('Mario2Aim','../../assets/Images/Protagonista/Mario 1/Aim.png', {
+            frameWidth: 64,
+            frameHeight: 48
+        });
+
+    this.load.spritesheet('Mario2idle', '../../assets/Images/Protagonista/Mario 1/Idle.png', {
+            frameWidth: 64,
+            frameHeight: 48
+        });
+
+    this.load.spritesheet('Mario2Shoot','../../assets/Images/Protagonista/Mario 1/Shoot.png', {
+            frameWidth: 64,
+            frameHeight: 48
+        });
+
+    this.load.spritesheet('Mario2Jump','../../assets/Images/Protagonista/Mario 1/Jump.png', {
+            frameWidth: 64,
+            frameHeight: 48
+        });
+
+    
+
+
+        this.load.spritesheet('heartAnim', '../../assets/Images/Protagonista/Mario 1/Heart.png', {
             frameWidth: 18,
             frameHeight: 18
         });
-    this.load.spritesheet('Amalgama','../../assets/Images/Enemies/Amalgama/Trash Monster-Sprite sheet.png', {
-                frameWidth: 64,
-                frameHeight: 64
+        this.load.spritesheet('Amalgama', '../../assets/Images/Enemies/Amalgama/Trash Monster-Sprite sheet.png', {
+            frameWidth: 64,
+            frameHeight: 64
         });
-    this.load.audio('shootSound', [
+        this.load.audio('shootSound', [
         '../../assets/Music/shoot.wav'
         ]);
-    this.load.audio('hitSound', [
+        this.load.audio('hitSound', [
         '../../assets/Music/hit.mp3'
         ]);
-      this.load.audio('JumpSound', [
+        this.load.audio('JumpSound', [
         '../../assets/Music/jump.ogg'
         ]);
-      this.load.audio('AmalgamaDeathSound', [
+        this.load.audio('AmalgamaDeathSound', [
         '../../assets/Music/deathAmalgama.wav'
         ]);
-      this.load.audio('CollapseSound', [
+        this.load.audio('CollapseSound', [
         '../../assets/Music/teleport.mp3'
         ]);
-      this.load.audio('BackgroundSound', [
+        this.load.audio('BackgroundSound', [
         '../../assets/Music/LabBackground.mp3'
         ]);
 
-    for (var i = 0; i < 50; i++) {
-      this.load.image('car'+i, '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo.png');
+        for (var i = 0; i < 50; i++) {
+            this.load.image('car' + i, '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo.png');
+        }
     }
+  create(){
+    controls.continueKey = this.input.keyboard.addKey('ENTER');
+
   }
 
-  create() {
-    this.scene.start('Level');
+  update() {
+    if (controls.continueKey.isDown) {
+      this.scene.start('Level');
+    }
   }
 }
