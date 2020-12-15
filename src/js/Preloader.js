@@ -2,6 +2,7 @@ class Preloader extends Phaser.Scene {
     constructor() {
         super({
             key: 'Preloader'
+
         });
     }
 
