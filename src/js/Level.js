@@ -27,6 +27,7 @@ class Level extends Phaser.Scene {
 
     create() {
         warp = false;
+        collapseTimer = false;
 
         this.add.tileSprite(400, 200, 24000, 400, 'lab');
         lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
@@ -370,8 +371,8 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
 
         this.add.tileSprite(19400, 172, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
-        
-        
+
+
         /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
         //Suelo
         this.add.tileSprite(0, 820, 1730, 30, 'whiteLabGround').setOrigin(0, 0);
@@ -381,7 +382,7 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(11220, 803, 160, 50, 'whiteLabGround').setOrigin(0, 0);
         this.add.tileSprite(12850, 819, 800, 50, 'whiteLabGround').setOrigin(0, 0);
         this.add.tileSprite(18450, 819, 1050, 50, 'whiteLabGround').setOrigin(0, 0);
-        
+
         //Metal Plates
         this.add.tileSprite(2078, 652, 32, 160, 'metalPlate').setScale(1.4, 1.3).setOrigin(0, 0);
         this.add.tileSprite(3078, 588, 160, 16, 'metalPlate').setScale(1.35, 1.5).setOrigin(0, 0);
@@ -389,7 +390,7 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(5770, 640, 415, 160, 'metalPlate').setScale(1.5, 1.5).setOrigin(0, 0);
         this.add.tileSprite(9235, 695, 124, 110, 'metalPlate').setScale(1.5, 1.5).setOrigin(0, 0);
         this.add.tileSprite(19330, 670, 124, 99, 'metalPlate').setScale(1.8, 1.5).setOrigin(0, 0);
-        
+
         //Diagonales
         this.add.image(380, 625, 'redBeamD').setScale(2,2).setOrigin(0,0);
         this.add.image(3120, 630, 'redBeamD2').setScale(2,2).setOrigin(0,0);
@@ -397,7 +398,7 @@ class Level extends Phaser.Scene {
         this.add.image(6325, 640, 'redBeamD').setScale(2,2).setOrigin(0,0);
         this.add.image(19430, 465, 'redBeamD').setScale(2,2).setOrigin(0,0);
         this.add.image(19330, 675, 'redBeamD2').setScale(2,2).setOrigin(0,0);
-        
+
         //Verticales
         this.add.tileSprite(0, 476, 16, 349, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
         this.add.tileSprite(360, 476, 32, 222, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
@@ -431,8 +432,8 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(19320, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
         this.add.tileSprite(19380, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
         this.add.tileSprite(19435, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
-                                                                                       
-        //Horizontales  
+
+        //Horizontales
         this.add.tileSprite(400, 662, 277, 16, 'redBeamH').setScale(1.3, 2.22).setOrigin(0, 0);
         this.add.tileSprite(900, 662, 463, 16, 'redBeamH').setScale(1.3, 2.22).setOrigin(0, 0);
         this.add.tileSprite(2060, 632, 80, 16, 'redBeamH').setScale(1, 1.3).setOrigin(0, 0);
@@ -441,7 +442,7 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(5745, 622, 660, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
         this.add.tileSprite(9225, 672, 200, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
         this.add.tileSprite(19320, 654, 200, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
-        
+
         this.add.image(785, 760, 'box').setScale(2.5, 1.8).setOrigin(0, 0);
         this.add.tileSprite(1610, 733, 64, 32, 'box').setScale(1.88, 2.7).setOrigin(0, 0);
         this.add.image(1670, 680, 'box').setScale(1.88, 2.1).setOrigin(0, 0);
@@ -450,7 +451,7 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(6620, 702, 64, 32, 'box').setScale(2.5, 3.6).setOrigin(0, 0);
         this.add.image(13360, 734, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
         this.add.image(18585, 734, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
-        
+
         this.add.image(9722, 659, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
         this.add.image(9872, 659, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
         this.add.image(10722, 682, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
@@ -458,28 +459,28 @@ class Level extends Phaser.Scene {
         this.add.image(14375, 730, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
         this.add.image(14575, 658, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
         this.add.image(14775, 580, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
-        
+
         //Esta es vertical pero tiene que ir aquí para no tener que hacerla dos veces.
         this.add.tileSprite(19480, 450, 16, 370, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
-        
+
         //Techos
         this.add.tileSprite(0, 450, 308, 16, 'redBeamH').setScale(1.3, 1.65).setOrigin(0, 0);
         this.add.tileSprite(3060, 450, 978, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
         this.add.tileSprite(5745, 450, 510, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
         this.add.tileSprite(18435, 450, 1065, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
-        
+
         //Decoraciones
         this.add.image(370, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(4450, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(4450, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(9300, 600, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(18470, 720, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
-        
+
         this.add.image(2090, 700, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(3090, 670, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(3090, 715, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(19405, 715, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
-        
+
         this.add.image(1710, 615, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(2060, 612, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(2485, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
@@ -495,11 +496,11 @@ class Level extends Phaser.Scene {
         this.add.image(11365, 785, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(13630, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
         this.add.image(18450, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
-        
+
         this.add.image(11290, 730, 'exit').setScale(2, 2).setOrigin(0, 0);
-        
+
         this.add.image(11315, 680, 'signalR').setScale(1.2, 1.2).setRotation(45.555).setOrigin(0, 0);
-        
+
         this.add.tileSprite(19400, 622, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
         /*-------------------------------------------FIN MUNDO 2----------------------------------------------------------------*/
         /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
@@ -513,10 +514,11 @@ class Level extends Phaser.Scene {
         players.player2 = this.physics.add.sprite(150, 300, 'Mario2idle').setScale(1.25);
 
         this.physics.add.collider(players.player1, objects.platforms);
-        collapsablePlats = this.physics.add.collider(players.player1, objects.collapsable);
+        collapsablePlats1 = this.physics.add.collider(players.player1, objects.collapsable);
         this.physics.add.collider(players.player2, objects.platforms);
-        collapsablePlats = this.physics.add.collider(players.player2, objects.collapsable);
-        collapsablePlats.active = false;
+        collapsablePlats2 = this.physics.add.collider(players.player2, objects.collapsable);
+        collapsablePlats1.active = false;
+        collapsablePlats2.active = false;
 
         widthPlayer1 = 5;
         heightPlayer1 = 36;
@@ -678,6 +680,7 @@ class Level extends Phaser.Scene {
         soundDeathAmalgama = this.sound.add('AmalgamaDeathSound');
         soundCollapse = this.sound.add('CollapseSound');
         soundJump = this.sound.add('JumpSound');
+        soundBackground.loop = true;
         soundBackground.play();
 
         function createAnims() {
@@ -859,14 +862,15 @@ class Level extends Phaser.Scene {
         }
 
         //Collapse code
-        if (controls1.collapseKey.isDown) {
+        if (controls1.collapseKey.isDown && collapseTimer === false) {
             soundCollapse.play();
-            collapsablePlats.active = true;
+            collapsablePlats1.active = true;
+            collapsablePlats2.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsed');
             }
             if (collapseTimer === false) {
-                var collapseEvent = this.time.delayedCall(15000, removeCollapse);
+                collapseEvent = this.time.delayedCall(8500, removeCollapse);
                 collapseTimer = true;
             }
         }
@@ -1391,7 +1395,8 @@ class Level extends Phaser.Scene {
         }
 
         function removeCollapse() {
-            collapsablePlats.active = false;
+            collapsablePlats1.active = false;
+            collapsablePlats2.active = false;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsable');
             }

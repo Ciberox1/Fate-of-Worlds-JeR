@@ -6,6 +6,12 @@ class Creditos extends Phaser.Scene {
   preload(){
 
     this.load.image("fondo" , "../../assets/Images/Enviroment/Lab/Fondo laboratorio infinito.png");
+    this.load.image("back" , "../../assets/Images/Menu/back.png");
+    this.load.image("hback" , "../../assets/Images/Menu/backh.png");
+    this.load.image("team" , "../../assets/Images/Menu/team.png");
+    this.load.image("hteam" , "../../assets/Images/Menu/teamh.png");
+    this.load.image("acknowledgment" , "../../assets/Images/Menu/acknowledgment.png");
+    this.load.image("hacknowledgment" , "../../assets/Images/Menu/acknowledgmenth.png");
 
   }
 
@@ -14,65 +20,79 @@ class Creditos extends Phaser.Scene {
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
 
-    var Jonas = this.make.text({
-        x: width / 2 - 550,
-        y: height / 2 - 50,
-        text: 'Jonas Martin Carasa: ',
-        style: {
-          font: '25px monospace',
-          fill: '#ffffff'
-        }
-    });
+    let back = this.add.image(150,50, "back").setDepth(1);
 
-    var Mario = this.make.text({
-        x: width / 2 - 550,
-        y: height / 2 - 75,
-        text: 'Mario Simon Soto: ',
-        style: {
-          font: '25px monospace',
-          fill: '#ffffff'
-        }
-    });
+    back.setScale(0.5);
 
-    var Adrian = this.make.text({
-        x: width / 2 - 550,
-        y: height / 2 - 100,
-        text: 'Adrian Salgado Jimeno: ',
-        style: {
-          font: '25px monospace',
-          fill: '#ffffff'
-        }
-    });
+    let Hback = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2, "hback").setDepth(1);
 
-    var Alejandro = this.make.text({
-        x: width / 2 - 550,
-        y: height / 2 - 125,
-        text: 'Alejandro Garcia-Muñoz Muñoz: ',
-        style: {
-          font: '25px monospace',
-          fill: '#ffffff'
-        }
-    });
+    Hback.setScale(0.5);
+    Hback.setVisible(false);
 
-    var Aless = this.make.text({
-        x: width / 2 - 550,
-        y: height / 2 - 25,
-        text: 'Aless Garcia Ochoa: ',
-        style: {
-          font: '25px monospace',
-          fill: '#ffffff'
-        }
-    });
+    back.setInteractive();
 
-    var Agradecimientos = this.make.text({
-        x: width / 2,
-        y: height / 2 + 25,
-        text: 'Agradecimientos: ',
-        style: {
-          font: '25px monospace',
-          fill: '#ffffff'
-        }
-    });
-    Agradecimientos.setOrigin(0.5, 0.5);
+    back.on("pointerover",()=>{
+      Hback.setVisible(true);
+      Hback.x = back.x;
+      Hback.y = back.y;
+    })
+
+    back.on("pointerout",()=>{
+      Hback.setVisible(false);
+    })
+
+    back.on("pointerup",()=>{
+      this.scene.start('MainMenu');
+    })
+
+    let team = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2, "team").setDepth(1);
+
+    team.setScale(0.5);
+
+    let Hteam = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2, "hteam").setDepth(1);
+
+    Hteam.setScale(0.5);
+    Hteam.setVisible(false);
+
+    team.setInteractive();
+
+    team.on("pointerover",()=>{
+      Hteam.setVisible(true);
+      Hteam.x = team.x;
+      Hteam.y = team.y;
+    })
+
+    team.on("pointerout",()=>{
+      Hteam.setVisible(false);
+    })
+
+    team.on("pointerup",()=>{
+      this.scene.start('Desarrolladores');
+    })
+
+    let acknowledgment = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2+200, "acknowledgment").setDepth(1);
+
+    acknowledgment.setScale(0.5);
+
+    let Hacknowledgment = this.add.image(this.game.renderer.width/2,this.game.renderer.height/2, "hacknowledgment").setDepth(1);
+
+    Hacknowledgment.setScale(0.5);
+    Hacknowledgment.setVisible(false);
+
+    acknowledgment.setInteractive();
+
+    acknowledgment.on("pointerover",()=>{
+      Hacknowledgment.setVisible(true);
+      Hacknowledgment.x = acknowledgment.x;
+      Hacknowledgment.y = acknowledgment.y;
+    })
+
+    acknowledgment.on("pointerout",()=>{
+      Hacknowledgment.setVisible(false);
+    })
+
+    acknowledgment.on("pointerup",()=>{
+      this.scene.start('Agradecimientos');
+    })
   }
 }
