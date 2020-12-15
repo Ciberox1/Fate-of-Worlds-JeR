@@ -387,7 +387,7 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
-        players.player1 = this.physics.add.sprite(18850, 100, 'Mario1idle').setScale(1.25);
+        players.player1 = this.physics.add.sprite(150, 100, 'Mario1idle').setScale(1.25);
         players.player2 = this.physics.add.sprite(150, 500, 'Mario2idle').setScale(1.25);
 
         this.physics.add.collider(players.player1, objects.platforms);
@@ -527,6 +527,9 @@ class Level extends Phaser.Scene {
         players.player1.body.setSize(widthPlayer, heightPlayer);
         players.player1.setCollideWorldBounds(false);
 
+        players.player2.body.setSize(widthPlayer, heightPlayer);
+        players.player2.setCollideWorldBounds(false);
+
         //adding hearts
         hearts = this.add.group();
         let heart1 = this.add.sprite(100, 418, 'heartAnim').setOrigin(0, 0);
@@ -542,7 +545,8 @@ class Level extends Phaser.Scene {
         enemiesArray.playAnimation('AmalgamaRun');
 
         //collision player-enemies
-        playerCollidesEnemies = this.physics.add.collider(players.player1, enemiesArray, KillPlayer);
+        playerCollidesEnemies1 = this.physics.add.collider(players.player1, enemiesArray, KillPlayer1);
+        playerCollidesEnemies2 = this.physics.add.collider(players.player2, enemiesArray, KillPlayer2);
 
         //adding sound
         soundBackground = this.sound.add('BackgroundSound', {
@@ -730,15 +734,17 @@ class Level extends Phaser.Scene {
             GameOver(this.scene);
         }
 
+
+        /*--------------------------- BULLET LOGIC ------------------------------*/
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
         if (balaDisparada1 == true) {
             soundShoot.play();
             if (ShootDirection1 == "right") {
                 bala1 = this.physics.add.sprite(players.player1.body.position.x + 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
-                this.physics.add.collider(bala1, objects.platforms, Killbala);
+                this.physics.add.collider(bala1, objects.platforms, Killbala1);
             } else if (ShootDirection1 == "left") {
                 bala1 = this.physics.add.sprite(players.player1.body.position.x - 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
-                this.physics.add.collider(bala1, objects.platforms, Killbala);
+                this.physics.add.collider(bala1, objects.platforms, Killbala1);
             }
             bala1.setGravityY(-490);
             balaDisparada1 = false;
@@ -763,12 +769,49 @@ class Level extends Phaser.Scene {
             canShoot1 = true;
         }
 
+        // Bala 2
+        // sirve para originar la bala dependiendo de hacia donde mire el personaje
+        if (balaDisparada2 == true) {
+            soundShoot.play();
+            if (ShootDirection2 == "right") {
+                bala2 = this.physics.add.sprite(players.player2.body.position.x + 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
+                this.physics.add.collider(bala2, objects.platforms, Killbala2);
+            } else if (ShootDirection2 == "left") {
+                bala2 = this.physics.add.sprite(players.player2.body.position.x - 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
+                this.physics.add.collider(bala2, objects.platforms, Killbala2);
+            }
+            bala2.setGravityY(-490);
+            balaDisparada2 = false;
+            balaActiva2 = true;
+            bala2.setScale(0.5);
+        }
+        //sirve para dar velocidad una vez se crea la bala
+        if (balaActiva2 == true) {
+            if (ShootDirection2 == "right")
+                bala2.setVelocityX(300);
+            else if (ShootDirection2 == "left") {
+                bala2.setVelocityX(-300);
+            }
+        }
+
+        if (balaActiva2 == true && bala2.body.position.x < (camera3.worldView.x + camera3.worldView.width) && bala2.body.position.x > camera3.worldView.x) {
+            canShoot2 = false;
+        } else if (balaActiva2 == true && (bala2.body.position.x > (camera3.worldView.x + camera3.worldView.width) ||
+                bala2.body.position.x < camera2.worldView.x)) {
+            bala2.destroy();
+            balaActiva2 = false;
+            canShoot2 = true;
+        }
+
         /*--------instructions of Amalgama's death and movement----------*/
 
         children = enemiesArray.getChildren();
 
         if (balaActiva1 == true) {
-            this.physics.add.collider(bala1, enemiesArray, KillEnemie);
+            this.physics.add.collider(bala1, enemiesArray, KillEnemie1);
+        }
+        if (balaActiva2 == true) {
+            this.physics.add.collider(bala2, enemiesArray, KillEnemie2);
         }
 
 
@@ -794,18 +837,33 @@ class Level extends Phaser.Scene {
         }
 
         /*--------instructions of Player's death and movement----------*/
-        if (colisionPlayer == false) {
+        if (colisionPlayer1 == false) {
             // console.log("ahora mismo no puedes morir");
-            playerCollidesEnemies.active = false;
+            playerCollidesEnemies1.active = false;
             if (timerInitiated == false) {
-                timedEvent = this.time.delayedCall(1000, enableColisionplayers.player1, this, false);
+                timedEvent = this.time.delayedCall(1000, enableColisionPlayer1, this, false);
                 timerInitiated = true;
             }
         }
 
 
-        if (colisionPlayer == true) {
-            playerCollidesEnemies.active = true;
+        if (colisionPlayer1 == true) {
+            playerCollidesEnemies1.active = true;
+            timerInitiated = false;
+        }
+
+        if (colisionPlayer2 == false) {
+            // console.log("ahora mismo no puedes morir");
+            playerCollidesEnemies2.active = false;
+            if (timerInitiated == false) {
+                timedEvent = this.time.delayedCall(1000, enableColisionPlayer2, this, false);
+                timerInitiated = true;
+            }
+        }
+
+
+        if (colisionPlayer2 == true) {
+            playerCollidesEnemies2.active = true;
             timerInitiated = false;
         }
 
@@ -945,7 +1003,7 @@ class Level extends Phaser.Scene {
                   }
               }
             }
-            
+
             if(updatePlayer2){
               if (players.player2.flipX == true) {
                   players.player2.body.position.x += 12;
@@ -1114,13 +1172,19 @@ class Level extends Phaser.Scene {
 
         }
 
-        function Killbala() {
+        function Killbala1() {
             bala1.destroy();
             canShoot1 = true;
             balaActiva1 = false;
         }
 
-        function KillEnemie() {
+        function Killbala2() {
+            bala2.destroy();
+            canShoot2 = true;
+            balaActiva2 = false;
+        }
+
+        function KillEnemie1() {
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantity && children[i] != undefined) {
@@ -1134,7 +1198,25 @@ class Level extends Phaser.Scene {
                 i++;
             }
             EnemieDead = true;
-            Killbala();
+            Killbala1();
+
+        }
+
+        function KillEnemie2() {
+            soundDeathAmalgama.play();
+            var i = 0;
+            while (i < enemiesQuantity && children[i] != undefined) {
+                if (Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)) < 50) {
+                    children[i].anims.play('AmalgamaDeath', 'true');
+                    children[i].anims.currentKey = 'AmalgamaDeath';
+                    children[i].body.velocity.x = 0;
+                    console.log(i);
+                }
+                i++;
+            }
+            EnemieDead = true;
+            Killbala2();
 
         }
 
