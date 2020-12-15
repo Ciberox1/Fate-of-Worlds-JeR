@@ -387,6 +387,7 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
+
         players.player1 = this.physics.add.sprite(150, 100, 'Mario1idle').setScale(1.25);
         players.player2 = this.physics.add.sprite(150, 500, 'Mario2idle').setScale(1.25);
 
@@ -699,7 +700,7 @@ class Level extends Phaser.Scene {
             soundCollapse.play();
             collapsablePlats.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
-                objects.collapsable.children.entries[i].setTexture('platform1');
+                objects.collapsable.children.entries[i].setTexture('collapsed');
             }
             if (collapseTimer === false) {
                 var collapseEvent = this.time.delayedCall(15000, removeCollapse);
@@ -725,14 +726,18 @@ class Level extends Phaser.Scene {
             lab2.tileScaleX = tween.getValue();
         }
 
+
         // Muerte por caida (jugador 1)
         if (players.player1.y > 850) {
+
             playerDead = true;
         }
 
         if (playerDead == true) {
+            alert("Habéis perdido")
             GameOver(this.scene);
         }
+
 
 
         /*--------------------------- BULLET LOGIC ------------------------------*/
@@ -769,6 +774,8 @@ class Level extends Phaser.Scene {
             canShoot1 = true;
         }
 
+        
+
         // Bala 2
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
         if (balaDisparada2 == true) {
@@ -801,6 +808,14 @@ class Level extends Phaser.Scene {
             bala2.destroy();
             balaActiva2 = false;
             canShoot2 = true;
+        }
+      
+      
+
+        //Condición de victoria 
+        if (players.player1.x > 19400) {
+            alert("Habéis ganado");
+            GameOver(this.scene);
         }
 
         /*--------instructions of Amalgama's death and movement----------*/
