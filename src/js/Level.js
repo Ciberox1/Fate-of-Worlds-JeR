@@ -391,10 +391,11 @@ class Level extends Phaser.Scene {
         players.player2 = this.physics.add.sprite(150, 500, 'Mario2idle').setScale(1.25);
 
         this.physics.add.collider(players.player1, objects.platforms);
-        collapsablePlats = this.physics.add.collider(players.player1, objects.collapsable);
+        collapsablePlats1 = this.physics.add.collider(players.player1, objects.collapsable);
         this.physics.add.collider(players.player2, objects.platforms);
-        collapsablePlats = this.physics.add.collider(players.player2, objects.collapsable);
-        collapsablePlats.active = false;
+        collapsablePlats2 = this.physics.add.collider(players.player2, objects.collapsable);
+        collapsablePlats1.active = false;
+        collapsablePlats2.active = false;
 
         widthPlayer = 5;
         heightPlayer = 36;
@@ -643,8 +644,6 @@ class Level extends Phaser.Scene {
         updatePlayer1 = true;
         updatePlayer2 = false;
 
-        console.log(playerState1 + " // " + playerState2);
-
         switch (playerState1) {
             case playerStateList["idle"]:
                 Idle();
@@ -695,9 +694,10 @@ class Level extends Phaser.Scene {
         }
 
         //Collapse code
-        if (controls1.collapseKey.isDown) {
+        if (controls1.collapseKey.isDown && collapseTimer === false) {
             soundCollapse.play();
-            collapsablePlats.active = true;
+            collapsablePlats1.active = true;
+            collapsablePlats2.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('platform1');
             }
@@ -1159,7 +1159,7 @@ class Level extends Phaser.Scene {
             if (canShoot2 == true) {
                 if (players.player2.flipX == false) {
                     ShootDirection2 = "right";
-                } else if (players.player1.flipX == true) {
+                } else if (players.player2.flipX == true) {
                     ShootDirection2 = "left";
                 }
                 players.player2.anims.play('Mario1Shoot', true);
@@ -1221,7 +1221,8 @@ class Level extends Phaser.Scene {
         }
 
         function removeCollapse() {
-            collapsablePlats.active = false;
+            collapsablePlats1.active = false;
+            collapsablePlats2.active = false;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsable');
             }
