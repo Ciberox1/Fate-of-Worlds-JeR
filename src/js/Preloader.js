@@ -116,7 +116,7 @@ class Preloader extends Phaser.Scene {
 
 
         /*-------------------------------------- MARIO 2 -----------------------------------------------*/
-      
+
         this.load.spritesheet('Mario2Walk','../../assets/Images/Protagonista/Mario 2/Run.png', {
             frameWidth: 50,
             frameHeight: 40
@@ -165,15 +165,9 @@ class Preloader extends Phaser.Scene {
         this.load.audio('BackgroundSound', [
         '../../assets/Music/LabBackground.mp3'
         ]);
-
-
-        for (var i = 0; i < 50; i++) {
-            this.load.image('car' + i, '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo.png');
-        }
     }
     create() {
         controls1.continueKey = this.input.keyboard.addKey('ENTER');
-
     }
 
     update() {
