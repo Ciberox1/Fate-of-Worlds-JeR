@@ -55,6 +55,7 @@ class Preloader extends Phaser.Scene {
     this.load.image('lab2', '../../assets/Images/Enviroment/LabTileset/Backgrounds/fondo2R.png');
     this.load.image('ground', '../../assets/Images/Test/platform.png');
     this.load.image('collapsable', '../../assets/Images/Enviroment/Subway/Plataforma horizontal colapsable2.png');
+    this.load.image('collapsed', '../../assets/Images/Enviroment/Subway/Plataforma horizontal colapsada2.png');
 
     /*Imágenes necesarias para los sprites del mundo*/
     this.load.image('whiteLabGround', '../../assets/Images/Enviroment/LabTileset/Lab Items/Suelo laboratorio.png'); /*Suelo del laboratorio 1*/
