@@ -43,19 +43,27 @@
           collapsable:'',
           bullets: ''
       };
-      var controls = {
+      var controls1 = {
           cursors: '',
           gunKey: '',
           interactKey: '',
           dropKey: '',
           continueKey: ''
       };
-      var player;
+      var controls2 = {
+          cursors: '',
+          gunKey: '',
+          interactKey: '',
+          dropKey: ''
+      };
+      var players = {player1: '', player2: ''};
       var widthPlayer;
       var heightPlayer;
-      var playerCollidesEnemies;
+      var playerCollidesEnemies1;
+      var playerCollidesEnemies2;
       var hearts;
-      var playerState = 'idle';
+      var playerState1 = 'idle';
+      var playerState2 = 'idle';
       var playerStateList = {
           idle: 'idle',
           movingLeft: 'left',
@@ -67,16 +75,26 @@
           crouched: 'crouched',
           gettingUp: 'getUp'
       }
-      var colisionPlayer = true;
+      var updatePlayer1 = true;
+      var updatePlayer2 = false;
+
+      var colisionPlayer1 = true;
+      var colisionPlayer2 = true;
       var tween;
       var playerDead=false;
 
       //shooting booleans
-      var bala;
-      var balaActiva = false;
-      var balaDisparada = false;
-      var ShootDirection = "";
-      var canShoot = true;
+      var bala1;
+      var balaActiva1 = false;
+      var balaDisparada1 = false;
+      var ShootDirection1 = "";
+      var canShoot1= true;
+
+      var bala2;
+      var balaActiva2 = false;
+      var balaDisparada2 = false;
+      var ShootDirection2 = "";
+      var canShoot2 = true;
 
       //Enemies Variables
       var enemiesArray;
@@ -117,13 +135,13 @@
         // console.log(children[8].body.velocity.x);
       }
 
-      function KillPlayer() {
+      function KillPlayer1() {
           soundHit.play();
-          player.alpha = 0.5;
-          colisionPlayer = false;
+          players.player1.alpha = 0.5;
+          colisionPlayer1 = false;
           if (hearts.countActive(true) == 1) {
-              playerDead=true;
-              colisionPlayer=true;
+              playerDead = true;
+              colisionPlayer1 = true;
           }
           hearts.remove(hearts.getFirstAlive(), true);
           for (i = 0; i < enemiesQuantity; i++)
@@ -131,9 +149,30 @@
                   children[i].body.setVelocityX(velocityXEnemie[i]);
       }
 
-      function enableColisionPlayer() {
-          player.alpha = 1;
-          colisionPlayer = true;
+      function enableColisionPlayer1() {
+          players.player1.alpha = 1;
+          colisionPlayer1 = true;
+          console.log("ya puedes morir");
+          timedEvent.remove();
+      }
+
+      function KillPlayer2() {
+          soundHit.play();
+          players.player2.alpha = 0.5;
+          colisionPlayer2 = false;
+          if (hearts.countActive(true) == 1) {
+              playerDead = true;
+              colisionPlayer2 = true;
+          }
+          hearts.remove(hearts.getFirstAlive(), true);
+          for (i = 0; i < enemiesQuantity; i++)
+              if (children[i] != undefined)
+                  children[i].body.setVelocityX(velocityXEnemie[i]);
+      }
+
+      function enableColisionPlayer2() {
+          players.player2.alpha = 1;
+          colisionPlayer2 = true;
           console.log("ya puedes morir");
           timedEvent.remove();
       }
