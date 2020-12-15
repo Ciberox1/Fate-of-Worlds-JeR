@@ -7,18 +7,12 @@ class Level extends Phaser.Scene {
 
     preload() {
 
-        //var moabKeys = true;
-        //if (moabKeys == true) {
-        //These are moab controls1
-        //this.input.keyboard.removeAllKeys();
         controls1.interactKey = this.input.keyboard.addKey('E');
         controls1.gunKey = this.input.keyboard.addKey('P');
         controls1.dropKey = this.input.keyboard.addKey('Q');
         controls1.collapseKey = this.input.keyboard.addKey('SPACE');
         controls1.cursors = this.input.keyboard.createCursorKeys();
-        //} else {
-        //These are WASD controls1
-        //this.input.keyboard.removeAllKeys();
+
         controls2.interactKey = this.input.keyboard.addKey('K');
         controls2.gunKey = this.input.keyboard.addKey('J');
         controls2.dropKey = this.input.keyboard.addKey('L');
@@ -28,7 +22,6 @@ class Level extends Phaser.Scene {
             'left': Phaser.Input.Keyboard.KeyCodes.A,
             'right': Phaser.Input.Keyboard.KeyCodes.D
         });
-        //}
 
     }
 
@@ -819,8 +812,6 @@ class Level extends Phaser.Scene {
             balaActiva1 = false;
             canShoot1 = true;
         }
-
-
 
         // Bala 2
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
