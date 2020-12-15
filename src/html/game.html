@@ -18,8 +18,6 @@
       <script src="../../src/js/MainMenu.js"></script>
       <script src="../../src/js/Creditos.js"></script>
       <script src="../../src/js/Level.js"></script>
-      <script src="../../src/js/FalsePreloader.js"></script>
-      <script src="../../src/js/FalseMenu.js"></script>
 
       <script type="text/javascript">
 
@@ -37,7 +35,7 @@
                   debug: false
               }
           },
-          scene: [MainMenu, Preloader, Creditos, Level, FalseMenu, FalsePreloader]
+          scene: [MainMenu, Preloader, Creditos, Level]
       };
 
       var objects = {
@@ -56,7 +54,8 @@
           cursors: '',
           gunKey: '',
           interactKey: '',
-          dropKey: ''
+          dropKey: '',
+          continueKey: ''
       };
       var players = {player1: '', player2: ''};
       var widthPlayer1;
@@ -82,6 +81,7 @@
       var updatePlayer1 = true;
       var updatePlayer2 = false;
 
+      var notLoad = true;
       var colisionPlayer1 = true;
       var colisionPlayer2 = true;
       var tween;
