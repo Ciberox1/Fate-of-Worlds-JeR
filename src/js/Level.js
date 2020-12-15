@@ -7,28 +7,21 @@ class Level extends Phaser.Scene {
 
     preload() {
 
-        //var moabKeys = true;
-        //if (moabKeys == true) {
-            //These are moab controls1
-            //this.input.keyboard.removeAllKeys();
-            controls1.interactKey = this.input.keyboard.addKey('E');
-            controls1.gunKey = this.input.keyboard.addKey('P');
-            controls1.dropKey = this.input.keyboard.addKey('Q');
-            controls1.collapseKey = this.input.keyboard.addKey('SPACE');
-            controls1.cursors = this.input.keyboard.createCursorKeys();
-        //} else {
-            //These are WASD controls1
-            //this.input.keyboard.removeAllKeys();
-            controls2.interactKey = this.input.keyboard.addKey('K');
-            controls2.gunKey = this.input.keyboard.addKey('J');
-            controls2.dropKey = this.input.keyboard.addKey('L');
-            controls2.cursors = this.input.keyboard.addKeys({
-                'up': Phaser.Input.Keyboard.KeyCodes.W,
-                'down': Phaser.Input.Keyboard.KeyCodes.S,
-                'left': Phaser.Input.Keyboard.KeyCodes.A,
-                'right': Phaser.Input.Keyboard.KeyCodes.D
-            });
-        //}
+        controls1.interactKey = this.input.keyboard.addKey('E');
+        controls1.gunKey = this.input.keyboard.addKey('P');
+        controls1.dropKey = this.input.keyboard.addKey('Q');
+        controls1.collapseKey = this.input.keyboard.addKey('SPACE');
+        controls1.cursors = this.input.keyboard.createCursorKeys();
+
+        controls2.interactKey = this.input.keyboard.addKey('K');
+        controls2.gunKey = this.input.keyboard.addKey('J');
+        controls2.dropKey = this.input.keyboard.addKey('L');
+        controls2.cursors = this.input.keyboard.addKeys({
+            'up': Phaser.Input.Keyboard.KeyCodes.W,
+            'down': Phaser.Input.Keyboard.KeyCodes.S,
+            'left': Phaser.Input.Keyboard.KeyCodes.A,
+            'right': Phaser.Input.Keyboard.KeyCodes.D
+        });
 
     }
 
@@ -237,8 +230,8 @@ class Level extends Phaser.Scene {
         objects.platforms.create(19050, 834, 'ground').setScale(3, 1).refreshBody();
         objects.platforms.create(18475, 550, 'ground').setScale(0.2, 8).refreshBody();
         objects.platforms.create(18625, 800, 'ground').setScale(0.2, 4).refreshBody();
-        objects.platforms.create(18850, 650, 'ground').setScale(0.2, 1).refreshBody();
-        objects.platforms.create(19100, 625, 'ground').setScale(0.2, 1).refreshBody();
+        objects.platforms.create(18850, 650, 'platform1').setScale(0.2, 1).refreshBody();
+        objects.platforms.create(19100, 625, 'platform1').setScale(0.2, 1).refreshBody();
         objects.platforms.create(19400, 750, 'ground').setScale(0.4, 6).refreshBody(); //sobre esto esta el terminal, debe colapsarse para mandarlo al otro mundo
         objects.platforms.create(19500, 650, 'ground').setScale(0.1, 12).refreshBody();
         objects.platforms.create(19100, 450, 'ground').setScale(3, 1).refreshBody();
@@ -377,9 +370,138 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
 
         this.add.tileSprite(19400, 172, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
-
+        
+        
         /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
-
+        //Suelo
+        this.add.tileSprite(0, 820, 1730, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(2139, 820, 360, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(3140, 820, 1360, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(6620, 820, 160, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(11220, 803, 160, 50, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(12850, 819, 800, 50, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(18450, 819, 1050, 50, 'whiteLabGround').setOrigin(0, 0);
+        
+        //Metal Plates
+        this.add.tileSprite(2078, 652, 32, 160, 'metalPlate').setScale(1.4, 1.3).setOrigin(0, 0);
+        this.add.tileSprite(3078, 588, 160, 16, 'metalPlate').setScale(1.35, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(3078, 612, 32, 180, 'metalPlate').setScale(1.35, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(5770, 640, 415, 160, 'metalPlate').setScale(1.5, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(9235, 695, 124, 110, 'metalPlate').setScale(1.5, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(19330, 670, 124, 99, 'metalPlate').setScale(1.8, 1.5).setOrigin(0, 0);
+        
+        //Diagonales
+        this.add.image(380, 625, 'redBeamD').setScale(2,2).setOrigin(0,0);
+        this.add.image(3120, 630, 'redBeamD2').setScale(2,2).setOrigin(0,0);
+        this.add.image(5765, 640, 'redBeamD2').setScale(2,2).setOrigin(0,0);
+        this.add.image(6325, 640, 'redBeamD').setScale(2,2).setOrigin(0,0);
+        this.add.image(19430, 465, 'redBeamD').setScale(2,2).setOrigin(0,0);
+        this.add.image(19330, 675, 'redBeamD2').setScale(2,2).setOrigin(0,0);
+        
+        //Verticales
+        this.add.tileSprite(0, 476, 16, 349, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
+        this.add.tileSprite(360, 476, 32, 222, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(2060, 650, 16, 200, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(2120, 650, 16, 200, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(3060, 590, 16, 260, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(3120, 632, 16, 220, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(3280, 590, 16, 30, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(4250, 465, 48, 115, 'redBeamV').setScale(1.67, 1).setOrigin(0, 0);
+        this.add.tileSprite(5745, 645, 16, 210, 'redBeamV').setScale(1.67, 1).setOrigin(0, 0);
+        this.add.tileSprite(6378, 645, 16, 210, 'redBeamV').setScale(1.67, 1).setOrigin(0, 0);
+        this.add.tileSprite(5810, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(5860, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(5910, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(5960, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6005, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6050, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6100, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6150, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6200, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6240, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6290, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6340, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9225, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9408, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9270, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9320, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9365, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(12960, 450, 32, 244, 'redBeamV').setScale(2.5, 1).setOrigin(0, 0);
+        this.add.tileSprite(18435, 465, 32, 220, 'redBeamV').setScale(2.5, 1).setOrigin(0, 0);
+        this.add.tileSprite(19320, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
+        this.add.tileSprite(19380, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
+        this.add.tileSprite(19435, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
+                                                                                       
+        //Horizontales  
+        this.add.tileSprite(400, 662, 277, 16, 'redBeamH').setScale(1.3, 2.22).setOrigin(0, 0);
+        this.add.tileSprite(900, 662, 463, 16, 'redBeamH').setScale(1.3, 2.22).setOrigin(0, 0);
+        this.add.tileSprite(2060, 632, 80, 16, 'redBeamH').setScale(1, 1.3).setOrigin(0, 0);
+        this.add.tileSprite(3060, 568, 240, 16, 'redBeamH').setScale(1, 1.4).setOrigin(0, 0);
+        this.add.tileSprite(3120, 610, 180, 16, 'redBeamH').setScale(1, 1.4).setOrigin(0, 0);
+        this.add.tileSprite(5745, 622, 660, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(9225, 672, 200, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(19320, 654, 200, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
+        
+        this.add.image(785, 760, 'box').setScale(2.5, 1.8).setOrigin(0, 0);
+        this.add.tileSprite(1610, 733, 64, 32, 'box').setScale(1.88, 2.7).setOrigin(0, 0);
+        this.add.image(1670, 680, 'box').setScale(1.88, 2.1).setOrigin(0, 0);
+        this.add.image(1670, 630, 'box').setScale(1.88, 1.88).setOrigin(0, 0);
+        this.add.image(4250, 716, 'box').setScale(2.5, 3.2).setOrigin(0, 0);
+        this.add.tileSprite(6620, 702, 64, 32, 'box').setScale(2.5, 3.6).setOrigin(0, 0);
+        this.add.image(13360, 734, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
+        this.add.image(18585, 734, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
+        
+        this.add.image(9722, 659, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(9872, 659, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(10722, 682, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(11322, 580, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(14375, 730, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+        this.add.image(14575, 658, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+        this.add.image(14775, 580, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+        
+        //Esta es vertical pero tiene que ir aquí para no tener que hacerla dos veces.
+        this.add.tileSprite(19480, 450, 16, 370, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
+        
+        //Techos
+        this.add.tileSprite(0, 450, 308, 16, 'redBeamH').setScale(1.3, 1.65).setOrigin(0, 0);
+        this.add.tileSprite(3060, 450, 978, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
+        this.add.tileSprite(5745, 450, 510, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
+        this.add.tileSprite(18435, 450, 1065, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
+        
+        //Decoraciones
+        this.add.image(370, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(4450, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(4450, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(9300, 600, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(18470, 720, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        
+        this.add.image(2090, 700, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(3090, 670, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(3090, 715, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(19405, 715, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        
+        this.add.image(1710, 615, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(2060, 612, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(2485, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(3060, 550, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(4485, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(5745, 605, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(6385, 605, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(6620, 690, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(6765, 690, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(9225, 655, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(9410, 655, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(11220, 785, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(11365, 785, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(13630, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(18450, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        
+        this.add.image(11290, 730, 'exit').setScale(2, 2).setOrigin(0, 0);
+        
+        this.add.image(11315, 680, 'signalR').setScale(1.2, 1.2).setRotation(45.555).setOrigin(0, 0);
+        
+        this.add.tileSprite(19400, 622, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
+        /*-------------------------------------------FIN MUNDO 2----------------------------------------------------------------*/
         /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
         //-----------------------Divisor de pantalla---------------------------
@@ -387,9 +509,8 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
-
-        players.player1 = this.physics.add.sprite(150, 100, 'Mario1idle').setScale(1.25);
-        players.player2 = this.physics.add.sprite(150, 500, 'Mario2idle').setScale(1.25);
+        players.player1 = this.physics.add.sprite(150, 700, 'Mario1idle').setScale(1.25);
+        players.player2 = this.physics.add.sprite(150, 300, 'Mario2idle').setScale(1.25);
 
         this.physics.add.collider(players.player1, objects.platforms);
         collapsablePlats1 = this.physics.add.collider(players.player1, objects.collapsable);
@@ -398,8 +519,10 @@ class Level extends Phaser.Scene {
         collapsablePlats1.active = false;
         collapsablePlats2.active = false;
 
-        widthPlayer = 5;
-        heightPlayer = 36;
+        widthPlayer1 = 5;
+        heightPlayer1 = 36;
+        widthPlayer2 = 5;
+        heightPlayer2 = 30;
 
         //-------------------adding physics to enemies---------------------------
 
@@ -506,30 +629,27 @@ class Level extends Phaser.Scene {
         camera1 = this.cameras.main;
         camera1.setPosition(0, 400);
         camera1.setSize(config.width, 50);
-        //camera1.setVisible(false);
         camera1.setScroll(0, 400);
 
         //camera up
         camera2 = this.cameras.add(0, 0, config.width, 400);
         camera2.setBounds(0, 0, 19500, 400);
-        camera2.startFollow(players.player1);
+        camera2.startFollow(players.player2);
         camera2.setScroll(0, 0);
 
         //camera down
         camera3 = this.cameras.add(0, 450, config.width, 400);
         camera3.setBounds(0, 450, 19500, 400);
-        camera3.startFollow(players.player2);
+        camera3.startFollow(players.player1);
         camera3.setScroll(0, 450);
         camera3.setBackgroundColor('#113833');
-        //camera3.setPosition(0,450);
-        //camera3.startFollow(player);
 
 
         //size player
-        players.player1.body.setSize(widthPlayer, heightPlayer);
+        players.player1.body.setSize(widthPlayer1, heightPlayer1);
         players.player1.setCollideWorldBounds(false);
 
-        players.player2.body.setSize(widthPlayer, heightPlayer);
+        players.player2.body.setSize(widthPlayer2, heightPlayer2);
         players.player2.setCollideWorldBounds(false);
 
         //adding hearts
@@ -602,6 +722,51 @@ class Level extends Phaser.Scene {
             game.anims.create({
                 key: 'Mario1JumpEnd',
                 frames: game.anims.generateFrameNumbers('Mario1Jump', {
+                    start: 4,
+                    end: 0
+                }),
+                frameRate: 60,
+                repeat: 0
+            });
+            game.anims.create({
+                key: 'Mario2Walk',
+                frames: game.anims.generateFrameNumbers('Mario2Walk', {
+                    start: 1,
+                    end: 13
+                }),
+                frameRate: 10,
+                repeat: -1
+            });
+
+            game.anims.create({
+                key: 'idleMario2',
+                frames: game.anims.generateFrameNumbers('Mario2idle', {
+                    start: 0,
+                    end: 4
+                }),
+                frameRate: 6
+            });
+
+            game.anims.create({
+                key: 'Mario2Shoot',
+                frames: game.anims.generateFrameNumbers('Mario2Shoot', {
+                    start: 0,
+                    end: 5
+                }),
+                frameRate: 10,
+                repeat: 0
+            });
+            game.anims.create({
+                key: 'Mario2JumpStart',
+                frames: game.anims.generateFrameNumbers('Mario2Jump', {
+                    frames: [0, 1, 2, 3, 4, 3, 4, 3, 2, 1, 0]
+                }),
+                frameRate: 30,
+                repeat: 0
+            });
+            game.anims.create({
+                key: 'Mario2JumpEnd',
+                frames: game.anims.generateFrameNumbers('Mario2Jump', {
                     start: 4,
                     end: 0
                 }),
@@ -719,7 +884,7 @@ class Level extends Phaser.Scene {
             });
         }
 
-        if (players.player1.x >= 13000)
+        if (players.player1.x >= 13000 || players.player2.x >= 13000)
             warp = true;
         if (warp) {
             lab.tileScaleX = tween.getValue();
@@ -727,28 +892,32 @@ class Level extends Phaser.Scene {
         }
 
 
-        // Muerte por caida (jugador 1)
-        if (players.player1.y > 850) {
-
+        // Muerte por caida
+        if (players.player2.y > 400 || players.player1.y > 850) {
             playerDead = true;
         }
 
         if (playerDead == true) {
-            alert("Habéis perdido")
+            alert("Habéis perdido");
+            GameOver(this.scene);
+        }
+
+        // Condición de victoria
+        if (players.player1.x > 19400 && players.player2.x > 19400) {
+            alert("Habéis ganado");
             GameOver(this.scene);
         }
 
 
-
         /*--------------------------- BULLET LOGIC ------------------------------*/
-        // sirve para originar la bala dependiendo de hacia donde mire el personaje
+       // sirve para originar la bala dependiendo de hacia donde mire el personaje
         if (balaDisparada1 == true) {
             soundShoot.play();
             if (ShootDirection1 == "right") {
-                bala1 = this.physics.add.sprite(players.player1.body.position.x + 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
+                bala1 = this.physics.add.sprite(players.player1.body.position.x + 30, players.player1.body.position.y + heightPlayer1 / 2 + 2, 'bala');
                 this.physics.add.collider(bala1, objects.platforms, Killbala1);
             } else if (ShootDirection1 == "left") {
-                bala1 = this.physics.add.sprite(players.player1.body.position.x - 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
+                bala1 = this.physics.add.sprite(players.player1.body.position.x - 30, players.player1.body.position.y + heightPlayer1 / 2 + 2, 'bala');
                 this.physics.add.collider(bala1, objects.platforms, Killbala1);
             }
             bala1.setGravityY(-490);
@@ -765,26 +934,24 @@ class Level extends Phaser.Scene {
             }
         }
 
-        if (balaActiva1 == true && bala1.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala1.body.position.x > camera2.worldView.x) {
+        if (balaActiva1 == true && bala1.body.position.x < (camera3.worldView.x + camera3.worldView.width) && bala1.body.position.x > camera3.worldView.x) {
             canShoot1 = false;
-        } else if (balaActiva1 == true && (bala1.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
-                bala1.body.position.x < camera2.worldView.x)) {
+        } else if (balaActiva1 == true && (bala1.body.position.x > (camera3.worldView.x + camera3.worldView.width) ||
+                bala1.body.position.x < camera3.worldView.x)) {
             bala1.destroy();
             balaActiva1 = false;
             canShoot1 = true;
         }
-
-        
 
         // Bala 2
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
         if (balaDisparada2 == true) {
             soundShoot.play();
             if (ShootDirection2 == "right") {
-                bala2 = this.physics.add.sprite(players.player2.body.position.x + 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
+                bala2 = this.physics.add.sprite(players.player2.body.position.x + 30, players.player2.body.position.y + heightPlayer2 / 2 -2, 'bala');
                 this.physics.add.collider(bala2, objects.platforms, Killbala2);
             } else if (ShootDirection2 == "left") {
-                bala2 = this.physics.add.sprite(players.player2.body.position.x - 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
+                bala2 = this.physics.add.sprite(players.player2.body.position.x - 30, players.player2.body.position.y + heightPlayer2 / 2 -2, 'bala');
                 this.physics.add.collider(bala2, objects.platforms, Killbala2);
             }
             bala2.setGravityY(-490);
@@ -801,21 +968,13 @@ class Level extends Phaser.Scene {
             }
         }
 
-        if (balaActiva2 == true && bala2.body.position.x < (camera3.worldView.x + camera3.worldView.width) && bala2.body.position.x > camera3.worldView.x) {
+        if (balaActiva2 == true && bala2.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala2.body.position.x > camera3.worldView.x) {
             canShoot2 = false;
-        } else if (balaActiva2 == true && (bala2.body.position.x > (camera3.worldView.x + camera3.worldView.width) ||
+        } else if (balaActiva2 == true && (bala2.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
                 bala2.body.position.x < camera2.worldView.x)) {
-            bala2.destroy();
-            balaActiva2 = false;
-            canShoot2 = true;
-        }
-      
-      
-
-        //Condición de victoria 
-        if (players.player1.x > 19400) {
-            alert("Habéis ganado");
-            GameOver(this.scene);
+                    bala2.destroy();
+                    balaActiva2 = false;
+                    canShoot2 = true;
         }
 
         /*--------instructions of Amalgama's death and movement----------*/
@@ -835,10 +994,8 @@ class Level extends Phaser.Scene {
             i = 0;
             while (children[i] != undefined && i < enemiesQuantity) {
                 if (children[i].anims.currentKey == 'AmalgamaDeath') {
-                    console.log("Mosntruo muerto " + i);
                     if (children[i].anims.currentFrame.index == 7) {
                         enemiesArray.remove(children[i], true);
-                        console.log("animation complete");
                         EnemieDead = false;
                     }
                     for (var k = i; k < enemiesQuantity - 1; k++) {
@@ -908,7 +1065,7 @@ class Level extends Phaser.Scene {
             }
 
             if(updatePlayer2){
-              players.player2.anims.play('idleMario1', true);
+              players.player2.anims.play('idleMario2', true);
               players.player2.setVelocityX(0);
 
               //Move Left
@@ -968,7 +1125,7 @@ class Level extends Phaser.Scene {
                   players.player2.body.position.x -= 12;
               }
               players.player2.setVelocityX(-160);
-              players.player2.anims.play('Mario1Walk', true);
+              players.player2.anims.play('Mario2Walk', true);
               players.player2.flipX = true;
 
               //Return Idle
@@ -1024,7 +1181,7 @@ class Level extends Phaser.Scene {
                   players.player2.body.position.x += 12;
               }
               players.player2.setVelocityX(160);
-              players.player2.anims.play('Mario1Walk', true);
+              players.player2.anims.play('Mario2Walk', true);
               players.player2.flipX = false;
 
               //Return Idle
@@ -1038,9 +1195,9 @@ class Level extends Phaser.Scene {
               }
 
               //Shooting
-              if (canShoot1 == true) {
-                  if (controls1.gunKey.isDown) {
-                      playerState1 = playerStateList["shooting"];
+              if (canShoot2 == true) {
+                  if (controls2.gunKey.isDown) {
+                      playerState2 = playerStateList["shooting"];
                   }
               }
             }
@@ -1061,7 +1218,7 @@ class Level extends Phaser.Scene {
 
           if(updatePlayer2){
             if (controls2.cursors.up.isDown && players.player2.body.touching.down) {
-                players.player2.anims.play('Mario1JumpStart', true);
+                players.player2.anims.play('Mario2JumpStart', true);
                 playerState2 = playerStateList["jumping"];
                 soundJump.play();
             }
@@ -1115,7 +1272,7 @@ class Level extends Phaser.Scene {
 
           if(updatePlayer2){
             //to control the jumping animation
-            if (players.player2.anims.currentAnim.key == "Mario1JumpStart" && players.player2.anims.currentFrame.index == 5)
+            if (players.player2.anims.currentAnim.key == "Mario2JumpStart" && players.player2.anims.currentFrame.index == 5)
                 players.player2.setVelocityY(-330);
 
             else if (players.player2.anims.currentFrame.index == 6) {
@@ -1124,7 +1281,7 @@ class Level extends Phaser.Scene {
 
             if (players.player2.body.touching.down && players.player2.anims.currentFrame.index == 6) {
                 players.player2.setVelocityX(0);
-                players.player2.anims.play('Mario1JumpEnd', true);
+                players.player2.anims.play('Mario2JumpEnd', true);
             }
 
             //Left
@@ -1142,7 +1299,7 @@ class Level extends Phaser.Scene {
                 players.player2.flipX = false;
             }
 
-            if (players.player2.anims.currentAnim.key == "Mario1JumpEnd" && players.player2.anims.currentFrame.index == 5) {
+            if (players.player2.anims.currentAnim.key == "Mario2JumpEnd" && players.player2.anims.currentFrame.index == 5) {
                 if (players.player2.body.touching.down) {
                     playerState2 = playerStateList["idle"];
                 }
@@ -1177,7 +1334,7 @@ class Level extends Phaser.Scene {
                 } else if (players.player2.flipX == true) {
                     ShootDirection2 = "left";
                 }
-                players.player2.anims.play('Mario1Shoot', true);
+                players.player2.anims.play('Mario2Shoot', true);
                 if (players.player2.anims.currentFrame.index == 5) {
                     balaDisparada2 = true;
                     playerState2 = playerStateList["idle"];
@@ -1205,10 +1362,10 @@ class Level extends Phaser.Scene {
             while (i < enemiesQuantity && children[i] != undefined) {
                 if (Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
                         children[i].body.position.x, children[i].body.position.y)) < 50) {
-                    children[i].anims.play('AmalgamaDeath', 'true');
-                    children[i].anims.currentKey = 'AmalgamaDeath';
-                    children[i].body.velocity.x = 0;
-                    console.log(i);
+                            children[i].anims.play('AmalgamaDeath', 'true');
+                            children[i].anims.currentKey = 'AmalgamaDeath';
+                            children[i].body.velocity.x = 0;
+                            children[i].body.gravity.y=-490;
                 }
                 i++;
             }
@@ -1223,10 +1380,10 @@ class Level extends Phaser.Scene {
             while (i < enemiesQuantity && children[i] != undefined) {
                 if (Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
                         children[i].body.position.x, children[i].body.position.y)) < 50) {
-                    children[i].anims.play('AmalgamaDeath', 'true');
-                    children[i].anims.currentKey = 'AmalgamaDeath';
-                    children[i].body.velocity.x = 0;
-                    console.log(i);
+                            children[i].anims.play('AmalgamaDeath', 'true');
+                            children[i].anims.currentKey = 'AmalgamaDeath';
+                            children[i].body.velocity.x = 0;
+                            children[i].body.gravity.y=-490;
                 }
                 i++;
             }
