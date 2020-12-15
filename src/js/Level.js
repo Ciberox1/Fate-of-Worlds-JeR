@@ -14,7 +14,7 @@ class Level extends Phaser.Scene {
         controls1.cursors = this.input.keyboard.createCursorKeys();
 
         controls2.interactKey = this.input.keyboard.addKey('K');
-        controls2.gunKey = this.input.keyboard.addKey('J');
+        controls2.gunKey = this.input.keyboard.addKey('F');
         controls2.dropKey = this.input.keyboard.addKey('L');
         controls2.cursors = this.input.keyboard.addKeys({
             'up': Phaser.Input.Keyboard.KeyCodes.W,
