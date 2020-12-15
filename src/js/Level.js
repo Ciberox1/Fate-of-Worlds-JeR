@@ -230,8 +230,8 @@ class Level extends Phaser.Scene {
         objects.platforms.create(19050, 834, 'ground').setScale(3, 1).refreshBody();
         objects.platforms.create(18475, 550, 'ground').setScale(0.2, 8).refreshBody();
         objects.platforms.create(18625, 800, 'ground').setScale(0.2, 4).refreshBody();
-        objects.platforms.create(18850, 650, 'ground').setScale(0.2, 1).refreshBody();
-        objects.platforms.create(19100, 625, 'ground').setScale(0.2, 1).refreshBody();
+        objects.platforms.create(18850, 650, 'platform1').setScale(0.2, 1).refreshBody();
+        objects.platforms.create(19100, 625, 'platform1').setScale(0.2, 1).refreshBody();
         objects.platforms.create(19400, 750, 'ground').setScale(0.4, 6).refreshBody(); //sobre esto esta el terminal, debe colapsarse para mandarlo al otro mundo
         objects.platforms.create(19500, 650, 'ground').setScale(0.1, 12).refreshBody();
         objects.platforms.create(19100, 450, 'ground').setScale(3, 1).refreshBody();
@@ -370,9 +370,138 @@ class Level extends Phaser.Scene {
         this.add.tileSprite(12105, 300, 56, 32, 'vPipe').setScale(1.06, 1).setOrigin(0, 0);
 
         this.add.tileSprite(19400, 172, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
-
+        
+        
         /*------------------------------------------------MUNDO 2---------------------------------------------------------------*/
-
+        //Suelo
+        this.add.tileSprite(0, 820, 1730, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(2139, 820, 360, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(3140, 820, 1360, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(6620, 820, 160, 30, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(11220, 803, 160, 50, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(12850, 819, 800, 50, 'whiteLabGround').setOrigin(0, 0);
+        this.add.tileSprite(18450, 819, 1050, 50, 'whiteLabGround').setOrigin(0, 0);
+        
+        //Metal Plates
+        this.add.tileSprite(2078, 652, 32, 160, 'metalPlate').setScale(1.4, 1.3).setOrigin(0, 0);
+        this.add.tileSprite(3078, 588, 160, 16, 'metalPlate').setScale(1.35, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(3078, 612, 32, 180, 'metalPlate').setScale(1.35, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(5770, 640, 415, 160, 'metalPlate').setScale(1.5, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(9235, 695, 124, 110, 'metalPlate').setScale(1.5, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(19330, 670, 124, 99, 'metalPlate').setScale(1.8, 1.5).setOrigin(0, 0);
+        
+        //Diagonales
+        this.add.image(380, 625, 'redBeamD').setScale(2,2).setOrigin(0,0);
+        this.add.image(3120, 630, 'redBeamD2').setScale(2,2).setOrigin(0,0);
+        this.add.image(5765, 640, 'redBeamD2').setScale(2,2).setOrigin(0,0);
+        this.add.image(6325, 640, 'redBeamD').setScale(2,2).setOrigin(0,0);
+        this.add.image(19430, 465, 'redBeamD').setScale(2,2).setOrigin(0,0);
+        this.add.image(19330, 675, 'redBeamD2').setScale(2,2).setOrigin(0,0);
+        
+        //Verticales
+        this.add.tileSprite(0, 476, 16, 349, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
+        this.add.tileSprite(360, 476, 32, 222, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(2060, 650, 16, 200, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(2120, 650, 16, 200, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(3060, 590, 16, 260, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(3120, 632, 16, 220, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(3280, 590, 16, 30, 'redBeamV').setScale(1.25, 1).setOrigin(0, 0);
+        this.add.tileSprite(4250, 465, 48, 115, 'redBeamV').setScale(1.67, 1).setOrigin(0, 0);
+        this.add.tileSprite(5745, 645, 16, 210, 'redBeamV').setScale(1.67, 1).setOrigin(0, 0);
+        this.add.tileSprite(6378, 645, 16, 210, 'redBeamV').setScale(1.67, 1).setOrigin(0, 0);
+        this.add.tileSprite(5810, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(5860, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(5910, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(5960, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6005, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6050, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6100, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6150, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6200, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6240, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6290, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(6340, 645, 16, 210, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9225, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9408, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9270, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9320, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(9365, 690, 16, 190, 'redBeamV').setScale(1.1, 1).setOrigin(0, 0);
+        this.add.tileSprite(12960, 450, 32, 244, 'redBeamV').setScale(2.5, 1).setOrigin(0, 0);
+        this.add.tileSprite(18435, 465, 32, 220, 'redBeamV').setScale(2.5, 1).setOrigin(0, 0);
+        this.add.tileSprite(19320, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
+        this.add.tileSprite(19380, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
+        this.add.tileSprite(19435, 660, 16, 159, 'redBeamV').setScale(1, 1).setOrigin(0, 0);
+                                                                                       
+        //Horizontales  
+        this.add.tileSprite(400, 662, 277, 16, 'redBeamH').setScale(1.3, 2.22).setOrigin(0, 0);
+        this.add.tileSprite(900, 662, 463, 16, 'redBeamH').setScale(1.3, 2.22).setOrigin(0, 0);
+        this.add.tileSprite(2060, 632, 80, 16, 'redBeamH').setScale(1, 1.3).setOrigin(0, 0);
+        this.add.tileSprite(3060, 568, 240, 16, 'redBeamH').setScale(1, 1.4).setOrigin(0, 0);
+        this.add.tileSprite(3120, 610, 180, 16, 'redBeamH').setScale(1, 1.4).setOrigin(0, 0);
+        this.add.tileSprite(5745, 622, 660, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(9225, 672, 200, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
+        this.add.tileSprite(19320, 654, 200, 16, 'redBeamH').setScale(1, 1.5).setOrigin(0, 0);
+        
+        this.add.image(785, 760, 'box').setScale(2.5, 1.8).setOrigin(0, 0);
+        this.add.tileSprite(1610, 733, 64, 32, 'box').setScale(1.88, 2.7).setOrigin(0, 0);
+        this.add.image(1670, 680, 'box').setScale(1.88, 2.1).setOrigin(0, 0);
+        this.add.image(1670, 630, 'box').setScale(1.88, 1.88).setOrigin(0, 0);
+        this.add.image(4250, 716, 'box').setScale(2.5, 3.2).setOrigin(0, 0);
+        this.add.tileSprite(6620, 702, 64, 32, 'box').setScale(2.5, 3.6).setOrigin(0, 0);
+        this.add.image(13360, 734, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
+        this.add.image(18585, 734, 'box').setScale(2.5, 2.7).setOrigin(0, 0);
+        
+        this.add.image(9722, 659, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(9872, 659, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(10722, 682, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(11322, 580, 'fan').setScale(1.7, 1.8).setOrigin(0, 0);
+        this.add.image(14375, 730, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+        this.add.image(14575, 658, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+        this.add.image(14775, 580, 'fan').setScale(1.6, 1.8).setOrigin(0, 0);
+        
+        //Esta es vertical pero tiene que ir aquí para no tener que hacerla dos veces.
+        this.add.tileSprite(19480, 450, 16, 370, 'redBeamV').setScale(1.3, 1).setOrigin(0, 0);
+        
+        //Techos
+        this.add.tileSprite(0, 450, 308, 16, 'redBeamH').setScale(1.3, 1.65).setOrigin(0, 0);
+        this.add.tileSprite(3060, 450, 978, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
+        this.add.tileSprite(5745, 450, 510, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
+        this.add.tileSprite(18435, 450, 1065, 16, 'redBeamH').setScale(1.3, 1).setOrigin(0, 0);
+        
+        //Decoraciones
+        this.add.image(370, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(4450, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(4450, 715, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(9300, 600, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(18470, 720, 'signalR').setScale(1.2, 1.2).setOrigin(0, 0);
+        
+        this.add.image(2090, 700, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(3090, 670, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(3090, 715, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(19405, 715, 'emergency').setScale(1.2, 1.2).setOrigin(0, 0);
+        
+        this.add.image(1710, 615, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(2060, 612, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(2485, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(3060, 550, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(4485, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(5745, 605, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(6385, 605, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(6620, 690, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(6765, 690, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(9225, 655, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(9410, 655, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(11220, 785, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(11365, 785, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(13630, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        this.add.image(18450, 800, 'cone').setScale(1.2, 1.2).setOrigin(0, 0);
+        
+        this.add.image(11290, 730, 'exit').setScale(2, 2).setOrigin(0, 0);
+        
+        this.add.image(11315, 680, 'signalR').setScale(1.2, 1.2).setRotation(45.555).setOrigin(0, 0);
+        
+        this.add.tileSprite(19400, 622, 14, 32, 'machine').setScale(1.2, 1).setOrigin(0, 0);
+        /*-------------------------------------------FIN MUNDO 2----------------------------------------------------------------*/
         /*------------------------------------------------Fin sprites-----------------------------------------------------------*/
 
         //-----------------------Divisor de pantalla---------------------------
@@ -380,7 +509,6 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
-
         players.player1 = this.physics.add.sprite(150, 700, 'Mario1idle').setScale(1.25);
         players.player2 = this.physics.add.sprite(150, 300, 'Mario2idle').setScale(1.25);
 
