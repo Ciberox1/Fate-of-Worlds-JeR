@@ -18,6 +18,8 @@
       <script src="../../src/js/MainMenu.js"></script>
       <script src="../../src/js/Creditos.js"></script>
       <script src="../../src/js/Level.js"></script>
+      <script src="../../src/js/Desarrolladores.js"></script>
+      <script src="../../src/js/Agradecimientos.js"></script>
 
       <script type="text/javascript">
 
@@ -35,7 +37,7 @@
                   debug: false
               }
           },
-          scene: [MainMenu, Preloader, Creditos, Level]
+          scene: [MainMenu, Preloader, Creditos, Level, Desarrolladores, Agradecimientos]
       };
 
       var objects = {
@@ -74,10 +76,8 @@
           canJump: 'canJump',
           jumping: 'jumping',
           shooting: 'shooting',
-          crouching: 'crouching',
-          crouched: 'crouched',
-          gettingUp: 'getUp'
       }
+
       var updatePlayer1 = true;
       var updatePlayer2 = false;
 
