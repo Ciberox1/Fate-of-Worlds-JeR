@@ -388,8 +388,8 @@ class Level extends Phaser.Scene {
 
         //adding physics to player
 
-        players.player1 = this.physics.add.sprite(150, 700, 'Mario1idle').setScale(1.25);
-        players.player2 = this.physics.add.sprite(150, 300, 'Mario2idle').setScale(1.25);
+        players.player1 = this.physics.add.sprite(150, 100, 'Mario1idle').setScale(1.25);
+        players.player2 = this.physics.add.sprite(150, 500, 'Mario2idle').setScale(1.25);
 
         this.physics.add.collider(players.player1, objects.platforms);
         collapsablePlats = this.physics.add.collider(players.player1, objects.collapsable);
@@ -397,10 +397,8 @@ class Level extends Phaser.Scene {
         collapsablePlats = this.physics.add.collider(players.player2, objects.collapsable);
         collapsablePlats.active = false;
 
-        widthPlayer1 = 5;
-        heightPlayer1 = 36;
-        widthPlayer2 = 5;
-        heightPlayer2 = 30;
+        widthPlayer = 5;
+        heightPlayer = 36;
 
         //-------------------adding physics to enemies---------------------------
 
@@ -513,13 +511,13 @@ class Level extends Phaser.Scene {
         //camera up
         camera2 = this.cameras.add(0, 0, config.width, 400);
         camera2.setBounds(0, 0, 19500, 400);
-        camera2.startFollow(players.player2);
+        camera2.startFollow(players.player1);
         camera2.setScroll(0, 0);
 
         //camera down
         camera3 = this.cameras.add(0, 450, config.width, 400);
         camera3.setBounds(0, 450, 19500, 400);
-        camera3.startFollow(players.player1);
+        camera3.startFollow(players.player2);
         camera3.setScroll(0, 450);
         camera3.setBackgroundColor('#113833');
         //camera3.setPosition(0,450);
@@ -527,10 +525,10 @@ class Level extends Phaser.Scene {
 
 
         //size player
-        players.player1.body.setSize(widthPlayer1, heightPlayer1);
+        players.player1.body.setSize(widthPlayer, heightPlayer);
         players.player1.setCollideWorldBounds(false);
 
-        players.player2.body.setSize(widthPlayer2, heightPlayer2);
+        players.player2.body.setSize(widthPlayer, heightPlayer);
         players.player2.setCollideWorldBounds(false);
 
         //adding hearts
@@ -609,51 +607,6 @@ class Level extends Phaser.Scene {
                 frameRate: 60,
                 repeat: 0
             });
-            game.anims.create({
-                key: 'Mario2Walk',
-                frames: game.anims.generateFrameNumbers('Mario2Walk', {
-                    start: 1,
-                    end: 13
-                }),
-                frameRate: 10,
-                repeat: -1
-            });
-
-            game.anims.create({
-                key: 'idleMario2',
-                frames: game.anims.generateFrameNumbers('Mario2idle', {
-                    start: 0,
-                    end: 4
-                }),
-                frameRate: 6
-            });
-
-            game.anims.create({
-                key: 'Mario2Shoot',
-                frames: game.anims.generateFrameNumbers('Mario2Shoot', {
-                    start: 0,
-                    end: 5
-                }),
-                frameRate: 10,
-                repeat: 0
-            });
-            game.anims.create({
-                key: 'Mario2JumpStart',
-                frames: game.anims.generateFrameNumbers('Mario2Jump', {
-                    frames: [0, 1, 2, 3, 4, 3, 4, 3, 2, 1, 0]
-                }),
-                frameRate: 30,
-                repeat: 0
-            });
-            game.anims.create({
-                key: 'Mario2JumpEnd',
-                frames: game.anims.generateFrameNumbers('Mario2Jump', {
-                    start: 4,
-                    end: 0
-                }),
-                frameRate: 60,
-                repeat: 0
-            });
 
             game.anims.create({
                 key: 'heart',
@@ -691,6 +644,7 @@ class Level extends Phaser.Scene {
         updatePlayer1 = true;
         updatePlayer2 = false;
 
+        console.log(playerState1 + " // " + playerState2);
 
         switch (playerState1) {
             case playerStateList["idle"]:
@@ -791,10 +745,10 @@ class Level extends Phaser.Scene {
         if (balaDisparada1 == true) {
             soundShoot.play();
             if (ShootDirection1 == "right") {
-                bala1 = this.physics.add.sprite(players.player1.body.position.x + 30, players.player1.body.position.y + heightPlayer1 / 2 + 2, 'bala');
+                bala1 = this.physics.add.sprite(players.player1.body.position.x + 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
                 this.physics.add.collider(bala1, objects.platforms, Killbala1);
             } else if (ShootDirection1 == "left") {
-                bala1 = this.physics.add.sprite(players.player1.body.position.x - 30, players.player1.body.position.y + heightPlayer1 / 2 + 2, 'bala');
+                bala1 = this.physics.add.sprite(players.player1.body.position.x - 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
                 this.physics.add.collider(bala1, objects.platforms, Killbala1);
             }
             bala1.setGravityY(-490);
@@ -811,10 +765,10 @@ class Level extends Phaser.Scene {
             }
         }
 
-        if (balaActiva1 == true && bala1.body.position.x < (camera3.worldView.x + camera3.worldView.width) && bala1.body.position.x > camera3.worldView.x) {
+        if (balaActiva1 == true && bala1.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala1.body.position.x > camera2.worldView.x) {
             canShoot1 = false;
-        } else if (balaActiva1 == true && (bala1.body.position.x > (camera3.worldView.x + camera3.worldView.width) ||
-                bala1.body.position.x < camera3.worldView.x)) {
+        } else if (balaActiva1 == true && (bala1.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
+                bala1.body.position.x < camera2.worldView.x)) {
             bala1.destroy();
             balaActiva1 = false;
             canShoot1 = true;
@@ -827,10 +781,10 @@ class Level extends Phaser.Scene {
         if (balaDisparada2 == true) {
             soundShoot.play();
             if (ShootDirection2 == "right") {
-                bala2 = this.physics.add.sprite(players.player2.body.position.x + 30, players.player2.body.position.y + heightPlayer2 / 2 -2, 'bala');
+                bala2 = this.physics.add.sprite(players.player2.body.position.x + 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
                 this.physics.add.collider(bala2, objects.platforms, Killbala2);
             } else if (ShootDirection2 == "left") {
-                bala2 = this.physics.add.sprite(players.player2.body.position.x - 30, players.player2.body.position.y + heightPlayer2 / 2 -2, 'bala');
+                bala2 = this.physics.add.sprite(players.player2.body.position.x - 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
                 this.physics.add.collider(bala2, objects.platforms, Killbala2);
             }
             bala2.setGravityY(-490);
@@ -847,13 +801,13 @@ class Level extends Phaser.Scene {
             }
         }
 
-        if (balaActiva2 == true && bala2.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala2.body.position.x > camera3.worldView.x) {
+        if (balaActiva2 == true && bala2.body.position.x < (camera3.worldView.x + camera3.worldView.width) && bala2.body.position.x > camera3.worldView.x) {
             canShoot2 = false;
-        } else if (balaActiva2 == true && (bala2.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
+        } else if (balaActiva2 == true && (bala2.body.position.x > (camera3.worldView.x + camera3.worldView.width) ||
                 bala2.body.position.x < camera2.worldView.x)) {
-                    bala2.destroy();
-                    balaActiva2 = false;
-                    canShoot2 = true;
+            bala2.destroy();
+            balaActiva2 = false;
+            canShoot2 = true;
         }
       
       
@@ -881,8 +835,10 @@ class Level extends Phaser.Scene {
             i = 0;
             while (children[i] != undefined && i < enemiesQuantity) {
                 if (children[i].anims.currentKey == 'AmalgamaDeath') {
+                    console.log("Mosntruo muerto " + i);
                     if (children[i].anims.currentFrame.index == 7) {
                         enemiesArray.remove(children[i], true);
+                        console.log("animation complete");
                         EnemieDead = false;
                     }
                     for (var k = i; k < enemiesQuantity - 1; k++) {
@@ -952,7 +908,7 @@ class Level extends Phaser.Scene {
             }
 
             if(updatePlayer2){
-              players.player2.anims.play('idleMario2', true);
+              players.player2.anims.play('idleMario1', true);
               players.player2.setVelocityX(0);
 
               //Move Left
@@ -1012,7 +968,7 @@ class Level extends Phaser.Scene {
                   players.player2.body.position.x -= 12;
               }
               players.player2.setVelocityX(-160);
-              players.player2.anims.play('Mario2Walk', true);
+              players.player2.anims.play('Mario1Walk', true);
               players.player2.flipX = true;
 
               //Return Idle
@@ -1068,7 +1024,7 @@ class Level extends Phaser.Scene {
                   players.player2.body.position.x += 12;
               }
               players.player2.setVelocityX(160);
-              players.player2.anims.play('Mario2Walk', true);
+              players.player2.anims.play('Mario1Walk', true);
               players.player2.flipX = false;
 
               //Return Idle
@@ -1082,9 +1038,9 @@ class Level extends Phaser.Scene {
               }
 
               //Shooting
-              if (canShoot2 == true) {
-                  if (controls2.gunKey.isDown) {
-                      playerState2 = playerStateList["shooting"];
+              if (canShoot1 == true) {
+                  if (controls1.gunKey.isDown) {
+                      playerState1 = playerStateList["shooting"];
                   }
               }
             }
@@ -1105,7 +1061,7 @@ class Level extends Phaser.Scene {
 
           if(updatePlayer2){
             if (controls2.cursors.up.isDown && players.player2.body.touching.down) {
-                players.player2.anims.play('Mario2JumpStart', true);
+                players.player2.anims.play('Mario1JumpStart', true);
                 playerState2 = playerStateList["jumping"];
                 soundJump.play();
             }
@@ -1159,7 +1115,7 @@ class Level extends Phaser.Scene {
 
           if(updatePlayer2){
             //to control the jumping animation
-            if (players.player2.anims.currentAnim.key == "Mario2JumpStart" && players.player2.anims.currentFrame.index == 5)
+            if (players.player2.anims.currentAnim.key == "Mario1JumpStart" && players.player2.anims.currentFrame.index == 5)
                 players.player2.setVelocityY(-330);
 
             else if (players.player2.anims.currentFrame.index == 6) {
@@ -1168,7 +1124,7 @@ class Level extends Phaser.Scene {
 
             if (players.player2.body.touching.down && players.player2.anims.currentFrame.index == 6) {
                 players.player2.setVelocityX(0);
-                players.player2.anims.play('Mario2JumpEnd', true);
+                players.player2.anims.play('Mario1JumpEnd', true);
             }
 
             //Left
@@ -1186,7 +1142,7 @@ class Level extends Phaser.Scene {
                 players.player2.flipX = false;
             }
 
-            if (players.player2.anims.currentAnim.key == "Mario2JumpEnd" && players.player2.anims.currentFrame.index == 5) {
+            if (players.player2.anims.currentAnim.key == "Mario1JumpEnd" && players.player2.anims.currentFrame.index == 5) {
                 if (players.player2.body.touching.down) {
                     playerState2 = playerStateList["idle"];
                 }
@@ -1218,10 +1174,10 @@ class Level extends Phaser.Scene {
             if (canShoot2 == true) {
                 if (players.player2.flipX == false) {
                     ShootDirection2 = "right";
-                } else if (players.player2.flipX == true) {
+                } else if (players.player1.flipX == true) {
                     ShootDirection2 = "left";
                 }
-                players.player2.anims.play('Mario2Shoot', true);
+                players.player2.anims.play('Mario1Shoot', true);
                 if (players.player2.anims.currentFrame.index == 5) {
                     balaDisparada2 = true;
                     playerState2 = playerStateList["idle"];
@@ -1249,10 +1205,10 @@ class Level extends Phaser.Scene {
             while (i < enemiesQuantity && children[i] != undefined) {
                 if (Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
                         children[i].body.position.x, children[i].body.position.y)) < 50) {
-                            children[i].anims.play('AmalgamaDeath', 'true');
-                            children[i].anims.currentKey = 'AmalgamaDeath';
-                            children[i].body.velocity.x = 0;
-                            children[i].body.gravity.y=-490;
+                    children[i].anims.play('AmalgamaDeath', 'true');
+                    children[i].anims.currentKey = 'AmalgamaDeath';
+                    children[i].body.velocity.x = 0;
+                    console.log(i);
                 }
                 i++;
             }
@@ -1267,10 +1223,10 @@ class Level extends Phaser.Scene {
             while (i < enemiesQuantity && children[i] != undefined) {
                 if (Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
                         children[i].body.position.x, children[i].body.position.y)) < 50) {
-                            children[i].anims.play('AmalgamaDeath', 'true');
-                            children[i].anims.currentKey = 'AmalgamaDeath';
-                            children[i].body.velocity.x = 0;
-                            children[i].body.gravity.y=-490;
+                    children[i].anims.play('AmalgamaDeath', 'true');
+                    children[i].anims.currentKey = 'AmalgamaDeath';
+                    children[i].body.velocity.x = 0;
+                    console.log(i);
                 }
                 i++;
             }
