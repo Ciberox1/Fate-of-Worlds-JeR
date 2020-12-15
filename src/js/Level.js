@@ -661,7 +661,7 @@ class Level extends Phaser.Scene {
             soundCollapse.play();
             collapsablePlats.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
-                objects.collapsable.children.entries[i].setTexture('platform1');
+                objects.collapsable.children.entries[i].setTexture('collapsed');
             }
             if (collapseTimer === false) {
                 var collapseEvent = this.time.delayedCall(15000, removeCollapse);
@@ -687,14 +687,22 @@ class Level extends Phaser.Scene {
             lab2.tileScaleX = tween.getValue();
         }
 
-        // Muerte por caida (jugador 1)
+        // Muerte por caida
         if (player.y > 850) {
             playerDead = true;
         }
 
         if (playerDead == true) {
+            alert("Habéis perdido")
             GameOver(this.scene);
         }
+
+        //Condición de victoria 
+        if (player.x > 19400) {
+            alert("Habéis ganado");
+            GameOver(this.scene);
+        }
+
 
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
         if (balaDisparada == true) {
