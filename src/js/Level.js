@@ -7,28 +7,28 @@ class Level extends Phaser.Scene {
 
     preload() {
 
-        var moabKeys = true;
-        if (moabKeys == true) {
-            //These are moab controls
-            this.input.keyboard.removeAllKeys();
-            controls.interactKey = this.input.keyboard.addKey('E');
-            controls.gunKey = this.input.keyboard.addKey('W');
-            controls.dropKey = this.input.keyboard.addKey('Q');
-            controls.collapseKey = this.input.keyboard.addKey('SPACE');
-            controls.cursors = this.input.keyboard.createCursorKeys();
-        } else {
-            //These are WASD controls
-            this.input.keyboard.removeAllKeys();
-            controls.interactKey = this.input.keyboard.addKey('K');
-            controls.gunKey = this.input.keyboard.addKey('J');
-            controls.dropKey = this.input.keyboard.addKey('L');
-            controls.cursors = this.input.keyboard.addKeys({
+        //var moabKeys = true;
+        //if (moabKeys == true) {
+            //These are moab controls1
+            //this.input.keyboard.removeAllKeys();
+            controls1.interactKey = this.input.keyboard.addKey('E');
+            controls1.gunKey = this.input.keyboard.addKey('P');
+            controls1.dropKey = this.input.keyboard.addKey('Q');
+            controls1.collapseKey = this.input.keyboard.addKey('SPACE');
+            controls1.cursors = this.input.keyboard.createCursorKeys();
+        //} else {
+            //These are WASD controls1
+            //this.input.keyboard.removeAllKeys();
+            controls2.interactKey = this.input.keyboard.addKey('K');
+            controls2.gunKey = this.input.keyboard.addKey('J');
+            controls2.dropKey = this.input.keyboard.addKey('L');
+            controls2.cursors = this.input.keyboard.addKeys({
                 'up': Phaser.Input.Keyboard.KeyCodes.W,
                 'down': Phaser.Input.Keyboard.KeyCodes.S,
                 'left': Phaser.Input.Keyboard.KeyCodes.A,
                 'right': Phaser.Input.Keyboard.KeyCodes.D
             });
-        }
+        //}
 
     }
 
@@ -387,10 +387,14 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
-        player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
-        this.physics.add.collider(player, objects.platforms);
-        collapsablePlats = this.physics.add.collider(player, objects.collapsable);
+        players.player1 = this.physics.add.sprite(150, 100, 'Mario1idle').setScale(1.25);
+        players.player2 = this.physics.add.sprite(150, 500, 'Mario2idle').setScale(1.25);
+
+        this.physics.add.collider(players.player1, objects.platforms);
+        collapsablePlats = this.physics.add.collider(players.player1, objects.collapsable);
+        this.physics.add.collider(players.player2, objects.platforms);
+        collapsablePlats = this.physics.add.collider(players.player2, objects.collapsable);
         collapsablePlats.active = false;
 
         widthPlayer = 5;
@@ -507,13 +511,13 @@ class Level extends Phaser.Scene {
         //camera up
         camera2 = this.cameras.add(0, 0, config.width, 400);
         camera2.setBounds(0, 0, 19500, 400);
-        camera2.startFollow(player);
+        camera2.startFollow(players.player1);
         camera2.setScroll(0, 0);
 
         //camera down
         camera3 = this.cameras.add(0, 450, config.width, 400);
         camera3.setBounds(0, 450, 19500, 400);
-        camera3.startFollow(player);
+        camera3.startFollow(players.player2);
         camera3.setScroll(0, 450);
         camera3.setBackgroundColor('#113833');
         //camera3.setPosition(0,450);
@@ -521,8 +525,11 @@ class Level extends Phaser.Scene {
 
 
         //size player
-        player.body.setSize(widthPlayer, heightPlayer);
-        player.setCollideWorldBounds(false);
+        players.player1.body.setSize(widthPlayer, heightPlayer);
+        players.player1.setCollideWorldBounds(false);
+
+        players.player2.body.setSize(widthPlayer, heightPlayer);
+        players.player2.setCollideWorldBounds(false);
 
         //adding hearts
         hearts = this.add.group();
@@ -539,7 +546,8 @@ class Level extends Phaser.Scene {
         enemiesArray.playAnimation('AmalgamaRun');
 
         //collision player-enemies
-        playerCollidesEnemies = this.physics.add.collider(player, enemiesArray, KillPlayer);
+        playerCollidesEnemies1 = this.physics.add.collider(players.player1, enemiesArray, KillPlayer1);
+        playerCollidesEnemies2 = this.physics.add.collider(players.player2, enemiesArray, KillPlayer2);
 
         //adding sound
         soundBackground = this.sound.add('BackgroundSound', {
@@ -633,7 +641,38 @@ class Level extends Phaser.Scene {
 
     update() {
 
-        switch (playerState) {
+        updatePlayer1 = true;
+        updatePlayer2 = false;
+
+        console.log(playerState1 + " // " + playerState2);
+
+        switch (playerState1) {
+            case playerStateList["idle"]:
+                Idle();
+                break;
+            case playerStateList["movingLeft"]:
+                Left();
+                break;
+            case playerStateList["movingRight"]:
+                Right();
+                break;
+            case playerStateList["canJump"]:
+                CanJump();
+                break;
+            case playerStateList["jumping"]:
+                Jump();
+                break;
+            case playerStateList["shooting"]:
+                Shooting();
+                break;
+            default:
+
+        }
+
+        updatePlayer1 = false;
+        updatePlayer2 = true;
+
+        switch (playerState2) {
             case playerStateList["idle"]:
                 Idle();
                 break;
@@ -657,7 +696,7 @@ class Level extends Phaser.Scene {
         }
 
         //Collapse code
-        if (controls.collapseKey.isDown) {
+        if (controls1.collapseKey.isDown) {
             soundCollapse.play();
             collapsablePlats.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
@@ -680,15 +719,17 @@ class Level extends Phaser.Scene {
             });
         }
 
-        if (player.x >= 13000)
+        if (players.player1.x >= 13000)
             warp = true;
         if (warp) {
             lab.tileScaleX = tween.getValue();
             lab2.tileScaleX = tween.getValue();
         }
 
-        // Muerte por caida
-        if (player.y > 850) {
+
+        // Muerte por caida (jugador 1)
+        if (players.player1.y > 850) {
+
             playerDead = true;
         }
 
@@ -697,52 +738,95 @@ class Level extends Phaser.Scene {
             GameOver(this.scene);
         }
 
-        //Condición de victoria 
-        if (player.x > 19400) {
-            alert("Habéis ganado");
-            GameOver(this.scene);
-        }
 
 
+        /*--------------------------- BULLET LOGIC ------------------------------*/
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
-        if (balaDisparada == true) {
+        if (balaDisparada1 == true) {
             soundShoot.play();
-            if (ShootDirection == "right") {
-                bala = this.physics.add.sprite(player.body.position.x + 30, player.body.position.y + heightPlayer / 2 + 2, 'bala');
-                this.physics.add.collider(bala, objects.platforms, Killbala);
-            } else if (ShootDirection == "left") {
-                bala = this.physics.add.sprite(player.body.position.x - 30, player.body.position.y + heightPlayer / 2 + 2, 'bala');
-                this.physics.add.collider(bala, objects.platforms, Killbala);
+            if (ShootDirection1 == "right") {
+                bala1 = this.physics.add.sprite(players.player1.body.position.x + 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
+                this.physics.add.collider(bala1, objects.platforms, Killbala1);
+            } else if (ShootDirection1 == "left") {
+                bala1 = this.physics.add.sprite(players.player1.body.position.x - 30, players.player1.body.position.y + heightPlayer / 2 + 2, 'bala');
+                this.physics.add.collider(bala1, objects.platforms, Killbala1);
             }
-            bala.setGravityY(-490);
-            balaDisparada = false;
-            balaActiva = true;
-            bala.setScale(0.5);
+            bala1.setGravityY(-490);
+            balaDisparada1 = false;
+            balaActiva1 = true;
+            bala1.setScale(0.5);
         }
         //sirve para dar velocidad una vez se crea la bala
-        if (balaActiva == true) {
-            if (ShootDirection == "right")
-                bala.setVelocityX(300);
-            else if (ShootDirection == "left") {
-                bala.setVelocityX(-300);
+        if (balaActiva1 == true) {
+            if (ShootDirection1 == "right")
+                bala1.setVelocityX(300);
+            else if (ShootDirection1 == "left") {
+                bala1.setVelocityX(-300);
             }
         }
 
-        if (balaActiva == true && bala.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala.body.position.x > camera2.worldView.x) {
-            canShoot = false;
-        } else if (balaActiva == true && (bala.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
-                bala.body.position.x < camera2.worldView.x)) {
-            bala.destroy();
-            balaActiva = false;
-            canShoot = true;
+        if (balaActiva1 == true && bala1.body.position.x < (camera2.worldView.x + camera2.worldView.width) && bala1.body.position.x > camera2.worldView.x) {
+            canShoot1 = false;
+        } else if (balaActiva1 == true && (bala1.body.position.x > (camera2.worldView.x + camera2.worldView.width) ||
+                bala1.body.position.x < camera2.worldView.x)) {
+            bala1.destroy();
+            balaActiva1 = false;
+            canShoot1 = true;
+        }
+
+        
+
+        // Bala 2
+        // sirve para originar la bala dependiendo de hacia donde mire el personaje
+        if (balaDisparada2 == true) {
+            soundShoot.play();
+            if (ShootDirection2 == "right") {
+                bala2 = this.physics.add.sprite(players.player2.body.position.x + 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
+                this.physics.add.collider(bala2, objects.platforms, Killbala2);
+            } else if (ShootDirection2 == "left") {
+                bala2 = this.physics.add.sprite(players.player2.body.position.x - 30, players.player2.body.position.y + heightPlayer / 2 + 2, 'bala');
+                this.physics.add.collider(bala2, objects.platforms, Killbala2);
+            }
+            bala2.setGravityY(-490);
+            balaDisparada2 = false;
+            balaActiva2 = true;
+            bala2.setScale(0.5);
+        }
+        //sirve para dar velocidad una vez se crea la bala
+        if (balaActiva2 == true) {
+            if (ShootDirection2 == "right")
+                bala2.setVelocityX(300);
+            else if (ShootDirection2 == "left") {
+                bala2.setVelocityX(-300);
+            }
+        }
+
+        if (balaActiva2 == true && bala2.body.position.x < (camera3.worldView.x + camera3.worldView.width) && bala2.body.position.x > camera3.worldView.x) {
+            canShoot2 = false;
+        } else if (balaActiva2 == true && (bala2.body.position.x > (camera3.worldView.x + camera3.worldView.width) ||
+                bala2.body.position.x < camera2.worldView.x)) {
+            bala2.destroy();
+            balaActiva2 = false;
+            canShoot2 = true;
+        }
+      
+      
+
+        //Condición de victoria 
+        if (players.player1.x > 19400) {
+            alert("Habéis ganado");
+            GameOver(this.scene);
         }
 
         /*--------instructions of Amalgama's death and movement----------*/
 
         children = enemiesArray.getChildren();
 
-        if (balaActiva == true) {
-            this.physics.add.collider(bala, enemiesArray, KillEnemie);
+        if (balaActiva1 == true) {
+            this.physics.add.collider(bala1, enemiesArray, KillEnemie1);
+        }
+        if (balaActiva2 == true) {
+            this.physics.add.collider(bala2, enemiesArray, KillEnemie2);
         }
 
 
@@ -768,194 +852,358 @@ class Level extends Phaser.Scene {
         }
 
         /*--------instructions of Player's death and movement----------*/
-        if (colisionPlayer == false) {
+        if (colisionPlayer1 == false) {
             // console.log("ahora mismo no puedes morir");
-            playerCollidesEnemies.active = false;
+            playerCollidesEnemies1.active = false;
             if (timerInitiated == false) {
-                timedEvent = this.time.delayedCall(1000, enableColisionPlayer, this, false);
+                timedEvent = this.time.delayedCall(1000, enableColisionPlayer1, this, false);
                 timerInitiated = true;
             }
         }
 
 
-        if (colisionPlayer == true) {
-            playerCollidesEnemies.active = true;
+        if (colisionPlayer1 == true) {
+            playerCollidesEnemies1.active = true;
             timerInitiated = false;
+        }
 
+        if (colisionPlayer2 == false) {
+            // console.log("ahora mismo no puedes morir");
+            playerCollidesEnemies2.active = false;
+            if (timerInitiated == false) {
+                timedEvent = this.time.delayedCall(1000, enableColisionPlayer2, this, false);
+                timerInitiated = true;
+            }
+        }
+
+
+        if (colisionPlayer2 == true) {
+            playerCollidesEnemies2.active = true;
+            timerInitiated = false;
         }
 
         function Idle() {
-            player.anims.play('idleMario1', true);
-            player.setVelocityX(0);
+            if(updatePlayer1){
+              players.player1.anims.play('idleMario1', true);
+              players.player1.setVelocityX(0);
 
-            //Move left
-            if (controls.cursors.left.isDown) {
-                playerState = playerStateList["movingLeft"];
+              //Move left
+              if (controls1.cursors.left.isDown) {
+                  playerState1 = playerStateList["movingLeft"];
+              }
+              //Move right
+              if (controls1.cursors.right.isDown) {
+                  playerState1 = playerStateList["movingRight"];
+              }
+              //Jump
+              if (controls1.cursors.up.isDown) {
+                  playerState1 = playerStateList["canJump"];
+              }
+              //Shooting
+              if (canShoot1 == true) {
+                  if (controls1.gunKey.isDown) {
+                      playerState1 = playerStateList["shooting"];
+                  }
+              }
             }
 
-            //Move right
-            if (controls.cursors.right.isDown) {
-                playerState = playerStateList["movingRight"];
+            if(updatePlayer2){
+              players.player2.anims.play('idleMario1', true);
+              players.player2.setVelocityX(0);
+
+              //Move Left
+              if (controls2.cursors.left.isDown) {
+                  playerState2 = playerStateList["movingLeft"];
+              }
+              //Move right
+              if (controls2.cursors.right.isDown) {
+                  playerState2 = playerStateList["movingRight"];
+              }
+              //Jump
+              if (controls2.cursors.up.isDown) {
+                  playerState2 = playerStateList["canJump"];
+              }
+              //Shooting
+              if (canShoot2 == true) {
+                  if (controls2.gunKey.isDown) {
+                      playerState2 = playerStateList["shooting"];
+                  }
+              }
             }
 
-            //Jump
-            if (controls.cursors.up.isDown) {
-                playerState = playerStateList["canJump"];
-            }
 
-            //Shooting
-            if (canShoot == true) {
-                if (controls.gunKey.isDown) {
-                    playerState = playerStateList["shooting"];
-                }
-            }
 
         }
 
         function Left() {
-            //Move left
-            if (player.flipX == false) {
-                player.body.position.x -= 12;
+            if(updatePlayer1){
+              //Move left
+              if (players.player1.flipX == false) {
+                  players.player1.body.position.x -= 12;
+              }
+              players.player1.setVelocityX(-160);
+              players.player1.anims.play('Mario1Walk', true);
+              players.player1.flipX = true;
+
+              //Return Idle
+              if (controls1.cursors.left.isUp && playerState1 === playerStateList["movingLeft"]) {
+                  playerState1 = playerStateList["idle"];
+              }
+
+              //Jump
+              if (controls1.cursors.up.isDown) {
+                  playerState1 = playerStateList["canJump"];
+              }
+
+              //Shooting
+              if (canShoot1 == true) {
+                  if (controls1.gunKey.isDown) {
+                      playerState1 = playerStateList["shooting"];
+                  }
+              }
             }
 
-            player.setVelocityX(-160);
-            player.anims.play('Mario1Walk', true);
-            player.flipX = true;
+            if(updatePlayer2){
+              if (players.player2.flipX == false) {
+                  players.player2.body.position.x -= 12;
+              }
+              players.player2.setVelocityX(-160);
+              players.player2.anims.play('Mario1Walk', true);
+              players.player2.flipX = true;
 
+              //Return Idle
+              if (controls2.cursors.left.isUp && playerState2 === playerStateList["movingLeft"]) {
+                  playerState2 = playerStateList["idle"];
+              }
 
-            if (controls.cursors.left.isUp && playerState === playerStateList["movingLeft"]) {
-                playerState = playerStateList["idle"];
-            }
+              //Jump
+              if (controls2.cursors.up.isDown) {
+                  playerState2 = playerStateList["canJump"];
+              }
 
-            //Jump
-            if (controls.cursors.up.isDown) {
-                playerState = playerStateList["canJump"];
-            }
-
-            //Shooting
-            if (canShoot == true) {
-                if (controls.gunKey.isDown) {
-                    playerState = playerStateList["shooting"];
-                }
+              //Shooting
+              if (canShoot2 == true) {
+                  if (controls2.gunKey.isDown) {
+                      playerState2 = playerStateList["shooting"];
+                  }
+              }
             }
 
         }
 
         function Right() {
-
-            if (player.flipX == true) {
-                player.body.position.x += 12;
-            }
             //Move right
-            player.setVelocityX(160);
-            player.flipX = false;
-            if (player.body.touching.down) {
-                player.anims.play('Mario1Walk', true);
+            if(updatePlayer1){
+              if (players.player1.flipX == true) {
+                  players.player1.body.position.x += 12;
+              }
+              players.player1.setVelocityX(160);
+              players.player1.anims.play('Mario1Walk', true);
+              players.player1.flipX = false;
+
+              //Return Idle
+              if (controls1.cursors.right.isUp && playerState1 === playerStateList["movingRight"]) {
+                  playerState1 = playerStateList["idle"];
+              }
+
+              //Jump
+              if (controls1.cursors.up.isDown) {
+                  playerState1 = playerStateList["canJump"];
+              }
+
+              //Shooting
+              if (canShoot1 == true) {
+                  if (controls1.gunKey.isDown) {
+                      playerState1 = playerStateList["shooting"];
+                  }
+              }
             }
 
-            if (controls.cursors.right.isUp && playerState === playerStateList["movingRight"]) {
-                playerState = playerStateList["idle"];
-            }
+            if(updatePlayer2){
+              if (players.player2.flipX == true) {
+                  players.player2.body.position.x += 12;
+              }
+              players.player2.setVelocityX(160);
+              players.player2.anims.play('Mario1Walk', true);
+              players.player2.flipX = false;
 
-            //Jump
-            if (controls.cursors.up.isDown) {
-                playerState = playerStateList["canJump"];
-            }
+              //Return Idle
+              if (controls2.cursors.right.isUp && playerState2 === playerStateList["movingRight"]) {
+                  playerState2 = playerStateList["idle"];
+              }
 
-            //Shooting
-            if (canShoot == true) {
-                if (controls.gunKey.isDown) {
-                    playerState = playerStateList["shooting"];
-                }
-            }
+              //Jump
+              if (controls2.cursors.up.isDown) {
+                  playerState2 = playerStateList["canJump"];
+              }
 
+              //Shooting
+              if (canShoot1 == true) {
+                  if (controls1.gunKey.isDown) {
+                      playerState1 = playerStateList["shooting"];
+                  }
+              }
+            }
         }
 
         function CanJump() {
-            if (controls.cursors.up.isDown && player.body.touching.down) {
-                player.anims.play('Mario1JumpStart', true);
-                playerState = playerStateList["jumping"];
+          if(updatePlayer1){
+            if (controls1.cursors.up.isDown && players.player1.body.touching.down) {
+                players.player1.anims.play('Mario1JumpStart', true);
+                playerState1 = playerStateList["jumping"];
                 soundJump.play();
             }
 
-            /**/
             else {
-                playerState = playerStateList["idle"];
+                playerState1 = playerStateList["idle"];
             }
-            //*/
+          }
+
+          if(updatePlayer2){
+            if (controls2.cursors.up.isDown && players.player2.body.touching.down) {
+                players.player2.anims.play('Mario1JumpStart', true);
+                playerState2 = playerStateList["jumping"];
+                soundJump.play();
+            }
+
+            else {
+                playerState2 = playerStateList["idle"];
+            }
+          }
         }
 
         function Jump() {
+          if(updatePlayer1){
             //to control the jumping animation
-            if (player.anims.currentAnim.key == "Mario1JumpStart" && player.anims.currentFrame.index == 5)
-                player.setVelocityY(-330);
+            if (players.player1.anims.currentAnim.key == "Mario1JumpStart" && players.player1.anims.currentFrame.index == 5)
+                players.player1.setVelocityY(-330);
 
-            else if (player.anims.currentFrame.index == 6) {
-                player.anims.stop(player.anims.currentAnim.frames[5], false);
+            else if (players.player1.anims.currentFrame.index == 6) {
+                players.player1.anims.stop(players.player1.anims.currentAnim.frames[5], false);
             }
 
-            if (player.body.touching.down && player.anims.currentFrame.index == 6) {
-                player.setVelocityX(0);
-                player.anims.play('Mario1JumpEnd', true);
+            if (players.player1.body.touching.down && players.player1.anims.currentFrame.index == 6) {
+                players.player1.setVelocityX(0);
+                players.player1.anims.play('Mario1JumpEnd', true);
             }
-
-
 
             //Left
-            if (controls.cursors.left.isDown && controls.cursors.right.isUp) {
-                if (player.flipX == false) {
-                    player.body.position.x -= 10;
+            if (controls1.cursors.left.isDown && controls1.cursors.right.isUp) {
+                if (players.player1.flipX == false) {
+                    players.player1.body.position.x -= 10;
                 }
-                player.setVelocityX(-150);
-                player.flipX = true;
-            } else if (controls.cursors.right.isDown && controls.cursors.left.isUp) {
-                if (player.flipX == true) {
-                    player.body.position.x += 10;
+                players.player1.setVelocityX(-150);
+                players.player1.flipX = true;
+            } else if (controls1.cursors.right.isDown && controls1.cursors.left.isUp) {
+                if (players.player1.flipX == true) {
+                    players.player1.body.position.x += 10;
                 }
-                player.setVelocityX(150);
-                player.flipX = false;
+                players.player1.setVelocityX(150);
+                players.player1.flipX = false;
             }
 
-
-            if (player.anims.currentAnim.key == "Mario1JumpEnd" && player.anims.currentFrame.index == 5) {
-                if (player.body.touching.down) {
-                    playerState = playerStateList["idle"];
+            if (players.player1.anims.currentAnim.key == "Mario1JumpEnd" && players.player1.anims.currentFrame.index == 5) {
+                if (players.player1.body.touching.down) {
+                    playerState1 = playerStateList["idle"];
                 }
 
-                if (player.body.touching.down && controls.gunKey.isDown) {
-                    playerState = playerStateList["shooting"];
+                if (players.player1.body.touching.down && controls1.gunKey.isDown) {
+                    playerState1 = playerStateList["shooting"];
                 }
             }
+          }
+
+          if(updatePlayer2){
+            //to control the jumping animation
+            if (players.player2.anims.currentAnim.key == "Mario1JumpStart" && players.player2.anims.currentFrame.index == 5)
+                players.player2.setVelocityY(-330);
+
+            else if (players.player2.anims.currentFrame.index == 6) {
+                players.player2.anims.stop(players.player2.anims.currentAnim.frames[5], false);
+            }
+
+            if (players.player2.body.touching.down && players.player2.anims.currentFrame.index == 6) {
+                players.player2.setVelocityX(0);
+                players.player2.anims.play('Mario1JumpEnd', true);
+            }
+
+            //Left
+            if (controls2.cursors.left.isDown && controls2.cursors.right.isUp) {
+                if (players.player2.flipX == false) {
+                    players.player2.body.position.x -= 10;
+                }
+                players.player2.setVelocityX(-150);
+                players.player2.flipX = true;
+            } else if (controls2.cursors.right.isDown && controls2.cursors.left.isUp) {
+                if (players.player2.flipX == true) {
+                    players.player2.body.position.x += 10;
+                }
+                players.player2.setVelocityX(150);
+                players.player2.flipX = false;
+            }
+
+            if (players.player2.anims.currentAnim.key == "Mario1JumpEnd" && players.player2.anims.currentFrame.index == 5) {
+                if (players.player2.body.touching.down) {
+                    playerState2 = playerStateList["idle"];
+                }
+
+                if (players.player2.body.touching.down && controls2.gunKey.isDown) {
+                    playerState2 = playerStateList["shooting"];
+                }
+            }
+          }
         }
 
         function Shooting() {
-            if (canShoot == true) {
-                if (player.flipX == false) {
-                    ShootDirection = "right";
-                } else if (player.flipX == true) {
-                    ShootDirection = "left";
+          if(updatePlayer1)
+            if (canShoot1 == true) {
+                if (players.player1.flipX == false) {
+                    ShootDirection1 = "right";
+                } else if (players.player1.flipX == true) {
+                    ShootDirection1 = "left";
                 }
-                player.anims.play('Mario1Shoot', true);
-                if (player.anims.currentFrame.index == 5) {
-                    balaDisparada = true;
-                    playerState = playerStateList["idle"];
+                players.player1.anims.play('Mario1Shoot', true);
+                if (players.player1.anims.currentFrame.index == 5) {
+                    balaDisparada1 = true;
+                    playerState1 = playerStateList["idle"];
                 }
-                player.setVelocityX(0);
+                players.player1.setVelocityX(0);
+            }
+
+          if(updatePlayer2)
+            if (canShoot2 == true) {
+                if (players.player2.flipX == false) {
+                    ShootDirection2 = "right";
+                } else if (players.player1.flipX == true) {
+                    ShootDirection2 = "left";
+                }
+                players.player2.anims.play('Mario1Shoot', true);
+                if (players.player2.anims.currentFrame.index == 5) {
+                    balaDisparada2 = true;
+                    playerState2 = playerStateList["idle"];
+                }
+                players.player2.setVelocityX(0);
             }
 
         }
 
-        function Killbala() {
-            bala.destroy();
-            canShoot = true;
-            balaActiva = false;
+        function Killbala1() {
+            bala1.destroy();
+            canShoot1 = true;
+            balaActiva1 = false;
         }
 
-        function KillEnemie() {
+        function Killbala2() {
+            bala2.destroy();
+            canShoot2 = true;
+            balaActiva2 = false;
+        }
+
+        function KillEnemie1() {
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantity && children[i] != undefined) {
-                if (Math.abs(Phaser.Math.Distance.Between(bala.body.position.x, bala.body.position.y,
+                if (Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
                         children[i].body.position.x, children[i].body.position.y)) < 50) {
                     children[i].anims.play('AmalgamaDeath', 'true');
                     children[i].anims.currentKey = 'AmalgamaDeath';
@@ -965,7 +1213,25 @@ class Level extends Phaser.Scene {
                 i++;
             }
             EnemieDead = true;
-            Killbala();
+            Killbala1();
+
+        }
+
+        function KillEnemie2() {
+            soundDeathAmalgama.play();
+            var i = 0;
+            while (i < enemiesQuantity && children[i] != undefined) {
+                if (Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)) < 50) {
+                    children[i].anims.play('AmalgamaDeath', 'true');
+                    children[i].anims.currentKey = 'AmalgamaDeath';
+                    children[i].body.velocity.x = 0;
+                    console.log(i);
+                }
+                i++;
+            }
+            EnemieDead = true;
+            Killbala2();
 
         }
 
@@ -979,7 +1245,7 @@ class Level extends Phaser.Scene {
         }
 
         function GameOver(scene) {
-            playerState = playerStateList["movingRight"];
+            playerState1 = playerStateList["movingRight"];
             game.registry.destroy();
             game.events.off();
             scene.start('MainMenu');
