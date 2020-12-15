@@ -27,6 +27,7 @@ class Level extends Phaser.Scene {
 
     create() {
         warp = false;
+        collapseTimer = false;
 
         this.add.tileSprite(400, 200, 24000, 400, 'lab');
         lab = this.add.tileSprite(12400, 200, 16000, 400, 'lab');
@@ -807,6 +808,8 @@ class Level extends Phaser.Scene {
 
     update() {
 
+        console.log(collapseTimer);
+
         updatePlayer1 = true;
         updatePlayer2 = false;
 
@@ -868,7 +871,7 @@ class Level extends Phaser.Scene {
                 objects.collapsable.children.entries[i].setTexture('collapsed');
             }
             if (collapseTimer === false) {
-                var collapseEvent = this.time.delayedCall(7000, removeCollapse);
+                collapseEvent = this.time.delayedCall(8500, removeCollapse);
                 collapseTimer = true;
             }
         }
