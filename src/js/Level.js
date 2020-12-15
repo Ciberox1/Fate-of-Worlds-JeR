@@ -785,7 +785,7 @@ class Level extends Phaser.Scene {
             GameOver(this.scene);
         }
 
-        
+
         /*--------------------------- BULLET LOGIC ------------------------------*/
        // sirve para originar la bala dependiendo de hacia donde mire el personaje
         if (balaDisparada1 == true) {
@@ -820,7 +820,7 @@ class Level extends Phaser.Scene {
             canShoot1 = true;
         }
 
-        
+
 
         // Bala 2
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
@@ -1284,10 +1284,9 @@ class Level extends Phaser.Scene {
             playerState1 = playerStateList["movingRight"];
             game.registry.destroy();
             game.events.off();
-            scene.start('MainMenu');
+            scene.start('FalseMenu');
             game.sound.stopAll();
             playerDead = false;
         }
     }
 }
-
