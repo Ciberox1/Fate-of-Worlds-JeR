@@ -387,7 +387,7 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
-        player = this.physics.add.sprite(18850, 500, 'Mario1idle').setScale(1.25);
+        player = this.physics.add.sprite(100, 100, 'Mario1idle').setScale(1.25);
 
         this.physics.add.collider(player, objects.platforms);
         collapsablePlats = this.physics.add.collider(player, objects.collapsable);

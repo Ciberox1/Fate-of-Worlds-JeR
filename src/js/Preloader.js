@@ -35,6 +35,18 @@ class Preloader extends Phaser.Scene {
       });
       percentText.setOrigin(0.5, 0.5);
 
+      var continueText = this.make.text({
+          x: width / 2,
+          y: 2 * height / 3,
+          text: 'Pulsa ENTER para continuar',
+          style: {
+            font: '18px monospace',
+            fill: '#ffffff'
+          }
+      });
+      continueText.setOrigin(0.5, 0.5);
+      continueText.setVisible(false);
+
       this.load.on('progress', function (value) {
         progressBar.clear();
         progressBar.fillStyle(0xffffff, 1);
@@ -43,7 +55,7 @@ class Preloader extends Phaser.Scene {
       });
 
       this.load.on('complete', function () {
-          console.log('complete');
+          continueText.setVisible(true);
           progressBar.destroy();
           progressBox.destroy();
           loadingText.destroy();
@@ -142,7 +154,14 @@ class Preloader extends Phaser.Scene {
     }
   }
 
-  create() {
-    this.scene.start('Level');
+  create(){
+    controls.continueKey = this.input.keyboard.addKey('ENTER');
+
+  }
+
+  update() {
+    if (controls.continueKey.isDown) {
+      this.scene.start('Level');
+    }
   }
 }
