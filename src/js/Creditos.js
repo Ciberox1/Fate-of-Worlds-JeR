@@ -14,37 +14,65 @@ class Creditos extends Phaser.Scene {
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
 
-    var programadores = this.make.text({
-        x: width / 2,
+    var Jonas = this.make.text({
+        x: width / 2 - 550,
         y: height / 2 - 50,
-        text: 'Programadores: ',
+        text: 'Jonas Martin Carasa: ',
         style: {
-          font: '20px monospace',
+          font: '25px monospace',
           fill: '#ffffff'
         }
     });
-    programadores.setOrigin(0.5, 0.5);
 
-    var artistas = this.make.text({
-        x: width / 2,
+    var Mario = this.make.text({
+        x: width / 2 - 550,
         y: height / 2 - 75,
-        text: 'Artistas: ',
+        text: 'Mario Simon Soto: ',
         style: {
-          font: '20px monospace',
+          font: '25px monospace',
           fill: '#ffffff'
         }
     });
-    artistas.setOrigin(0.5, 0.5);
 
-    var diseñador = this.make.text({
-        x: width / 2,
-        y: height / 2 - 50,
-        text: 'Diseñador de Niveles: ',
+    var Adrian = this.make.text({
+        x: width / 2 - 550,
+        y: height / 2 - 100,
+        text: 'Adrian Salgado Jimeno: ',
         style: {
-          font: '20px monospace',
+          font: '25px monospace',
           fill: '#ffffff'
         }
     });
-    diseñador.setOrigin(0.5, 0.5);
+
+    var Alejandro = this.make.text({
+        x: width / 2 - 550,
+        y: height / 2 - 125,
+        text: 'Alejandro Garcia-Muñoz Muñoz: ',
+        style: {
+          font: '25px monospace',
+          fill: '#ffffff'
+        }
+    });
+
+    var Aless = this.make.text({
+        x: width / 2 - 550,
+        y: height / 2 - 25,
+        text: 'Aless Garcia Ochoa: ',
+        style: {
+          font: '25px monospace',
+          fill: '#ffffff'
+        }
+    });
+
+    var Agradecimientos = this.make.text({
+        x: width / 2,
+        y: height / 2 + 25,
+        text: 'Agradecimientos: ',
+        style: {
+          font: '25px monospace',
+          fill: '#ffffff'
+        }
+    });
+    Agradecimientos.setOrigin(0.5, 0.5);
   }
 }
