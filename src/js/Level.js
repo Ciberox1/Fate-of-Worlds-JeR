@@ -14,7 +14,7 @@ class Level extends Phaser.Scene {
         controls1.cursors = this.input.keyboard.createCursorKeys();
 
         controls2.interactKey = this.input.keyboard.addKey('K');
-        controls2.gunKey = this.input.keyboard.addKey('J');
+        controls2.gunKey = this.input.keyboard.addKey('F');
         controls2.dropKey = this.input.keyboard.addKey('L');
         controls2.cursors = this.input.keyboard.addKeys({
             'up': Phaser.Input.Keyboard.KeyCodes.W,
@@ -1406,6 +1406,9 @@ class Level extends Phaser.Scene {
 
         function GameOver(scene) {
             playerState1 = playerStateList["movingRight"];
+            playerState2 = playerStateList["movingRight"];
+            balaActiva1 = false;
+            balaActiva2 = false;
             game.registry.destroy();
             game.events.off();
             scene.start('MainMenu');
