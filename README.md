@@ -127,6 +127,10 @@ Todos los públicos.
 
 - Primer Release del juego
 
+#### v1.0.1
+
+- Algunos bugs encontrados han sido solucionados
+
 
 ## Visión General del Juego
 
