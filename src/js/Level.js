@@ -937,9 +937,9 @@ class Level extends Phaser.Scene {
         //sirve para dar velocidad una vez se crea la bala
         if (balaActiva1 == true) {
             if (ShootDirection1 == "right")
-                bala1.setVelocityX(300);
+                bala1.setVelocityX(500);
             else if (ShootDirection1 == "left") {
-                bala1.setVelocityX(-300);
+                bala1.setVelocityX(-500);
             }
         }
 
@@ -971,9 +971,9 @@ class Level extends Phaser.Scene {
         //sirve para dar velocidad una vez se crea la bala
         if (balaActiva2 == true) {
             if (ShootDirection2 == "right")
-                bala2.setVelocityX(300);
+                bala2.setVelocityX(500);
             else if (ShootDirection2 == "left") {
-                bala2.setVelocityX(-300);
+                bala2.setVelocityX(-500);
             }
         }
 
@@ -991,10 +991,10 @@ class Level extends Phaser.Scene {
         children = enemiesArray.getChildren();
 
         if (balaActiva1 == true) {
-            this.physics.add.collider(bala1, enemiesArray, KillEnemie1);
+            this.physics.add.overlap(bala1, enemiesArray, KillEnemie1);
         }
         if (balaActiva2 == true) {
-            this.physics.add.collider(bala2, enemiesArray, KillEnemie2);
+            this.physics.add.overlap(bala2, enemiesArray, KillEnemie2);
         }
 
 
