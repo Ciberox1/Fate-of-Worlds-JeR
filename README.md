@@ -29,7 +29,7 @@ PC/Web
 
 ### Versión
 
-v1.0
+v1.0.1
 
 ### Sinopsis del Juego
 
@@ -126,6 +126,10 @@ Todos los públicos.
 #### v1.0
 
 - Primer Release del juego
+
+#### v1.0.1
+
+- Algunos bugs encontrados han sido solucionados
 
 
 ## Visión General del Juego
