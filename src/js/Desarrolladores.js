@@ -41,6 +41,10 @@ class Desarrolladores extends Phaser.Scene {
       this.scene.start('Creditos');
     })
 
+    var DBox = this.add.graphics();
+    DBox.fillStyle(0x222222, 0.95);
+    DBox.fillRect(25, 275, 1150, 465);
+
     var Alejandro = this.make.text({
         x: width / 2 - 550,
         y: height / 2 - 125,
