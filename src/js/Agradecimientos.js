@@ -41,10 +41,14 @@ class Agradecimientos extends Phaser.Scene {
       this.scene.start('Creditos');
     })
 
+    var ABox = this.add.graphics();
+    ABox.fillStyle(0x222222, 0.95);
+    ABox.fillRect(25, 270, 1150, 520);
+
     var Agradecimientos = this.make.text({
         x: width / 2,
         y: height / 2 - 125,
-        text: 'Agradecimientos: ',
+        text: 'Acknowledgments: ',
         style: {
           font: '25px monospace',
           fill: '#ffffff'

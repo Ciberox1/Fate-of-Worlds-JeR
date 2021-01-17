@@ -655,7 +655,7 @@ class Level extends Phaser.Scene {
         players.player2.body.setSize(widthPlayer2, heightPlayer2);
         players.player2.setCollideWorldBounds(false);
         players.player2.body.setOffset(12,0);
-        
+
 
         //adding hearts
         hearts = this.add.group();
@@ -814,8 +814,8 @@ class Level extends Phaser.Scene {
     }
 
     update() {
-           
-        
+
+
         updatePlayer1 = true;
         updatePlayer2 = false;
 
@@ -905,16 +905,14 @@ class Level extends Phaser.Scene {
         if (players.player2.y > 400 || players.player1.y > 850) {
             playerDead = true;
         }
-        //Muerte por enemigo
+        //Pantalla de Muerte
         if (playerDead == true) {
-            alert("Habéis perdido");
-            GameOver(this.scene);
+          GameOver(this.scene);
         }
 
         // Condición de victoria
         if (players.player1.x > 19400 && players.player2.x > 19400) {
-            alert("Habéis ganado");
-            GameOver(this.scene);
+            Victory(this.scene);
         }
 
 
@@ -1429,8 +1427,20 @@ class Level extends Phaser.Scene {
             balaActiva2 = false;
             game.registry.destroy();
             game.events.off();
-            scene.start('MainMenu');
             game.sound.stopAll();
+            scene.start('GameOver');
+            playerDead = false;
+        }
+
+        function Victory(scene) {
+            playerState1 = playerStateList["movingRight"];
+            playerState2 = playerStateList["movingRight"];
+            balaActiva1 = false;
+            balaActiva2 = false;
+            game.registry.destroy();
+            game.events.off();
+            game.sound.stopAll();
+            scene.start('Victory');
             playerDead = false;
         }
     }

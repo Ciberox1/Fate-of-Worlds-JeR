@@ -21,9 +21,12 @@
       <script src="../../src/js/Level.js"></script>
       <script src="../../src/js/Desarrolladores.js"></script>
       <script src="../../src/js/Agradecimientos.js"></script>
-
+      <script src="../../src/js/Victory.js"></script>
+      <script src="../../src/js/GameOver.js"></script>
+      
       <script type="text/javascript">
-
+      
+    
       var config = {
           type: Phaser.AUTO,
           parent: 'phaser-example',
@@ -38,7 +41,7 @@
                   debug: true
               }
           },
-          scene: [MainMenu, Preloader, Creditos, Level, Desarrolladores, Agradecimientos]
+          scene: [MainMenu, Preloader, Creditos, Level, Desarrolladores, Agradecimientos, Victory, GameOver]
       };
 
       var objects = {
@@ -119,6 +122,11 @@
       var soundJump;
       var soundCollapse;
       var soundBackground;
+      //ajax variables
+      var name;
+      var timeGet;
+      var Player1Connected;
+      var Player2Connected; 
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
