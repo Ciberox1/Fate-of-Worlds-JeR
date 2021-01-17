@@ -1,6 +1,13 @@
 package com.init.products;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,11 +49,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RestController
 @RequestMapping("/")
 public class FateOfWorldsApiController {
+	
 	private Map<String, Player> players = new ConcurrentHashMap<>();
-	@CrossOrigin(origins = "*")
+	
+	//DataBase stuff.
+	private String bd_path = "Fate-of-Worlds-JeR\\Api rest\\FateOfWorldsAPI\\src\\main\\resources\\data_base.txt";
+	File bdFile = new File(bd_path);
+	
+	BufferedReader br;
+	BufferedWriter bw;
+	//End of database stuff.
+	
+	
+	@CrossOrigin(origins = "*")	
 	@PostMapping("post")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Player> newPlayer(@RequestBody Player player,HttpServletRequest request) {
+		
 		if(players.size()<2) {
 			if(!players.containsKey(player.getName())) {
 				String ip="";
@@ -57,6 +76,17 @@ public class FateOfWorldsApiController {
 				System.out.println(ip);
 				player.setIp(ip);
 				players.put(ip, player);
+				
+				//Database stuff.
+				try {
+					bw = new BufferedWriter(new FileWriter(bdFile, true));
+					bw.write( player.getName() );
+					bw.newLine();
+					bw.close();
+				}catch(IOException e) {
+					System.out.println(e.toString());
+				}
+				
 				return new ResponseEntity<>(player, HttpStatus.OK);
 			}
 			else { 
@@ -66,8 +96,27 @@ public class FateOfWorldsApiController {
 		else {
 			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
 		}
-		
 	}
+	
+	@GetMapping("bd")
+	public List<String> readBD() {
+		
+		List<String> players = new LinkedList<String>();
+		
+		try {
+			br = new BufferedReader(new FileReader(bdFile));
+			String line;
+			while((line = br.readLine()) != null) {
+				players.add(line);
+			}
+			br.close();
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return players;
+	}
+	
 	@GetMapping("get")
 	@CrossOrigin(origins = "*")
 	public Collection<Player> PlayersList() {
