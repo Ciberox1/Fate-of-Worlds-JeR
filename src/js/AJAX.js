@@ -2,9 +2,10 @@
                 $.ajax({
                     headers: { 
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin':'http://localhost:8080',
             },
-            url: 'https://557d57ef8632.ngrok.io/post',
+            url: 'https://b8ee0a824571.ngrok.io/post',
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
@@ -25,7 +26,10 @@
 
     function deletePlayer(){
             $.ajax({
-                url: 'https://557d57ef8632.ngrok.io/delete',
+                headers:{
+                    'Access-Control-Allow-Origin':'http://localhost:8080',
+                },
+                url: 'https://b8ee0a824571.ngrok.io/delete',
                 type: 'DELETE',
                 error: function() {
                     console.error("No es posible completar la operación");
@@ -35,11 +39,17 @@
 
     function getPlayers(){
             $.ajax({
-                url: 'https://557d57ef8632.ngrok.io/get',
+                headers:{
+                    'Access-Control-Allow-Origin':'http://localhost:8080',
+                },
+                url: 'https://b8ee0a824571.ngrok.io/get',
                 type: 'GET',
                 success: function(data) {
-                   Player1Connected=data[0];
-                   Player2Connected=data[1];
+                    console.log(data);
+                    if(data[0]!=null)
+                        document.getElementById("main").innerHTML=data[0].name;
+                    if(data[1]!=null)
+                        document.getElementById("main").innerHTML=data[1].name;
                 },
                 error: function() {
                     console.error("No es posible completar la operación");

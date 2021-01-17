@@ -30,7 +30,13 @@ body{
   background-color: var(--body-bgcolor);
   font-family: pixelFont, "Lucida Console", Monaco , monospace;
 }
-
+#main{
+    color:black;
+    font-size: 50px;
+    margin-left: 100px;
+    height: 0px;
+    font-family: monospace;
+}
 #content {
   background-color: var(--content-bgcolor);
   width: 90%;
