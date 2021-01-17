@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: JONￃﾁS
+Build-Jdk: 15.0.1
+Implementation-Title: FateOfWorldsAPI
+Implementation-Version: 1
+Implementation-Vendor-Id: init.products
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/product-api2/
+Created-By: Maven Integration for Eclipse
+
