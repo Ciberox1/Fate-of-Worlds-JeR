@@ -21,6 +21,8 @@
       <script src="../../src/js/Level.js"></script>
       <script src="../../src/js/Desarrolladores.js"></script>
       <script src="../../src/js/Agradecimientos.js"></script>
+      <script src="../../src/js/Victory.js"></script>
+      <script src="../../src/js/GameOver.js"></script>
 
       <script type="text/javascript">
 
@@ -35,10 +37,10 @@
                   gravity: {
                       y: 490
                   },
-                  debug: false
+                  debug: true
               }
           },
-          scene: [MainMenu, Preloader, Creditos, Level, Desarrolladores, Agradecimientos]
+          scene: [MainMenu, Preloader, Creditos, Level, Desarrolladores, Agradecimientos, Victory, GameOver]
       };
 
       var objects = {
@@ -109,8 +111,10 @@
       var enemiesQuantity = 30;
       var velocityXEnemie = [];
       var EnemieDead = false;
-      var timerInitiated = false;
-      var timedEvent;
+      var timerInitiated1 = false;
+      var timedEvent1;
+      var timerInitiated2 = false;
+      var timedEvent2;
       var soundShoot;
       var soundHit;
       var soundDeathAmalgama;
@@ -122,13 +126,10 @@
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
         for (i = 0; i < enemiesQuantity; i++) {
             if (children[i] != undefined && children[i].body.touching.left && children[i].flipX == false) {
-                //  console.log(children[i].body.velocity.x);
-                //  console.log(velocityXEnemie[8]);
                 velocityXEnemie[i] = -velocityXEnemie[i];
                 children[i].body.velocity.x = velocityXEnemie[i];
                 children[i].flipX = true;
-                //  console.log("toca izquierda" + i );
-                // console.log(children[i].body.velocity.x);
+                children[i].body.setOffset(6,15);
             }
             if (children[i] != undefined && children[i].body.touching.right && children[i].flipX == true) {
                 // console.log("toca derecha" + i);
@@ -137,16 +138,17 @@
                 children[i].flipX = false;
             }
         }
-        // console.log(children[8].body.velocity.x);
       }
 
       function KillPlayer1() {
+           console.log("mataaa");
           soundHit.play();
           players.player1.alpha = 0.5;
           colisionPlayer1 = false;
           if (hearts.countActive(true) == 1) {
               playerDead = true;
               colisionPlayer1 = true;
+              hearts.remove(hearts.getFirstAlive(), true);
           }
           hearts.remove(hearts.getFirstAlive(), true);
           for (i = 0; i < enemiesQuantity; i++)
@@ -157,11 +159,11 @@
       function enableColisionPlayer1() {
           players.player1.alpha = 1;
           colisionPlayer1 = true;
-          //console.log("ya puedes morir");
-          timedEvent.remove();
+          timedEvent1.remove();
       }
 
       function KillPlayer2() {
+          console.log("mataaa");
           soundHit.play();
           players.player2.alpha = 0.5;
           colisionPlayer2 = false;
@@ -178,8 +180,7 @@
       function enableColisionPlayer2() {
           players.player2.alpha = 1;
           colisionPlayer2 = true;
-          //console.log("ya puedes morir");
-          timedEvent.remove();
+          timedEvent2.remove();
       }
 
       var warp = false;

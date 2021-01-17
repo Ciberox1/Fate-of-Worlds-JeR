@@ -520,25 +520,26 @@ class Level extends Phaser.Scene {
         collapsablePlats1.active = false;
         collapsablePlats2.active = false;
 
-        widthPlayer1 = 5;
-        heightPlayer1 = 36;
-        widthPlayer2 = 5;
-        heightPlayer2 = 30;
+        widthPlayer1 = 10;
+        heightPlayer1 = 35;
+        widthPlayer2 = 13;
+        heightPlayer2 = 35;
 
         //-------------------adding physics to enemies---------------------------
 
         //enemies create
-        widthAmalgama = 40;
-        heightAmalgama = 50;
+        widthAmalgama = 50;
+        heightAmalgama = 30;
         enemiesArray = this.physics.add.group();
-        var enemie;
+        var enemy;
         //adding to a group
         for (var i = 0; i < enemiesQuantity; i++) {
-            enemie = this.physics.add.sprite(0, 0, 'AmalgamaRun');
-            enemie.setBounce(0);
-            enemie.body.setSize(widthAmalgama, heightAmalgama);
-            enemie.setCollideWorldBounds(false);
-            enemiesArray.add(enemie);
+            enemy = this.physics.add.sprite(0, 0, 'AmalgamaRun');
+            enemy.setBounce(0);
+            enemy.body.setSize(widthAmalgama, heightAmalgama);
+            enemy.setCollideWorldBounds(false);
+            enemy.body.setOffset(5,15);
+            enemiesArray.add(enemy);
         }
 
         //getChildren of group
@@ -649,9 +650,12 @@ class Level extends Phaser.Scene {
         //size player
         players.player1.body.setSize(widthPlayer1, heightPlayer1);
         players.player1.setCollideWorldBounds(false);
+        players.player1.body.setOffset(21,7);
 
         players.player2.body.setSize(widthPlayer2, heightPlayer2);
         players.player2.setCollideWorldBounds(false);
+        players.player2.body.setOffset(12,0);
+
 
         //adding hearts
         hearts = this.add.group();
@@ -668,8 +672,10 @@ class Level extends Phaser.Scene {
         enemiesArray.playAnimation('AmalgamaRun');
 
         //collision player-enemies
-        playerCollidesEnemies1 = this.physics.add.collider(players.player1, enemiesArray, KillPlayer1);
-        playerCollidesEnemies2 = this.physics.add.collider(players.player2, enemiesArray, KillPlayer2);
+        // this.physics.add.collider(players.player1, enemiesArray, KillPlayer1);
+        //this.physics.add.collider(players.player2, enemiesArray, KillPlayer2);
+        playerCollidesEnemies1 =this.physics.add.overlap(players.player1, enemiesArray, KillPlayer1);
+        playerCollidesEnemies2 = this.physics.add.overlap(players.player2, enemiesArray, KillPlayer2);
 
         //adding sound
         soundBackground = this.sound.add('BackgroundSound', {
@@ -718,7 +724,7 @@ class Level extends Phaser.Scene {
                 frames: game.anims.generateFrameNumbers('Mario1Jump', {
                     frames: [0, 1, 2, 3, 4, 3, 4, 3, 2, 1, 0]
                 }),
-                frameRate: 30,
+                frameRate: 35,
                 repeat: 0
             });
             game.anims.create({
@@ -809,6 +815,7 @@ class Level extends Phaser.Scene {
 
     update() {
 
+
         updatePlayer1 = true;
         updatePlayer2 = false;
 
@@ -898,16 +905,14 @@ class Level extends Phaser.Scene {
         if (players.player2.y > 400 || players.player1.y > 850) {
             playerDead = true;
         }
-
+        //Pantalla de Muerte
         if (playerDead == true) {
-            alert("Habéis perdido");
-            GameOver(this.scene);
+          GameOver(this.scene);
         }
 
         // Condición de victoria
         if (players.player1.x > 19400 && players.player2.x > 19400) {
-            alert("Habéis ganado");
-            GameOver(this.scene);
+            Victory(this.scene);
         }
 
 
@@ -930,9 +935,9 @@ class Level extends Phaser.Scene {
         //sirve para dar velocidad una vez se crea la bala
         if (balaActiva1 == true) {
             if (ShootDirection1 == "right")
-                bala1.setVelocityX(300);
+                bala1.setVelocityX(500);
             else if (ShootDirection1 == "left") {
-                bala1.setVelocityX(-300);
+                bala1.setVelocityX(-500);
             }
         }
 
@@ -964,9 +969,9 @@ class Level extends Phaser.Scene {
         //sirve para dar velocidad una vez se crea la bala
         if (balaActiva2 == true) {
             if (ShootDirection2 == "right")
-                bala2.setVelocityX(300);
+                bala2.setVelocityX(500);
             else if (ShootDirection2 == "left") {
-                bala2.setVelocityX(-300);
+                bala2.setVelocityX(-500);
             }
         }
 
@@ -984,10 +989,10 @@ class Level extends Phaser.Scene {
         children = enemiesArray.getChildren();
 
         if (balaActiva1 == true) {
-            this.physics.add.collider(bala1, enemiesArray, KillEnemie1);
+            this.physics.add.overlap(bala1, enemiesArray, KillEnemie1);
         }
         if (balaActiva2 == true) {
-            this.physics.add.collider(bala2, enemiesArray, KillEnemie2);
+            this.physics.add.overlap(bala2, enemiesArray, KillEnemie2);
         }
 
 
@@ -1014,31 +1019,31 @@ class Level extends Phaser.Scene {
         if (colisionPlayer1 == false) {
             // console.log("ahora mismo no puedes morir");
             playerCollidesEnemies1.active = false;
-            if (timerInitiated == false) {
-                timedEvent = this.time.delayedCall(1000, enableColisionPlayer1, this, false);
-                timerInitiated = true;
+            if (timerInitiated1 == false) {
+                timedEvent1 = this.time.delayedCall(1000, enableColisionPlayer1, this, false);
+                timerInitiated1 = true;
             }
         }
 
 
         if (colisionPlayer1 == true) {
             playerCollidesEnemies1.active = true;
-            timerInitiated = false;
+            timerInitiated1 = false;
         }
 
-        if (colisionPlayer2 == false) {
+       if (colisionPlayer2 == false) {
             // console.log("ahora mismo no puedes morir");
             playerCollidesEnemies2.active = false;
-            if (timerInitiated == false) {
-                timedEvent = this.time.delayedCall(1000, enableColisionPlayer2, this, false);
-                timerInitiated = true;
+            if (timerInitiated2 == false) {
+                timedEvent2 = this.time.delayedCall(1000, enableColisionPlayer2, this, false);
+                timerInitiated2 = true;
             }
         }
 
 
         if (colisionPlayer2 == true) {
             playerCollidesEnemies2.active = true;
-            timerInitiated = false;
+            timerInitiated2 = false;
         }
 
         function Idle() {
@@ -1099,6 +1104,7 @@ class Level extends Phaser.Scene {
               //Move left
               if (players.player1.flipX == false) {
                   players.player1.body.position.x -= 12;
+                  players.player1.body.setOffset(34,7);
               }
               players.player1.setVelocityX(-160);
               players.player1.anims.play('Mario1Walk', true);
@@ -1125,6 +1131,7 @@ class Level extends Phaser.Scene {
             if(updatePlayer2){
               if (players.player2.flipX == false) {
                   players.player2.body.position.x -= 12;
+                  players.player2.body.setOffset(25,0);
               }
               players.player2.setVelocityX(-160);
               players.player2.anims.play('Mario2Walk', true);
@@ -1155,6 +1162,7 @@ class Level extends Phaser.Scene {
             if(updatePlayer1){
               if (players.player1.flipX == true) {
                   players.player1.body.position.x += 12;
+                  players.player1.body.setOffset(21,7);
               }
               players.player1.setVelocityX(160);
               players.player1.anims.play('Mario1Walk', true);
@@ -1181,6 +1189,7 @@ class Level extends Phaser.Scene {
             if(updatePlayer2){
               if (players.player2.flipX == true) {
                   players.player2.body.position.x += 12;
+                  players.player2.body.setOffset(13,0);
               }
               players.player2.setVelocityX(160);
               players.player2.anims.play('Mario2Walk', true);
@@ -1250,12 +1259,14 @@ class Level extends Phaser.Scene {
             if (controls1.cursors.left.isDown && controls1.cursors.right.isUp) {
                 if (players.player1.flipX == false) {
                     players.player1.body.position.x -= 10;
+                    players.player1.body.setOffset(32,7);
                 }
                 players.player1.setVelocityX(-150);
                 players.player1.flipX = true;
             } else if (controls1.cursors.right.isDown && controls1.cursors.left.isUp) {
                 if (players.player1.flipX == true) {
                     players.player1.body.position.x += 10;
+                     players.player1.body.setOffset(22,7);
                 }
                 players.player1.setVelocityX(150);
                 players.player1.flipX = false;
@@ -1290,12 +1301,14 @@ class Level extends Phaser.Scene {
             if (controls2.cursors.left.isDown && controls2.cursors.right.isUp) {
                 if (players.player2.flipX == false) {
                     players.player2.body.position.x -= 10;
+                    players.player2.body.setOffset(24,0);
                 }
                 players.player2.setVelocityX(-150);
                 players.player2.flipX = true;
             } else if (controls2.cursors.right.isDown && controls2.cursors.left.isUp) {
                 if (players.player2.flipX == true) {
                     players.player2.body.position.x += 10;
+                     players.player2.body.setOffset(12,0);
                 }
                 players.player2.setVelocityX(150);
                 players.player2.flipX = false;
@@ -1362,12 +1375,15 @@ class Level extends Phaser.Scene {
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantity && children[i] != undefined) {
+                console.log(Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)));
                 if (Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
-                        children[i].body.position.x, children[i].body.position.y)) < 50) {
+                        children[i].body.position.x, children[i].body.position.y)) < 55) {
                             children[i].anims.play('AmalgamaDeath', 'true');
                             children[i].anims.currentKey = 'AmalgamaDeath';
                             children[i].body.velocity.x = 0;
                             children[i].body.gravity.y=-490;
+                    console.log("brr");
                 }
                 i++;
             }
@@ -1381,7 +1397,7 @@ class Level extends Phaser.Scene {
             var i = 0;
             while (i < enemiesQuantity && children[i] != undefined) {
                 if (Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
-                        children[i].body.position.x, children[i].body.position.y)) < 50) {
+                        children[i].body.position.x, children[i].body.position.y)) < 55) {
                             children[i].anims.play('AmalgamaDeath', 'true');
                             children[i].anims.currentKey = 'AmalgamaDeath';
                             children[i].body.velocity.x = 0;
@@ -1411,8 +1427,20 @@ class Level extends Phaser.Scene {
             balaActiva2 = false;
             game.registry.destroy();
             game.events.off();
-            scene.start('MainMenu');
             game.sound.stopAll();
+            scene.start('GameOver');
+            playerDead = false;
+        }
+
+        function Victory(scene) {
+            playerState1 = playerStateList["movingRight"];
+            playerState2 = playerStateList["movingRight"];
+            balaActiva1 = false;
+            balaActiva2 = false;
+            game.registry.destroy();
+            game.events.off();
+            game.sound.stopAll();
+            scene.start('Victory');
             playerDead = false;
         }
     }

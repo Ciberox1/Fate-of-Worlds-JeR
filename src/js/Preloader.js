@@ -42,7 +42,7 @@ class Preloader extends Phaser.Scene {
         var continueText = this.make.text({
             x: 1000,
             y: 800,
-            text: 'Pulsa ENTER para continuar',
+            text: 'Press ENTER to continue',
             style: {
                 font: '18px monospace',
                 fill: '#ffffff'
