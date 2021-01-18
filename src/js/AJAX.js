@@ -5,7 +5,7 @@
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin':'http://localhost:8080',
             },
-            url: 'http://a12ff83996a0.ngrok.io/post',
+            url: 'http://localhost:8080/post',
 
             type: 'POST',
             dataType:"json",
@@ -31,7 +31,7 @@
                     'Access-Control-Allow-Origin':'http://localhost:8080',
                 },
 
-                url: 'http://a12ff83996a0.ngrok.io/delete',
+                url: 'http://localhost:8080/delete',
 
                 type: 'DELETE',
                 error: function() {
@@ -45,16 +45,16 @@
                 headers:{
                     'Access-Control-Allow-Origin':'http://localhost:8080',
                 },
-                url: 'http://a12ff83996a0.ngrok.io/get',
+                url: 'http://localhost:8080/get',
 
                 type: 'GET',
                 success: function(data) {
                     console.log(data);
-                    document.getElementById("playerList").innerHTML = "PlayerList: ";
+                    document.getElementById("playerList").innerHTML = "";
                     if(data[0]!=null)
-                        document.getElementById("playerList").innerHTML += '<br/>' + data[0].name;
+                        document.getElementById("playerList").innerHTML += data[0].name + '<br/>';
                     if(data[1]!=null)
-                        document.getElementById("playerList").innerHTML += ', ' + data[1].name;
+                        document.getElementById("playerList").innerHTML += data[1].name;
                 },
                 error: function() {
                     console.error("No es posible completar la operación");
@@ -78,5 +78,5 @@ $(document).ready(function() {
     postPlayer();
     getPlayers();
     //execute getPlayers each 0.5 seconds
-    timeGet = setInterval(getPlayers,5000);
+    timeGet = setInterval(getPlayers,10000);
 });
