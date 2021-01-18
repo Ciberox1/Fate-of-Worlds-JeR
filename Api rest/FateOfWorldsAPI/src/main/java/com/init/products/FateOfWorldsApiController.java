@@ -6,7 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +64,11 @@ public class FateOfWorldsApiController {
 	
 	BufferedReader br;
 	BufferedWriter bw;
+	
+	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	Date today = Calendar.getInstance().getTime();
+	String reportDate = df.format(today);
+	String finalDate = reportDate;
 	//End of database stuff.
 	
 	
@@ -82,7 +91,8 @@ public class FateOfWorldsApiController {
 				//Database stuff.
 				try {
 					bw = new BufferedWriter(new FileWriter(bdFile, true));
-					bw.write( player.getName() );
+					bw.write( player.getName() + "  " );
+					bw.write(finalDate);
 					bw.newLine();
 					bw.close();
 				}catch(IOException e) {
