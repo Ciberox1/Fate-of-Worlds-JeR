@@ -66,9 +66,6 @@ public class FateOfWorldsApiController {
 	BufferedWriter bw;
 	
 	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-	Date today = Calendar.getInstance().getTime();
-	String reportDate = df.format(today);
-	String finalDate = reportDate;
 	//End of database stuff.
 	
 	
@@ -90,6 +87,10 @@ public class FateOfWorldsApiController {
 				
 				//Database stuff.
 				try {
+					Date today = Calendar.getInstance().getTime();
+					String reportDate = df.format(today);
+					String finalDate = reportDate;
+					
 					bw = new BufferedWriter(new FileWriter(bdFile, true));
 					bw.write( player.getName() + "  " );
 					bw.write(finalDate);
