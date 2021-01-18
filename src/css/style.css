@@ -112,17 +112,47 @@ li > a:visited{
 
 iframe{
   margin: 3px auto;
+  margin-left: 10px;
   display: block;
+  float:left;
+}
+
+aside {
+  margin: 3px auto;
+  margin-left: 10px;
+	width:28%;
+	float:left;
+	padding:20px;
+	box-sizing:border-box;
+}
+
+#List{
+  color: black;
+  height: 150px;
+  background:#ff8000;
+  text-align: center;
+}
+
+#title{
+    font-size: 30px;
 }
 
 #playerList{
+    font-size: 25px;
+}
+
+#chat{
+    margin-top: 10px;
+    height: 650px;
     color: black;
-    font-size: 50px;
+    background:#ff8000;
+    font-size: 30px;
     text-align: center;
 }
 
 footer{
   color: white;
+  clear:both;
   padding: 10px;
 }
 
