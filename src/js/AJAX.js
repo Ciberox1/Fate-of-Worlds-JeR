@@ -6,6 +6,7 @@
                         'Access-Control-Allow-Origin':'http://localhost:8080',
             },
             url: 'http://a12ff83996a0.ngrok.io/post',
+
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
@@ -29,7 +30,9 @@
                 headers:{
                     'Access-Control-Allow-Origin':'http://localhost:8080',
                 },
+
                 url: 'http://a12ff83996a0.ngrok.io/delete',
+
                 type: 'DELETE',
                 error: function() {
                     console.error("No es posible completar la operación");
@@ -43,6 +46,7 @@
                     'Access-Control-Allow-Origin':'http://localhost:8080',
                 },
                 url: 'http://a12ff83996a0.ngrok.io/get',
+
                 type: 'GET',
                 success: function(data) {
                     console.log(data);

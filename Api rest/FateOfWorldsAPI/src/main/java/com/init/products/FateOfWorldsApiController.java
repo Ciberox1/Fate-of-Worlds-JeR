@@ -6,13 +6,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
+//import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -53,11 +59,13 @@ public class FateOfWorldsApiController {
 	private Map<String, Player> players = new ConcurrentHashMap<>();
 	
 	//DataBase stuff.
-	private String bd_path = "Fate-of-Worlds-JeR\\Api rest\\FateOfWorldsAPI\\src\\main\\resources\\data_base.txt";
+	private String bd_path = "src\\main\\resources\\data_base.txt";
 	File bdFile = new File(bd_path);
 	
 	BufferedReader br;
 	BufferedWriter bw;
+	
+	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	//End of database stuff.
 	
 	
@@ -79,8 +87,13 @@ public class FateOfWorldsApiController {
 				
 				//Database stuff.
 				try {
+					Date today = Calendar.getInstance().getTime();
+					String reportDate = df.format(today);
+					String finalDate = reportDate;
+					
 					bw = new BufferedWriter(new FileWriter(bdFile, true));
-					bw.write( player.getName() );
+					bw.write( player.getName() + "  " );
+					bw.write(finalDate);
 					bw.newLine();
 					bw.close();
 				}catch(IOException e) {
