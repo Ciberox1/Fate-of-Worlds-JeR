@@ -30,13 +30,7 @@ body{
   background-color: var(--body-bgcolor);
   font-family: pixelFont, "Lucida Console", Monaco , monospace;
 }
-#main{
-    color:black;
-    font-size: 50px;
-    margin-left: 100px;
-    height: 0px;
-    font-family: monospace;
-}
+
 #content {
   background-color: var(--content-bgcolor);
   width: 90%;
@@ -113,16 +107,52 @@ li > a:visited{
 }
 
 .main{
-  min-height: 500px;
+  min-height: 800px;
 }
 
 iframe{
   margin: 3px auto;
+  margin-left: 10px;
   display: block;
+  float:left;
+}
+
+aside {
+  margin: 3px auto;
+  margin-left: 10px;
+	width:28%;
+	float:left;
+	padding:20px;
+	box-sizing:border-box;
+}
+
+#List{
+  color: black;
+  height: 150px;
+  background:#ff8000;
+  text-align: center;
+}
+
+#title{
+    font-size: 30px;
+}
+
+#playerList{
+    font-size: 25px;
+}
+
+#chat{
+    margin-top: 10px;
+    height: 650px;
+    color: black;
+    background:#ff8000;
+    font-size: 30px;
+    text-align: center;
 }
 
 footer{
   color: white;
+  clear:both;
   padding: 10px;
 }
 
