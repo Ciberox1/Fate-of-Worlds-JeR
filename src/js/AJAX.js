@@ -4,7 +4,8 @@
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
             },
-            url: 'http://542522a5e419.ngrok.io/post',
+			
+            url: 'http://localhost:8080/post',
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
@@ -27,7 +28,7 @@
 
     function deletePlayer(){
             $.ajax({
-                url: 'http://542522a5e419.ngrok.io/delete',
+                url: 'http://localhost:8080/delete',
                 type: 'DELETE',
                 error: function() {
                     console.error("No es posible completar la operación");
@@ -37,7 +38,7 @@
 
     function getPlayers(){
             $.ajax({
-                url: 'http://542522a5e419.ngrok.io/get',
+                url: 'http://localhost:8080/get',
                 type: 'GET',
                 data:({
                     "name":name,

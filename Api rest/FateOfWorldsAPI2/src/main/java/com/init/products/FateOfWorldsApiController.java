@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
+//import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -53,7 +55,7 @@ public class FateOfWorldsApiController {
 	private Map<String, Player> players = new ConcurrentHashMap<>();
 	
 	//DataBase stuff.
-	private String bd_path = "Fate-of-Worlds-JeR\\Api rest\\FateOfWorldsAPI\\src\\main\\resources\\data_base.txt";
+	private String bd_path = "src\\main\\resources\\data_base.txt";
 	File bdFile = new File(bd_path);
 	
 	BufferedReader br;
