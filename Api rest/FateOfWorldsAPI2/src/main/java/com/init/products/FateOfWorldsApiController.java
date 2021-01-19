@@ -97,7 +97,7 @@ public class FateOfWorldsApiController {
 			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
 		}
 	}
-	
+	@CrossOrigin(origins = "*")
 	@GetMapping("bd")
 	public List<String> readBD() {
 		

@@ -3,9 +3,8 @@
                     headers: { 
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin':'http://localhost:8080',
             },
-            url: 'https://b8ee0a824571.ngrok.io/post',
+            url: 'http://542522a5e419.ngrok.io/post',
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
@@ -21,15 +20,14 @@
     }
 
     function setName(){
+        do{
             name = window.prompt("Enter your name: ");
+        }while(name.length>8);
         }
 
     function deletePlayer(){
             $.ajax({
-                headers:{
-                    'Access-Control-Allow-Origin':'http://localhost:8080',
-                },
-                url: 'https://b8ee0a824571.ngrok.io/delete',
+                url: 'http://542522a5e419.ngrok.io/delete',
                 type: 'DELETE',
                 error: function() {
                     console.error("No es posible completar la operación");
@@ -39,20 +37,31 @@
 
     function getPlayers(){
             $.ajax({
-                headers:{
-                    'Access-Control-Allow-Origin':'http://localhost:8080',
-                },
-                url: 'https://b8ee0a824571.ngrok.io/get',
+                url: 'http://542522a5e419.ngrok.io/get',
                 type: 'GET',
+                data:({
+                    "name":name,
+                }),
                 success: function(data) {
-                    console.log(data);
-                    if(data[0]!=null)
-                        document.getElementById("main").innerHTML=data[0].name;
-                    if(data[1]!=null)
-                        document.getElementById("main").innerHTML=data[1].name;
+                    if(data[0]!=null){
+                        console.log("Jugador 1: " + data[0].name);
+                        document.getElementById("Jug1").innerHTML=data[0].name;
+                    }
+                       
+                    if(data[1]!=null){
+                         document.getElementById("Jug2").innerHTML=data[1].name;
+                         console.log("Jugador 2: " + data[1].name);
+                    }
+                       countRequest=0;
                 },
                 error: function() {
-                    console.error("No es posible completar la operación");
+                    if(countRequest<2){
+                        console.error("No es posible completar la operación");
+                        countRequest++;
+                    }
+                    else{
+                         console.error("El servidor se ha caído")
+                    }
                 }
         
             });
@@ -64,15 +73,15 @@ window.onbeforeunload=function(e){
     var e=e;
     if(e){
         e.returnValue='Are you sure?';
-        deletePlayer();
+        //deletePlayer();
         }
 }
 
 $(document).ready(function() {
+    timeGet = setInterval(getPlayers,1000);
     setName();
     postPlayer();
     //execute getPlayers each 0.5 seconds
-    timeGet = setInterval(getPlayers,3000);
 });
 
 
