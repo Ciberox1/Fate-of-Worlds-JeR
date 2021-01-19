@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class Player {
 	private String ip="";
 	private String name="";
-	
+	private long time;
 	public Player() {
 		
 	}
@@ -21,6 +21,12 @@ public class Player {
 	}
 	public String getIp() {
 		return this.ip;
+	}
+	public void setTime(long time) {
+		this.time=time;
+	}
+	public long getTime() {
+		return this.time;
 	}
 
 }
