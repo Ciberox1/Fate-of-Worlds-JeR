@@ -112,17 +112,77 @@ li > a:visited{
 
 iframe{
   margin: 3px auto;
+  margin-left: 10px;
   display: block;
+  float:left;
 }
 
-#playerList{
+aside {
+  margin: 3px auto;
+  margin-left: 10px;
+	width:28%;
+	float:left;
+	padding:20px;
+	box-sizing:border-box;
+}
+
+#List{
+  color: black;
+  height: 150px;
+  background:#1e90ff;
+  text-align: center;
+}
+
+#title{
+    font-size: 30px;
+    margin-bottom:15px;
+}
+
+#username{
+    border:1px solid #ACD8F0;
+    width:325px;
+    font-family: pixelFont;
+    src: url("../../assets/fonts/minecraftia-webfont.woff");
+}
+
+#chat{
+    margin-top: 10px;
+    height: 650px;
     color: black;
-    font-size: 50px;
+    background:#1e90ff;
+    font-size: 30px;
     text-align: center;
+}
+
+#chatbox {
+    font-size: 20px;
+    text-align:left;
+    margin:0 auto;
+    margin-bottom:15px;
+    padding:10px;
+    background:#fffa;
+    height:500px;
+    width:380px;
+    border:1px solid #ACD8F0;
+    overflow:auto;
+    font-family: pixelFont;
+    src: url("../../assets/fonts/minecraftia-webfont.woff");
+}
+
+#usermsg {
+    border:1px solid #ACD8F0;
+    width:325px;
+    font-family: pixelFont;
+    src: url("../../assets/fonts/minecraftia-webfont.woff");
+}
+
+#Logger{
+    font-size: 20px;
 }
 
 footer{
   color: white;
+  clear:both;
   padding: 10px;
 }
 

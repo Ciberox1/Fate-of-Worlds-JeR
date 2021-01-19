@@ -13,10 +13,8 @@
       <header>
         <nav>
           <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Nuestros juegos</a></li>
             <li><a href="http://localhost:8080/bd">Registro de jugadores</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="http://localhost:8080/bdmsg">Registro de mensajes</a></li>
           </ul>
         </nav>
       </header>
@@ -24,9 +22,23 @@
         <iframe src="game.html" width="1200" height="850" scrolling="no">
 
         </iframe>
-        <p id="playerList">
-            PlayerList:
-        </p>
+        <aside>
+          <div id="List">
+            <p id="title">Log in</p>
+            <div id="Logger">
+              <input name="user" type="text" id="username" size="25" placeholder="User Name" maxlength="15" autocomplete="off">
+              <input name="log" type="reset"  id="logIn" value="Log in" onclick="userLog();">
+            </div>
+          </div>
+          <div id="chat">
+              Chat:
+              <div id="chatbox"></div>
+              <div name="message" action="">
+                <input name="usermsg" type="text" id="usermsg" size="25" autocomplete="off">
+                <input name="submitmsg" type="reset"  id="submitmsg" value="Send" onclick="sendMsg();">
+              </div>
+          </div>
+        </aside>
       </div>
       <footer>
         <p>Creado por el Grupo 9 a.k.a. Special Kode</p>

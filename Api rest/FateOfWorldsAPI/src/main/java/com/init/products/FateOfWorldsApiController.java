@@ -11,10 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -56,7 +60,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RequestMapping("/")
 public class FateOfWorldsApiController {
 	
+	//Player Log
 	private Map<String, Player> players = new ConcurrentHashMap<>();
+	
+	//Message
+	private Queue<Message> msg = new ConcurrentLinkedDeque<>();
 	
 	//DataBase stuff.
 	private String bd_path = "src\\main\\resources\\data_base.txt";
@@ -68,6 +76,14 @@ public class FateOfWorldsApiController {
 	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	//End of database stuff.
 	
+	//DataBase msg.
+	private String bdmsg_path = "src\\main\\resources\\data_base_msg.txt";
+	File bdmsgFile = new File(bdmsg_path);
+	
+	BufferedReader brmsg;
+	BufferedWriter bwmsg;
+	
+	//End of database msg.
 	
 	@CrossOrigin(origins = "*")	
 	@PostMapping("post")
@@ -76,14 +92,8 @@ public class FateOfWorldsApiController {
 		
 		if(players.size()<2) {
 			if(!players.containsKey(player.getName())) {
-				String ip="";
-				if(request!=null)
-					ip=request.getHeader("X-FORWARDED-FOR");
-					if(ip==null || "".equals(ip))
-						ip = request.getRemoteAddr();
-				System.out.println(ip);
-				player.setIp(ip);
-				players.put(ip, player);
+				player.setTime(0);
+				players.put(player.getName(), player);
 				
 				//Database stuff.
 				try {
@@ -111,29 +121,98 @@ public class FateOfWorldsApiController {
 		}
 	}
 	
+	@CrossOrigin(origins = "*")	
+	@PostMapping("msgpost")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Message> newMessage(@RequestBody Message message,HttpServletRequest request) {
+		
+		//Database msg.
+		try {
+			Date today = Calendar.getInstance().getTime();
+			String reportDate = df.format(today);
+			String finalDate = reportDate;
+			
+			bw = new BufferedWriter(new FileWriter(bdmsgFile, true));
+			bw.write( message.getUsername() + " -> " + message.getBody());
+			bw.write(finalDate);
+			bw.newLine();
+			bw.close();
+			
+			msg.add(message);
+		}catch(IOException e) {
+			System.out.println(e.toString());
+		}
+		
+		return new ResponseEntity<>(message, HttpStatus.OK); 
+		
+	}
+	
 	@GetMapping("bd")
 	public List<String> readBD() {
 		
-		List<String> players = new LinkedList<String>();
+		List<String> playerss = new LinkedList<String>();
 		
 		try {
 			br = new BufferedReader(new FileReader(bdFile));
 			String line;
 			while((line = br.readLine()) != null) {
-				players.add(line);
+				playerss.add(line);
 			}
 			br.close();
 		}catch(Exception e) {
 			System.out.println(e.toString());
 		}
 		
-		return players;
+		return playerss;
+	}
+	
+	@GetMapping("bdmsg")
+	public List<String> readBDmsg() {
+		
+		List<String> msgs = new LinkedList<String>();
+		
+		try {
+			br = new BufferedReader(new FileReader(bdmsgFile));
+			String line;
+			while((line = br.readLine()) != null) {
+				msgs.add(line);
+			}
+			br.close();
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return msgs;
 	}
 	
 	@GetMapping("get")
 	@CrossOrigin(origins = "*")
-	public Collection<Player> PlayersList() {
-		return players.values();
+	public Collection<Player> PlayersList(@RequestParam String name) {
+		Iterator<Player> playersCollectIterator=players.values().iterator();
+		Player player;
+		if(name!=null) 
+			players.get(name).setTime(0);
+		while(playersCollectIterator.hasNext()) {
+			player=playersCollectIterator.next();
+			if(player.getTime()>=3) {
+				players.remove(player.getName());
+				System.out.println("El jugador ': " + name + "' se ha ido de la sesión");
+				return players.values();
+			}
+			player.setTime(player.getTime()+1);
+		}
+			return players.values();
+		
+	}
+	
+	@GetMapping("msgget")
+	@CrossOrigin(origins = "*")
+	public Collection<Message> messageList(@RequestParam String username, @RequestParam String body) {		
+		if(msg.size()>9) {
+			msg.remove();
+		}
+		
+		return msg;
 	}
 	
 	@DeleteMapping("delete")
@@ -152,5 +231,5 @@ public class FateOfWorldsApiController {
 			System.out.println("Ha fallado el servidor al borrar al jugador cuya ip es "+ ip);
 		}
 				
-	}
+		}
 	}
