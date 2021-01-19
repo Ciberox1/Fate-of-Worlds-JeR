@@ -13,10 +13,8 @@
       <header>
         <nav>
           <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Nuestros juegos</a></li>
             <li><a href="http://localhost:8080/bd">Registro de jugadores</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="http://localhost:8080/bdmsg">Registro de mensajes</a></li>
           </ul>
         </nav>
       </header>
@@ -25,13 +23,21 @@
 
         </iframe>
         <aside>
-          <div id=List>
-            <p id="title">PlayerList:</p>
-            <p id="playerList"></p>
+          <div id="List">
+            <p id="title">Log in</p>
+            <div id="Logger">
+              <input name="user" type="text" id="username" size="25" placeholder="User Name" maxlength="15" autocomplete="off">
+              <input name="log" type="reset"  id="logIn" value="Log in" onclick="userLog();">
+            </div>
           </div>
-          <p id="chat">
+          <div id="chat">
               Chat:
-          </p>
+              <div id="chatbox"></div>
+              <div name="message" action="">
+                <input name="usermsg" type="text" id="usermsg" size="25" autocomplete="off">
+                <input name="submitmsg" type="reset"  id="submitmsg" value="Send" onclick="sendMsg();">
+              </div>
+          </div>
         </aside>
       </div>
       <footer>
