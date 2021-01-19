@@ -1,5 +1,6 @@
 var name;
 var msg;
+var url = "http://localhost:8080";
 
 //Username
 function postPlayer(){
@@ -8,7 +9,7 @@ function postPlayer(){
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
             },
-            url: 'http://localhost:8080/post',
+            url: url+'/post',
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
@@ -29,7 +30,7 @@ function postPlayer(){
 
     function deletePlayer(){
             $.ajax({
-                url: 'http://localhost:8080/delete',
+                url: url+'/delete',
                 type: 'DELETE',
                 error: function() {
                     console.error("No es posible completar la operación");
@@ -39,7 +40,7 @@ function postPlayer(){
 
     function getPlayers(){
             $.ajax({
-                url: 'http://localhost:8080/get',
+                url: url+'/get',
                 type: 'GET',
                 data:({
                     "name":name,
@@ -109,7 +110,7 @@ function postMsg(){
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
             },
-            url: 'http://localhost:8080/msgpost',
+            url: url+'/msgpost',
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
@@ -127,7 +128,7 @@ function postMsg(){
 
     function getMsg(){
             $.ajax({
-                url: 'http://localhost:8080/msgget',
+                url: url+'/msgget',
                 type: 'GET',
                 data:({
                   "username" : name,
