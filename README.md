@@ -29,7 +29,7 @@ PC/Web
 
 ### Versión
 
-v1.0.1
+v2.0
 
 ### Sinopsis del Juego
 
@@ -131,6 +131,26 @@ Todos los públicos.
 
 - Algunos bugs encontrados han sido solucionados
 
+#### v1.1
+
+- Creación de la Api Rest
+
+#### v1.2
+
+- Creación de log in
+- Ajustes y arreglos de la interfaz
+
+#### v1.2.1
+
+- Mas bugs encontrados y solucionados
+
+#### v1.3
+
+- Sistema de chat
+
+#### v2.0
+
+- Segunda release del juego
 
 ## Visión General del Juego
 
