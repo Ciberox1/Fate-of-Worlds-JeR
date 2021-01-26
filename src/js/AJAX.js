@@ -1,6 +1,7 @@
-var name;
+/*var name;
 var msg;
-var url = "http://localhost:8080";
+var time;
+var url = "http://4aaa6137959d.ngrok.io";
 
 //Username
 function postPlayer(){
@@ -93,7 +94,7 @@ function userLog(){
           setName();
           document.getElementById("Logger").innerHTML = "";
       postPlayer();
-      timeGet = setInterval(getPlayers,1000);
+      timeGet = setInterval(getPlayers,10000);
       //execute getPlayers each 0.5 seconds
   });
 }
@@ -148,7 +149,6 @@ function postMsg(){
                         console.error("No es posible completar la operación");
                     }
             });
-
         }
 
 function sendMsg(){
@@ -158,6 +158,7 @@ function sendMsg(){
 }
 
 $(document).ready(function() {
-    timeGet = setInterval(getMsg,1000);
+    timeGet = setInterval(getMsg,10000);
     //execute getPlayers each 0.5 seconds
 });
+*/

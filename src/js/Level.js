@@ -4,9 +4,13 @@ class Level extends Phaser.Scene {
             key: 'Level'
         });
     }
-
     preload() {
-
+        if(connection!= null)
+            {
+                connection.close();
+            }
+        idJugador=window.prompt("¿Qué jugador quieres? ");
+        connection = new WebSocket('ws://127.0.0.1:8080/game');
         controls1.interactKey = this.input.keyboard.addKey('E');
         controls1.gunKey = this.input.keyboard.addKey('P');
         controls1.dropKey = this.input.keyboard.addKey('Q');
@@ -1443,5 +1447,42 @@ class Level extends Phaser.Scene {
             scene.start('Victory');
             playerDead = false;
         }
-    }
+        
+            if(idJugador==2){
+        //conexion websocket
+        if(connection.readyState==1){
+        connection.send(players.player1.body.velocity.x);
+            
+        connection.onerror = function(e) {
+                console.log("WS error: " + e);
+        }
+        connection.onmessage = function(msg) {
+            console.log("WS message: " + msg.data);
+                }
+         }
+     }
+        
+        
+        // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
+        if(idJugador==1){
+            if(connection.readyState==1){
+                connection.onopen=function(){
+                    connection.send(0);
+                }
+            
+        connection.onerror = function(e) {
+                console.log("WS error: " + e);
+        }
+         connection.onmessage = function(msg) {
+             if(players.player1.body.velocity.x!=msg.data){
+                 console.log(msg);
+                  players.player1.body.setVelocityX(msg);
+             }
+             
+                }
+         }
+         }
+        }
+
 }
+
