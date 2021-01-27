@@ -14,6 +14,7 @@
   </head>
 
   <body>
+      <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
       <script src="../../src/js/phaser.js"></script>
       <script src="../../src/js/Preloader.js"></script>
       <script src="../../src/js/MainMenu.js"></script>
@@ -32,6 +33,7 @@
           parent: 'phaser-example',
           width: 1200,
           height: 850,
+          pixelArt: true,
           physics: {
               default: 'arcade',
               arcade: {
@@ -126,6 +128,9 @@
       var name;
       var timeGet;
       var countRequest;
+      //websocket variables
+      var connection;
+      var idJugador;
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.

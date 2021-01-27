@@ -28,6 +28,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -84,6 +85,8 @@ public class FateOfWorldsApiController {
 	BufferedWriter bwmsg;
 	
 	//End of database msg.
+	
+
 	
 	@CrossOrigin(origins = "*")	
 	@PostMapping("post")
@@ -194,7 +197,7 @@ public class FateOfWorldsApiController {
 			players.get(name).setTime(0);
 		while(playersCollectIterator.hasNext()) {
 			player=playersCollectIterator.next();
-			if(player.getTime()>=3) {
+			if(player.getTime()>=11) {
 				players.remove(player.getName());
 				System.out.println("El jugador ': " + name + "' se ha ido de la sesión");
 				return players.values();
@@ -215,6 +218,7 @@ public class FateOfWorldsApiController {
 		return msg;
 	}
 	
+	
 	@DeleteMapping("delete")
 	@CrossOrigin(origins = "*")
 	public void deletePlayer(HttpServletRequest request) {
@@ -232,4 +236,6 @@ public class FateOfWorldsApiController {
 		}
 				
 		}
+	
+	
 	}
