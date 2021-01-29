@@ -5,12 +5,17 @@ class Level extends Phaser.Scene {
         });
     }
     preload() {
-        if(connection!= null)
-            {
-                connection.close();
-            }
         idJugador=window.prompt("¿Qué jugador quieres? ");
-        connection = new WebSocket('ws://127.0.0.1:8080/game');
+        if(connection==null){
+            console.log("entra 1");
+            connection = new WebSocket('ws://127.0.0.1:8080/game');
+        }
+        else{
+            console.log("entra 2");
+            connection.close();
+            connection = new WebSocket('ws://127.0.0.1:8080/game');
+        }
+        connection.binaryType='arraybuffer';
         controls1.interactKey = this.input.keyboard.addKey('E');
         controls1.gunKey = this.input.keyboard.addKey('P');
         controls1.dropKey = this.input.keyboard.addKey('Q');
@@ -655,11 +660,14 @@ class Level extends Phaser.Scene {
         players.player1.body.setSize(widthPlayer1, heightPlayer1);
         players.player1.setCollideWorldBounds(false);
         players.player1.body.setOffset(21,7);
+        Offsetxplayer1=21;
+        Offsetyplayer1=7;
 
         players.player2.body.setSize(widthPlayer2, heightPlayer2);
         players.player2.setCollideWorldBounds(false);
         players.player2.body.setOffset(12,0);
-
+        Offsetxplayer2=21;
+        Offsetyplayer2=7;
 
         //adding hearts
         hearts = this.add.group();
@@ -819,8 +827,9 @@ class Level extends Phaser.Scene {
 
     update() {
 
-
+    if(idJugador==2)
         updatePlayer1 = true;
+        
         updatePlayer2 = false;
 
         switch (playerState1) {
@@ -846,8 +855,9 @@ class Level extends Phaser.Scene {
 
         }
 
-        updatePlayer1 = false;
-        updatePlayer2 = true;
+            updatePlayer1 = false;
+        if(idJugador==1)
+            updatePlayer2 = true;
 
         switch (playerState2) {
             case playerStateList["idle"]:
@@ -1109,6 +1119,8 @@ class Level extends Phaser.Scene {
               if (players.player1.flipX == false) {
                   players.player1.body.position.x -= 12;
                   players.player1.body.setOffset(34,7);
+                  Offsetxplayer1=34;
+                  Offsetyplayer1=7;
               }
               players.player1.setVelocityX(-160);
               players.player1.anims.play('Mario1Walk', true);
@@ -1136,6 +1148,8 @@ class Level extends Phaser.Scene {
               if (players.player2.flipX == false) {
                   players.player2.body.position.x -= 12;
                   players.player2.body.setOffset(25,0);
+                  Offsetxplayer2=25;
+                  Offsetyplayer2=0;
               }
               players.player2.setVelocityX(-160);
               players.player2.anims.play('Mario2Walk', true);
@@ -1167,6 +1181,8 @@ class Level extends Phaser.Scene {
               if (players.player1.flipX == true) {
                   players.player1.body.position.x += 12;
                   players.player1.body.setOffset(21,7);
+                  Offsetxplayer1=21;
+                  Offsetyplayer1=7;
               }
               players.player1.setVelocityX(160);
               players.player1.anims.play('Mario1Walk', true);
@@ -1194,6 +1210,8 @@ class Level extends Phaser.Scene {
               if (players.player2.flipX == true) {
                   players.player2.body.position.x += 12;
                   players.player2.body.setOffset(13,0);
+                  Offsetxplayer2=13;
+                  Offsetyplayer2=0;
               }
               players.player2.setVelocityX(160);
               players.player2.anims.play('Mario2Walk', true);
@@ -1264,6 +1282,8 @@ class Level extends Phaser.Scene {
                 if (players.player1.flipX == false) {
                     players.player1.body.position.x -= 10;
                     players.player1.body.setOffset(32,7);
+                    Offsetxplayer1=32;
+                    Offsetyplayer1=7;
                 }
                 players.player1.setVelocityX(-150);
                 players.player1.flipX = true;
@@ -1271,6 +1291,8 @@ class Level extends Phaser.Scene {
                 if (players.player1.flipX == true) {
                     players.player1.body.position.x += 10;
                      players.player1.body.setOffset(22,7);
+                    Offsetxplayer1=22;
+                    Offsetyplayer1=7;
                 }
                 players.player1.setVelocityX(150);
                 players.player1.flipX = false;
@@ -1306,6 +1328,8 @@ class Level extends Phaser.Scene {
                 if (players.player2.flipX == false) {
                     players.player2.body.position.x -= 10;
                     players.player2.body.setOffset(24,0);
+                    Offsetxplayer2=24;
+                    Offsetyplayer2=0;
                 }
                 players.player2.setVelocityX(-150);
                 players.player2.flipX = true;
@@ -1313,6 +1337,8 @@ class Level extends Phaser.Scene {
                 if (players.player2.flipX == true) {
                     players.player2.body.position.x += 10;
                      players.player2.body.setOffset(12,0);
+                    Offsetxplayer2=12;
+                    Offsetyplayer2=0;
                 }
                 players.player2.setVelocityX(150);
                 players.player2.flipX = false;
@@ -1447,42 +1473,57 @@ class Level extends Phaser.Scene {
             scene.start('Victory');
             playerDead = false;
         }
-        
+        //console.log(players.player1.body.velocity.x);
+        //console.log(players.player1.body.velocity.y);
             if(idJugador==2){
         //conexion websocket
         if(connection.readyState==1){
-        connection.send(players.player1.body.velocity.x);
+            JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.velocity.y,players.player1.anims.currentAnim.key,players.player1.flipX,Offsetxplayer1,Offsetyplayer1]);
+            connection.send(JsonData);
             
         connection.onerror = function(e) {
                 console.log("WS error: " + e);
         }
         connection.onmessage = function(msg) {
-            console.log("WS message: " + msg.data);
-                }
-         }
+            data=JSON.parse(msg.data);
+             players.player2.body.setVelocityX(parseInt(data[0]));
+             players.player2.body.setVelocityY(parseInt(data[1]));
+             players.player2.anims.play(data[2],true);
+             players.player2.flipX=data[3];
+             players.player2.setOffset(data[4],data[5]);
+            }
+        connection.onclose = function(){
+            console.log("Se ha cerrado el servidor");
+          }
+        }
      }
-        
         
         // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
         if(idJugador==1){
             if(connection.readyState==1){
-                connection.onopen=function(){
-                    connection.send(0);
-                }
-            
-        connection.onerror = function(e) {
+                 JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.velocity.y,players.player2.anims.currentAnim.key]);
+                connection.send(JsonData);
+                connection.onerror = function(e) {
                 console.log("WS error: " + e);
         }
          connection.onmessage = function(msg) {
-             if(players.player1.body.velocity.x!=msg.data){
-                 console.log(msg);
-                  players.player1.body.setVelocityX(msg);
-             }
+             //console.log(msg.data);
+             data=JSON.parse(msg.data);
+             players.player1.body.setVelocityX(parseInt(data[0]));
+             players.player1.body.setVelocityY(parseInt(data[1]));
+             players.player1.anims.play(data[2],true);
+             players.player1.flipX=data[3];
+             players.player1.setOffset(data[4],data[5]);
+             
              
                 }
-         }
-         }
+         connection.onclose = function(){
+            console.log("Se ha cerrado el servidor");
+          }
+            }
         }
+        
+    }
 
 }
 

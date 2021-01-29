@@ -92,7 +92,10 @@
       var colisionPlayer2 = true;
       var tween;
       var playerDead=false;
-
+      var Offsetxplayer1;
+      var Offsetyplayer1;
+      var Offsetxplayer2;
+      var Offsetyplayer2;
       //shooting booleans
       var bala1;
       var balaActiva1 = false;
@@ -131,6 +134,11 @@
       //websocket variables
       var connection;
       var idJugador;
+      var velocityXplayer1=0;
+      var velocityXplayer2=0;
+      var  JsonData;
+      var connection;
+          var data;
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
