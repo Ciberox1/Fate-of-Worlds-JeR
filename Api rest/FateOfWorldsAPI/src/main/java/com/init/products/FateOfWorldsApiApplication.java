@@ -21,7 +21,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 			return new GameWebSocketHandler();
 	}
 	
-		public static void main(String[] args) {
+		public static void main(String[] args) { 
 			SpringApplication.run(FateOfWorldsApiApplication.class, args);
-		}
-}
+		}   
+}                           
