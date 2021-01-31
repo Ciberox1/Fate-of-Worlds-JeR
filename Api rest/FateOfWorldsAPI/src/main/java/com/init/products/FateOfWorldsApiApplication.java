@@ -24,4 +24,4 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 		public static void main(String[] args) { 
 			SpringApplication.run(FateOfWorldsApiApplication.class, args);
 		}   
-}                  
+}                           

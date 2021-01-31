@@ -85,7 +85,7 @@
       }
 
       var updatePlayer1 = true;
-      var updatePlayer2 = false;
+      var updatePlayer2 = true;
 
       var notLoad = true;
       var colisionPlayer1 = true;
@@ -137,12 +137,17 @@
       var velocityXplayer1=0;
       var velocityXplayer2=0;
       var  JsonData;
-      var connection;
           var data;
+      var player1Ready=false;
+      var player2Ready=false;
+      var player1ReadyToPlay=false;
+      var player2ReadyToPlay=false;
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
         for (i = 0; i < enemiesQuantity; i++) {
+           // if(children[i].body==undefined)
+                //console.log(i);
             if (children[i] != undefined && children[i].body.touching.left && children[i].flipX == false) {
                 velocityXEnemie[i] = -velocityXEnemie[i];
                 children[i].body.velocity.x = velocityXEnemie[i];
@@ -204,6 +209,7 @@
       var warp = false;
       var collapse;
       var collapsablePlats1, collapsablePlats2;
+      var collapsableConexion=false;
       var collapseTimer = false;
       var collapseEvent;
       var camera1, camera2, camera3;
