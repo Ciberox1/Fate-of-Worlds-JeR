@@ -1,7 +1,8 @@
-/*var name;
+var name;
 var msg;
 var time;
-var url = "http://4aaa6137959d.ngrok.io";
+var url = "http://localhost:8080";
+var ping = 1000;
 
 //Username
 function postPlayer(){
@@ -29,7 +30,7 @@ function postPlayer(){
             name = document.getElementById("username").value;
     }
 
-    function deletePlayer(){
+    /*function deletePlayer(){
             $.ajax({
                 url: url+'/delete',
                 type: 'DELETE',
@@ -37,7 +38,7 @@ function postPlayer(){
                     console.error("No es posible completar la operación");
                     }
                 });
-            }
+            }*/
 
     function getPlayers(){
             $.ajax({
@@ -66,7 +67,8 @@ function postPlayer(){
                         countRequest++;
                     }
                     else{
-                         console.error("El servidor se ha caído")
+                         document.getElementById("title").innerHTML = "The server is closed";
+                         document.getElementById("Logger").innerHTML = "Please wait a few seconds and reload the page";
                     }
                 }
 
@@ -88,13 +90,36 @@ window.onload=function(e){
     document.getElementById("usermsg").value="";
 }
 
+function loadMsg(){
+  $.ajax({
+      url: url+'/loadmsg',
+      type: 'GET',
+      data:({
+        "username" : name,
+        "body" : msg,
+      }),
+      success: function(data) {
+          //document.getElementById("chatbox").innerHTML = "";
+          for (var i = 0; i < 10; i++) {
+            if(data[i]!=null){
+                document.getElementById("chatbox").innerHTML += data[i].username + " -> " + data[i].body + '<br/>';
+            }
+          }
+      },
+      error: function() {
+              console.error("No es posible completar la operación");
+          }
+  });
+}
+
 function userLog(){
   document.getElementById("title").innerHTML = "Player List :";
+  loadMsg();
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
       postPlayer();
-      timeGet = setInterval(getPlayers,10000);
+      timeGet = setInterval(getPlayers,ping);
       //execute getPlayers each 0.5 seconds
   });
 }
@@ -143,7 +168,7 @@ function postMsg(){
                           document.getElementById("chatbox").innerHTML += data[i].username + " -> " + data[i].body + '<br/>';
                       }
                     }
-                  document.getElementById("chatbox").scrollTop=1000;
+                  document.getElementById("chatbox").scrollTop+=1000;
                 },
                 error: function() {
                         console.error("No es posible completar la operación");
@@ -155,10 +180,8 @@ function sendMsg(){
   setMsg();
   postMsg();
   document.getElementById("usermsg").value="";
+    $(document).ready(function() {
+        timeGet = setInterval(getMsg,ping);
+        //execute getPlayers each 0.5 seconds
+    });
 }
-
-$(document).ready(function() {
-    timeGet = setInterval(getMsg,10000);
-    //execute getPlayers each 0.5 seconds
-});
-*/
