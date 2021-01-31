@@ -110,6 +110,7 @@ window.onbeforeunload=function(e){
 window.onload=function(e){
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
+    loadMsg();
 }
 
 function loadMsg(){
@@ -136,7 +137,6 @@ function loadMsg(){
 
 function userLog(){
   document.getElementById("title").innerHTML = "Player List :";
-  loadMsg();
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
