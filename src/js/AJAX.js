@@ -68,11 +68,7 @@ function postPlayer(){
                     }
                     else{
                          document.getElementById("title").innerHTML = "The server is closed";
-                         document.getElementById("Logger").innerHTML = "Please wait a few seconds";
-                         const button = document.createElement('button');
-                         button.type = 'reset';
-                         button.innerText = 'Reload';
-                         document.body.appendChild(button);
+                         document.getElementById("Logger").innerHTML = "Please wait a few seconds and reload the page";
                     }
                 }
 
