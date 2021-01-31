@@ -2,6 +2,7 @@ var name;
 var msg;
 var time;
 var url = "http://localhost:8080";
+var ping = 1000;
 
 //Username
 function postPlayer(){
@@ -29,7 +30,7 @@ function postPlayer(){
             name = document.getElementById("username").value;
     }
 
-    function deletePlayer(){
+    /*function deletePlayer(){
             $.ajax({
                 url: url+'/delete',
                 type: 'DELETE',
@@ -37,7 +38,7 @@ function postPlayer(){
                     console.error("No es posible completar la operación");
                     }
                 });
-            }
+            }*/
 
     function getPlayers(){
             $.ajax({
@@ -66,7 +67,12 @@ function postPlayer(){
                         countRequest++;
                     }
                     else{
-                         console.error("El servidor se ha caído")
+                         document.getElementById("title").innerHTML = "The server is closed";
+                         document.getElementById("Logger").innerHTML = "Please wait a few seconds";
+                         const button = document.createElement('button');
+                         button.type = 'reset';
+                         button.innerText = 'Reload';
+                         document.body.appendChild(button);
                     }
                 }
 
@@ -94,7 +100,7 @@ function userLog(){
           setName();
           document.getElementById("Logger").innerHTML = "";
       postPlayer();
-      timeGet = setInterval(getPlayers,10000);
+      timeGet = setInterval(getPlayers,ping);
       //execute getPlayers each 0.5 seconds
   });
 }
@@ -156,10 +162,7 @@ function sendMsg(){
   postMsg();
   document.getElementById("usermsg").value="";
     $(document).ready(function() {
-        timeGet = setInterval(getMsg,10000);
+        timeGet = setInterval(getMsg,ping);
         //execute getPlayers each 0.5 seconds
     });
 }
-
-
-
