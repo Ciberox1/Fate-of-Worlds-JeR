@@ -4,13 +4,9 @@ class Level extends Phaser.Scene {
             key: 'Level'
         });
     }
-    preload() {
-        if(connection!= null)
-            {
-                connection.close();
-            }
-        idJugador=window.prompt("¿Qué jugador quieres? ");
-        connection = new WebSocket('ws://127.0.0.1:8080/game');
+    preload() {                
+        
+        connection.binaryType='arraybuffer';
         controls1.interactKey = this.input.keyboard.addKey('E');
         controls1.gunKey = this.input.keyboard.addKey('P');
         controls1.dropKey = this.input.keyboard.addKey('Q');
@@ -655,11 +651,14 @@ class Level extends Phaser.Scene {
         players.player1.body.setSize(widthPlayer1, heightPlayer1);
         players.player1.setCollideWorldBounds(false);
         players.player1.body.setOffset(21,7);
+        Offsetxplayer1=21;
+        Offsetyplayer1=7;
 
         players.player2.body.setSize(widthPlayer2, heightPlayer2);
         players.player2.setCollideWorldBounds(false);
         players.player2.body.setOffset(12,0);
-
+        Offsetxplayer2=12;
+        Offsetyplayer2=0;
 
         //adding hearts
         hearts = this.add.group();
@@ -818,10 +817,20 @@ class Level extends Phaser.Scene {
     }
 
     update() {
+                                                         //console.log(players.player1.body.position.y + "y" + players.player1.body.position.x + " x");       
+        if(idJugador==1){
+            updatePlayer1 = true;
+            if(players.player2.body.touching.down &&  player2ReadyToPlay==false){
+                 player2ReadyToPlay=true;
+                players.player2.body.setVelocityY(0);
+                updatePlayer2=false;
+            }
+            if(players.player1.body.touching.down &&  player1ReadyToPlay==false)
+                player1ReadyToPlay=true;
+        }
+               
 
-
-        updatePlayer1 = true;
-        updatePlayer2 = false;
+            
 
         switch (playerState1) {
             case playerStateList["idle"]:
@@ -845,9 +854,22 @@ class Level extends Phaser.Scene {
             default:
 
         }
-
-        updatePlayer1 = false;
-        updatePlayer2 = true;
+        
+        if(idJugador==1)
+            updatePlayer1 = false;
+        
+        if(idJugador==2){
+             updatePlayer2 = true;
+            //console.log(players.player1.body.touching.down );
+            if(players.player1.body.touching.down &&  player1ReadyToPlay==false){
+                
+                  player1ReadyToPlay=true;
+                  updatePlayer1 = false;
+                players.player1.body.setVelocityY(0);
+            }
+             if(players.player2.body.touching.down &&  player2ReadyToPlay==false)
+                player2ReadyToPlay=true;
+        }  
 
         switch (playerState2) {
             case playerStateList["idle"]:
@@ -871,20 +893,30 @@ class Level extends Phaser.Scene {
             default:
 
         }
+                if(idJugador==2)
+                    updatePlayer2=false;  
 
         //Collapse code
-        if (controls1.collapseKey.isDown && collapseTimer === false) {
+        if ((controls1.collapseKey.isDown && collapseTimer === false) || (collapsableConexion==true && collapsablePlats1.active ==false &&
+            collapsablePlats2.active ==false)) {
+            //console.log("entra");
+            if(collapsableConexion==true)
+                collapsableConexion=false;
+            else{
+                collapsableConexion=true;
+            }
             soundCollapse.play();
             collapsablePlats1.active = true;
             collapsablePlats2.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsed');
             }
-            if (collapseTimer === false) {
+            if (collapseTimer === false && collapsableConexion == false) {
                 collapseEvent = this.time.delayedCall(8500, removeCollapse);
                 collapseTimer = true;
             }
         }
+        //console.log(collapsablePlats1.active + "," + collapsablePlats2.active);
 
         if (!warp) {
             tween = this.tweens.addCounter({
@@ -1109,6 +1141,8 @@ class Level extends Phaser.Scene {
               if (players.player1.flipX == false) {
                   players.player1.body.position.x -= 12;
                   players.player1.body.setOffset(34,7);
+                  Offsetxplayer1=34;
+                  Offsetyplayer1=7;
               }
               players.player1.setVelocityX(-160);
               players.player1.anims.play('Mario1Walk', true);
@@ -1136,6 +1170,8 @@ class Level extends Phaser.Scene {
               if (players.player2.flipX == false) {
                   players.player2.body.position.x -= 12;
                   players.player2.body.setOffset(25,0);
+                  Offsetxplayer2=25;
+                  Offsetyplayer2=0;
               }
               players.player2.setVelocityX(-160);
               players.player2.anims.play('Mario2Walk', true);
@@ -1167,6 +1203,8 @@ class Level extends Phaser.Scene {
               if (players.player1.flipX == true) {
                   players.player1.body.position.x += 12;
                   players.player1.body.setOffset(21,7);
+                  Offsetxplayer1=21;
+                  Offsetyplayer1=7;
               }
               players.player1.setVelocityX(160);
               players.player1.anims.play('Mario1Walk', true);
@@ -1194,6 +1232,8 @@ class Level extends Phaser.Scene {
               if (players.player2.flipX == true) {
                   players.player2.body.position.x += 12;
                   players.player2.body.setOffset(13,0);
+                  Offsetxplayer2=13;
+                  Offsetyplayer2=0;
               }
               players.player2.setVelocityX(160);
               players.player2.anims.play('Mario2Walk', true);
@@ -1262,15 +1302,19 @@ class Level extends Phaser.Scene {
             //Left
             if (controls1.cursors.left.isDown && controls1.cursors.right.isUp) {
                 if (players.player1.flipX == false) {
-                    players.player1.body.position.x -= 10;
+                    players.player1.body.position.x -= 12;
                     players.player1.body.setOffset(32,7);
+                    Offsetxplayer1=32;
+                    Offsetyplayer1=7;
                 }
                 players.player1.setVelocityX(-150);
                 players.player1.flipX = true;
             } else if (controls1.cursors.right.isDown && controls1.cursors.left.isUp) {
                 if (players.player1.flipX == true) {
-                    players.player1.body.position.x += 10;
+                    players.player1.body.position.x += 12;
                      players.player1.body.setOffset(22,7);
+                    Offsetxplayer1=22;
+                    Offsetyplayer1=7;
                 }
                 players.player1.setVelocityX(150);
                 players.player1.flipX = false;
@@ -1304,15 +1348,19 @@ class Level extends Phaser.Scene {
             //Left
             if (controls2.cursors.left.isDown && controls2.cursors.right.isUp) {
                 if (players.player2.flipX == false) {
-                    players.player2.body.position.x -= 10;
+                    players.player2.body.position.x -= 12;
                     players.player2.body.setOffset(24,0);
+                    Offsetxplayer2=24;
+                    Offsetyplayer2=0;
                 }
                 players.player2.setVelocityX(-150);
                 players.player2.flipX = true;
             } else if (controls2.cursors.right.isDown && controls2.cursors.left.isUp) {
                 if (players.player2.flipX == true) {
-                    players.player2.body.position.x += 10;
+                    players.player2.body.position.x += 12;
                      players.player2.body.setOffset(12,0);
+                    Offsetxplayer2=12;
+                    Offsetyplayer2=0;
                 }
                 players.player2.setVelocityX(150);
                 players.player2.flipX = false;
@@ -1417,11 +1465,13 @@ class Level extends Phaser.Scene {
         function removeCollapse() {
             collapsablePlats1.active = false;
             collapsablePlats2.active = false;
+            console.log("remueve");
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsable');
             }
             collapseTimer = false;
             collapseEvent.remove();
+            console.log(collapsablePlats1.active + "," + collapsablePlats2.active);
         }
 
         function GameOver(scene) {
@@ -1447,42 +1497,118 @@ class Level extends Phaser.Scene {
             scene.start('Victory');
             playerDead = false;
         }
-        
-            if(idJugador==2){
-        //conexion websocket
-        if(connection.readyState==1){
-        connection.send(players.player1.body.velocity.x);
-            
-        connection.onerror = function(e) {
-                console.log("WS error: " + e);
-        }
-        connection.onmessage = function(msg) {
-            console.log("WS message: " + msg.data);
+        //console.log(players.player1.body.velocity.x);
+        //console.log(players.player1.body.velocity.y);
+        if(idJugador==1){
+        //conexion websocket 
+                if(connection.readyState==1){
+            //console.log(children[16].body);
+
+                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.velocity.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion]);
+                    connection.send(JsonData);
+                    //console.log(players.player1.body.position.x);
+                    connection.onerror = function(e) {
+                        console.log("WS error: " + e);
+                        }
+                    connection.onmessage = function(msg) {
+                        k=8;
+                        //console.log(msg.data);
+                        data=JSON.parse(msg.data);
+                        if(player2ReadyToPlay==true && data[7]!=null && data[7]==true){
+                    
+                            //console.log("entra");
+                            if(data[0]<0 && players.player2.flipX==false){
+                                players.player2.setPosition(players.player2.body.position.x-2,players.player2.body.position.y+25);
+                            }
+                    
+                            else if(data[0]>0 && players.player2.flipX==true){
+                                players.player2.setPosition(players.player2.body.position.x+16,players.player2.body.position.y+25);
+                            }
+                            //setVelocity
+                            players.player2.body.setVelocityX(parseInt(data[0]));
+                            players.player2.body.setVelocityY(parseInt(data[1]));
+                            //setAnim
+                            players.player2.anims.load(data[2]);
+                            players.player2.setFrame(data[3].frame); 
+                            //setFlip
+                            players.player2.flipX=data[4];
+                            //setOffset
+                            players.player2.setOffset(data[5],data[6]);
+                            //Set enemies array for each camera player
+                            for(i=0;i<data[8].length-16;i++){
+                                children[i].body.setVelocityX(data[8][i]);
+                                children[i].flipX=data[9][i].flipX;
+                       
+                            };
+                            // implement collapsable plats update for online gaming
+                                if(data[10]==true)
+                                    collapsableConexion=true;
+                        
+                        }
+                    }
+                    
+                connection.onclose = function(){
+                    console.log("Se ha cerrado el servidor");
                 }
-         }
-     }
-        
+            }
+        }
         
         // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
-        if(idJugador==1){
+    if(idJugador==2){
             if(connection.readyState==1){
-                connection.onopen=function(){
-                    connection.send(0);
-                }
-            
-        connection.onerror = function(e) {
+               JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.velocity.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexion]);
+                connection.send(JsonData);
+                
+                connection.onerror = function(e) {
                 console.log("WS error: " + e);
-        }
-         connection.onmessage = function(msg) {
-             if(players.player1.body.velocity.x!=msg.data){
-                 console.log(msg);
-                  players.player1.body.setVelocityX(msg);
-             }
-             
-                }
-         }
-         }
-        }
+            }
+                connection.onmessage = function(msg) {
+                //console.log("jugador1 conectado");
+                    data=JSON.parse(msg.data);
+                    if(player1ReadyToPlay==true && data[7]!=null && data[7]==true){
+                    //console.log("entra");
+                        //adjustment in sprite position
+                        if(data[0]<0 && players.player1.flipX==false){
+                            players.player1.setPosition(players.player1.body.position.x,players.player1.body.position.y+25);
+                        }
+                        //adjustment in sprite position
+                        else if(data[0]>0 && players.player1.flipX==true){
+                            players.player1.setPosition(players.player1.body.position.x+11,players.player1.body.position.y+25);
+                            }
+                        
+                        //setVelocity
+                        players.player1.body.setVelocityX(parseInt(data[0]));
+                        players.player1.body.setVelocityY(parseInt(data[1]));
+                        //setAnim
+                        players.player1.anims.load(data[2]);
+                        players.player1.setFrame(data[3].frame);
+                        //setFlip
+                        players.player1.flipX=data[4];
+                        //setOffset
+                        players.player1.setOffset(data[5],data[6]);
+                        //Set enemies array for each camera player
+                        for(i=16;i<data[8].length;i++){
+                            children[i].body.setVelocityX(data[8][i]);
+                        };
+                        // implement collapsable plats update for online gaming
+                        if(data[10]==true)
+                              collapsableConexion=true;
+                        
+                        }
 
+
+                 
+                    }
+                
+                connection.onclose = function(){
+                    console.log("Se ha cerrado el servidor");
+                }
+                
+            }
+        }   
+    }
 }
+
+
+  
 
