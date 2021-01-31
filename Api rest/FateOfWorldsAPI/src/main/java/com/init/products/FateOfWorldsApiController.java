@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -131,12 +132,13 @@ public class FateOfWorldsApiController {
 		
 		//Database msg.
 		try {
+			//Me vale VERGA
 			Date today = Calendar.getInstance().getTime();
 			String reportDate = df.format(today);
 			String finalDate = reportDate;
 			
 			bw = new BufferedWriter(new FileWriter(bdmsgFile, true));
-			bw.write( message.getUsername() + " -> " + message.getBody());
+			bw.write( message.getUsername() + " -> " + message.getBody()+ " -> " );
 			bw.write(finalDate);
 			bw.newLine();
 			bw.close();
@@ -197,7 +199,7 @@ public class FateOfWorldsApiController {
 			players.get(name).setTime(0);
 		while(playersCollectIterator.hasNext()) {
 			player=playersCollectIterator.next();
-			if(player.getTime()>=11) {
+			if(player.getTime()>=2) {
 				players.remove(player.getName());
 				System.out.println("El jugador ': " + name + "' se ha ido de la sesión");
 				return players.values();
@@ -210,7 +212,28 @@ public class FateOfWorldsApiController {
 	
 	@GetMapping("msgget")
 	@CrossOrigin(origins = "*")
-	public Collection<Message> messageList(@RequestParam String username, @RequestParam String body) {		
+	public Collection<Message> messageList(@RequestParam String username, @RequestParam String body) {
+		Stack<String> msgs = new Stack<>();
+		try {
+			br = new BufferedReader(new FileReader(bdmsgFile));
+			String line;
+			while((line = br.readLine()) != null) {
+				msgs.add(line);
+			}
+			br.close();
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		for(int i = 0; i < 9; i++) {
+			if(!msgs.isEmpty()) {
+				String aux = msgs.pop();
+				String [] aux2 = aux.split(" -> ");
+				Message newMsg = new Message();
+				newMsg.setUsername(aux2[0]);
+				newMsg.setBody(aux2[1]);
+				msg.add(newMsg);
+			}
+		}
 		if(msg.size()>9) {
 			msg.remove();
 		}
