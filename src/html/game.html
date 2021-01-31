@@ -14,6 +14,7 @@
   </head>
 
   <body>
+      <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
       <script src="../../src/js/phaser.js"></script>
       <script src="../../src/js/Preloader.js"></script>
       <script src="../../src/js/MainMenu.js"></script>
@@ -84,14 +85,17 @@
       }
 
       var updatePlayer1 = true;
-      var updatePlayer2 = false;
+      var updatePlayer2 = true;
 
       var notLoad = true;
       var colisionPlayer1 = true;
       var colisionPlayer2 = true;
       var tween;
       var playerDead=false;
-
+      var Offsetxplayer1;
+      var Offsetyplayer1;
+      var Offsetxplayer2;
+      var Offsetyplayer2;
       //shooting booleans
       var bala1;
       var balaActiva1 = false;
@@ -127,10 +131,23 @@
       var name;
       var timeGet;
       var countRequest;
+      //websocket variables
+      var connection;
+      var idJugador;
+      var velocityXplayer1=0;
+      var velocityXplayer2=0;
+      var  JsonData;
+          var data;
+      var player1Ready=false;
+      var player2Ready=false;
+      var player1ReadyToPlay=false;
+      var player2ReadyToPlay=false;
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
         for (i = 0; i < enemiesQuantity; i++) {
+           // if(children[i].body==undefined)
+                //console.log(i);
             if (children[i] != undefined && children[i].body.touching.left && children[i].flipX == false) {
                 velocityXEnemie[i] = -velocityXEnemie[i];
                 children[i].body.velocity.x = velocityXEnemie[i];
@@ -192,6 +209,7 @@
       var warp = false;
       var collapse;
       var collapsablePlats1, collapsablePlats2;
+      var collapsableConexion=false;
       var collapseTimer = false;
       var collapseEvent;
       var camera1, camera2, camera3;

@@ -7,6 +7,8 @@ class Preloader extends Phaser.Scene {
 
     preload() {
 
+        
+        connection = new WebSocket('ws://127.0.0.1:8080/game'); 
         this.add.image(0,0, "load").setOrigin(0).setDepth(0);
         var title = this.add.image(780,100, "title").setOrigin(0).setDepth(1);
         title.setScale(1,2);
@@ -190,8 +192,33 @@ class Preloader extends Phaser.Scene {
     }
 
     update() {
+        
         if (controls1.continueKey.isDown) {
-            this.scene.start('Level');
+            if(connection.readyState==1){
+                if(idJugador==null)
+                    idJugador=window.prompt("¿Qué jugador quieres? ");  
+                if(idJugador==2){
+                    player2Ready=true;
+                    connection.send(JSON.stringify(player2Ready));
+                    connection.onmessage= function(msg){
+                        JSON.parse(msg.data);
+                        player1Ready=msg.data;
+                    }
+                }
+                else if(idJugador==1){
+                        player1Ready=true;
+                        connection.send(JSON.stringify(player1Ready));
+                        connection.onmessage= function(msg){
+                            JSON.parse(msg.data);
+                            player2Ready=msg.data;
+                        }
+                }
+            }
         }
+            if(player1Ready && player2Ready)
+                            this.scene.start('Level');
+                
+            
+        
     }
 }

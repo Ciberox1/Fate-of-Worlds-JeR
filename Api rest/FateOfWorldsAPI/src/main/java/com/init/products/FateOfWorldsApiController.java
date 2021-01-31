@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -28,6 +29,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -65,6 +67,7 @@ public class FateOfWorldsApiController {
 	
 	//Message
 	private Queue<Message> msg = new ConcurrentLinkedDeque<>();
+	private Stack<Message> msg1 = new Stack<>();
 	
 	//DataBase stuff.
 	private String bd_path = "src\\main\\resources\\data_base.txt";
@@ -84,6 +87,8 @@ public class FateOfWorldsApiController {
 	BufferedWriter bwmsg;
 	
 	//End of database msg.
+	
+
 	
 	@CrossOrigin(origins = "*")	
 	@PostMapping("post")
@@ -128,12 +133,13 @@ public class FateOfWorldsApiController {
 		
 		//Database msg.
 		try {
+			//Me vale VERGA
 			Date today = Calendar.getInstance().getTime();
 			String reportDate = df.format(today);
 			String finalDate = reportDate;
 			
 			bw = new BufferedWriter(new FileWriter(bdmsgFile, true));
-			bw.write( message.getUsername() + " -> " + message.getBody());
+			bw.write( message.getUsername() + " -> " + message.getBody()+ " -> ");
 			bw.write(finalDate);
 			bw.newLine();
 			bw.close();
@@ -207,13 +213,46 @@ public class FateOfWorldsApiController {
 	
 	@GetMapping("msgget")
 	@CrossOrigin(origins = "*")
-	public Collection<Message> messageList(@RequestParam String username, @RequestParam String body) {		
-		if(msg.size()>9) {
+	public Collection<Message> messageList(@RequestParam String username, @RequestParam String body) {
+		if(msg.size()>10) {
 			msg.remove();
 		}
 		
 		return msg;
 	}
+	
+	@GetMapping("loadmsg")
+	@CrossOrigin(origins = "*")
+	public Collection<Message> oldMsg(){
+		Stack<String> msgs10 = new Stack<>();
+		try {
+			br = new BufferedReader(new FileReader(bdmsgFile));
+			String line;
+			while((line = br.readLine()) != null) {
+				msgs10.add(line);
+			}
+			br.close();
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		for(int i = 0; i < 10; i++) {
+			if(!msgs10.isEmpty()) {
+				String aux = msgs10.pop();
+				String [] aux2 = aux.split(" -> ");
+				Message newMsg = new Message();
+				newMsg.setUsername(aux2[0]);
+				newMsg.setBody(aux2[1]);
+				msg1.add(newMsg);
+			}
+		}
+		for(int i = 0; i < 10; i++) {
+			if(!msg1.isEmpty()) {
+				msg.add(msg1.pop());
+			}
+		}
+		return msg;
+	}
+	
 	
 	@DeleteMapping("delete")
 	@CrossOrigin(origins = "*")
@@ -232,4 +271,6 @@ public class FateOfWorldsApiController {
 		}
 				
 		}
+	
+	
 	}
