@@ -3,7 +3,34 @@ var msg;
 var time;
 var url = "http://localhost:8080";
 var ping = 1000;
+var con = true;
+var recon = false;
 
+function serverConnection(){
+  $.ajax({
+        url:  url+'/con',
+        type: 'GET',
+
+    success: function(){
+      con = true;
+      server();
+      if(recon){
+        document.getElementById("title").innerHTML = "The server is opened again";
+        document.getElementById("Logger").innerHTML = "Please, reload the page";
+        recon = false;
+      }
+    },
+    error: function(jqXHR, textStatus){
+      con = false;
+      server();
+      document.getElementById("title").innerHTML = "The server is closed";
+      document.getElementById("Logger").innerHTML = "Please wait a few seconds";
+      recon = true;
+    }
+  });
+}
+
+setInterval(serverConnection,ping);
 //Username
 function postPlayer(){
                 $.ajax({
@@ -48,7 +75,6 @@ function postPlayer(){
                     "name":name,
                 }),
                 success: function(data) {
-
                     document.getElementById("Logger").innerHTML = "";
                     if(data[0]!=null){
                         console.log("Jugador 1: " +data[0].name);
@@ -65,10 +91,6 @@ function postPlayer(){
                      if(countRequest<2){
                         console.error("No es posible completar la operación");
                         countRequest++;
-                    }
-                    else{
-                         document.getElementById("title").innerHTML = "The server is closed";
-                         document.getElementById("Logger").innerHTML = "Please wait a few seconds and reload the page";
                     }
                 }
 
@@ -118,7 +140,7 @@ function userLog(){
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
-      postPlayer();
+          postPlayer();
       timeGet = setInterval(getPlayers,ping);
       //execute getPlayers each 0.5 seconds
   });
@@ -184,4 +206,12 @@ function sendMsg(){
         timeGet = setInterval(getMsg,ping);
         //execute getPlayers each 0.5 seconds
     });
+}
+
+function server(){
+  if(con == true){
+    document.getElementById("server").innerHTML = "Server -> ON";
+  }else if (con == false){
+    document.getElementById("server").innerHTML = "Server -> OFF";
+  }
 }
