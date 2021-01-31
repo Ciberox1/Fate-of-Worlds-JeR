@@ -90,8 +90,31 @@ window.onload=function(e){
     document.getElementById("usermsg").value="";
 }
 
+function loadMsg(){
+  $.ajax({
+      url: url+'/loadmsg',
+      type: 'GET',
+      data:({
+        "username" : name,
+        "body" : msg,
+      }),
+      success: function(data) {
+          //document.getElementById("chatbox").innerHTML = "";
+          for (var i = 0; i < 10; i++) {
+            if(data[i]!=null){
+                document.getElementById("chatbox").innerHTML += data[i].username + " -> " + data[i].body + '<br/>';
+            }
+          }
+      },
+      error: function() {
+              console.error("No es posible completar la operación");
+          }
+  });
+}
+
 function userLog(){
   document.getElementById("title").innerHTML = "Player List :";
+  loadMsg();
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
@@ -145,7 +168,7 @@ function postMsg(){
                           document.getElementById("chatbox").innerHTML += data[i].username + " -> " + data[i].body + '<br/>';
                       }
                     }
-                  document.getElementById("chatbox").scrollTop=1000;
+                  document.getElementById("chatbox").scrollTop+=1000;
                 },
                 error: function() {
                         console.error("No es posible completar la operación");
