@@ -1,7 +1,7 @@
-/*var name;
+var name;
 var msg;
 var time;
-var url = "http://4aaa6137959d.ngrok.io";
+var url = "http://localhost:8080";
 
 //Username
 function postPlayer(){
@@ -155,10 +155,11 @@ function sendMsg(){
   setMsg();
   postMsg();
   document.getElementById("usermsg").value="";
+    $(document).ready(function() {
+        timeGet = setInterval(getMsg,10000);
+        //execute getPlayers each 0.5 seconds
+    });
 }
 
-$(document).ready(function() {
-    timeGet = setInterval(getMsg,10000);
-    //execute getPlayers each 0.5 seconds
-});
-*/
+
+
