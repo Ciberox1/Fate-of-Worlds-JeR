@@ -272,5 +272,9 @@ public class FateOfWorldsApiController {
 				
 		}
 	
-	
+	@GetMapping("con")
+	@CrossOrigin(origins = "*")
+	public void serverConnection() {
+		
 	}
+}
