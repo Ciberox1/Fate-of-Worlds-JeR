@@ -1,8 +1,36 @@
-/*var name;
+var name;
 var msg;
 var time;
-var url = "http://4aaa6137959d.ngrok.io";
+var url = "http://localhost:8080";
+var ping = 1000;
+var con = true;
+var recon = false;
 
+function serverConnection(){
+  $.ajax({
+        url:  url+'/con',
+        type: 'GET',
+
+    success: function(){
+      con = true;
+      server();
+      if(recon){
+        document.getElementById("title").innerHTML = "The server is opened again";
+        document.getElementById("Logger").innerHTML = "Please, reload the page";
+        recon = false;
+      }
+    },
+    error: function(jqXHR, textStatus){
+      con = false;
+      server();
+      document.getElementById("title").innerHTML = "The server is closed";
+      document.getElementById("Logger").innerHTML = "Please wait a few seconds";
+      recon = true;
+    }
+  });
+}
+
+setInterval(serverConnection,ping);
 //Username
 function postPlayer(){
                 $.ajax({
@@ -29,7 +57,7 @@ function postPlayer(){
             name = document.getElementById("username").value;
     }
 
-    function deletePlayer(){
+    /*function deletePlayer(){
             $.ajax({
                 url: url+'/delete',
                 type: 'DELETE',
@@ -37,7 +65,7 @@ function postPlayer(){
                     console.error("No es posible completar la operación");
                     }
                 });
-            }
+            }*/
 
     function getPlayers(){
             $.ajax({
@@ -47,7 +75,6 @@ function postPlayer(){
                     "name":name,
                 }),
                 success: function(data) {
-
                     document.getElementById("Logger").innerHTML = "";
                     if(data[0]!=null){
                         console.log("Jugador 1: " +data[0].name);
@@ -64,9 +91,6 @@ function postPlayer(){
                      if(countRequest<2){
                         console.error("No es posible completar la operación");
                         countRequest++;
-                    }
-                    else{
-                         console.error("El servidor se ha caído")
                     }
                 }
 
@@ -86,6 +110,29 @@ window.onbeforeunload=function(e){
 window.onload=function(e){
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
+    loadMsg();
+}
+
+function loadMsg(){
+  $.ajax({
+      url: url+'/loadmsg',
+      type: 'GET',
+      data:({
+        "username" : name,
+        "body" : msg,
+      }),
+      success: function(data) {
+          //document.getElementById("chatbox").innerHTML = "";
+          for (var i = 0; i < 10; i++) {
+            if(data[i]!=null){
+                document.getElementById("chatbox").innerHTML += data[i].username + " -> " + data[i].body + '<br/>';
+            }
+          }
+      },
+      error: function() {
+              console.error("No es posible completar la operación");
+          }
+  });
 }
 
 function userLog(){
@@ -93,8 +140,8 @@ function userLog(){
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
-      postPlayer();
-      timeGet = setInterval(getPlayers,10000);
+          postPlayer();
+      timeGet = setInterval(getPlayers,ping);
       //execute getPlayers each 0.5 seconds
   });
 }
@@ -143,7 +190,7 @@ function postMsg(){
                           document.getElementById("chatbox").innerHTML += data[i].username + " -> " + data[i].body + '<br/>';
                       }
                     }
-                  document.getElementById("chatbox").scrollTop=1000;
+                  document.getElementById("chatbox").scrollTop+=1000;
                 },
                 error: function() {
                         console.error("No es posible completar la operación");
@@ -155,10 +202,16 @@ function sendMsg(){
   setMsg();
   postMsg();
   document.getElementById("usermsg").value="";
+    $(document).ready(function() {
+        timeGet = setInterval(getMsg,ping);
+        //execute getPlayers each 0.5 seconds
+    });
 }
 
-$(document).ready(function() {
-    timeGet = setInterval(getMsg,10000);
-    //execute getPlayers each 0.5 seconds
-});
-*/
+function server(){
+  if(con == true){
+    document.getElementById("server").innerHTML = "Server -> ON";
+  }else if (con == false){
+    document.getElementById("server").innerHTML = "Server -> OFF";
+  }
+}
