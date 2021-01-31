@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.OnClose;
 
 //import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
@@ -56,6 +57,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.socket.WebSocketSession;
 
 @RestController
 @RequestMapping("/")
@@ -236,6 +238,18 @@ public class FateOfWorldsApiController {
 		}
 				
 		}
+	
+	//WebSockets
+	@OnClose
+	public void onClose(WebSocketSession session) {
+		try {
+			session.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("bien cerrado");
+	}
 	
 	
 	}

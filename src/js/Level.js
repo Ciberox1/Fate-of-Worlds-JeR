@@ -5,12 +5,11 @@ class Level extends Phaser.Scene {
         });
     }
     preload() {
-        if(connection!= null)
-            {
-                connection.close();
-            }
         idJugador=window.prompt("¿Qué jugador quieres? ");
+        
         connection = new WebSocket('ws://127.0.0.1:8080/game');
+        
+        connection.binaryType='arraybuffer';
         controls1.interactKey = this.input.keyboard.addKey('E');
         controls1.gunKey = this.input.keyboard.addKey('P');
         controls1.dropKey = this.input.keyboard.addKey('Q');
@@ -1447,42 +1446,55 @@ class Level extends Phaser.Scene {
             scene.start('Victory');
             playerDead = false;
         }
-        
+    
             if(idJugador==2){
         //conexion websocket
         if(connection.readyState==1){
-        connection.send(players.player1.body.velocity.x);
+            ArrayData1=[players.player1.body.velocity.x,players.player1.body.velocity.y];
+            connection.send(ArrayData1);
             
         connection.onerror = function(e) {
                 console.log("WS error: " + e);
         }
         connection.onmessage = function(msg) {
-            console.log("WS message: " + msg.data);
-                }
-         }
+                console.log("WS message: " + msg.data);
+            }
+        connection.onclose = function(){
+            console.log("Se ha cerrado el servidor");
+          }
+        }
      }
         
         
         // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
         if(idJugador==1){
             if(connection.readyState==1){
-                connection.onopen=function(){
-                    connection.send(0);
-                }
+                ArrayData1=[players.player2.body.velocity.x,players.player2.body.velocity.y];
+                    connection.send(ArrayData1);
+                
             
         connection.onerror = function(e) {
                 console.log("WS error: " + e);
         }
-         connection.onmessage = function(msg) {
-             if(players.player1.body.velocity.x!=msg.data){
-                 console.log(msg);
-                  players.player1.body.setVelocityX(msg);
-             }
+        connection.onmessage = function(msg) {
+             console.log(typeof(msg.data));
+             //data1=parseInt(msg.data[0]);
+             //data2=parseInt(msg.data[1]);
+            //players.player1.body.setVelocityX(data1);
+            //players.player1.body.setVelocityY(data2);
+             
              
                 }
-         }
-         }
+         connection.onclose = function(event){
+            console.log("Se ha cerrado el servidor");
+          }
+         
+         
+            }
         }
+        
+        
+    }
 
 }
 
