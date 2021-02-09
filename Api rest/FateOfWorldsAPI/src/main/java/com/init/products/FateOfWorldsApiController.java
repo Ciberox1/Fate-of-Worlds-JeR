@@ -61,7 +61,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RestController
 @RequestMapping("/")
 public class FateOfWorldsApiController {
-	
+		
 	//Player Log
 	private Map<String, Player> players = new ConcurrentHashMap<>();
 	
@@ -133,7 +133,6 @@ public class FateOfWorldsApiController {
 		
 		//Database msg.
 		try {
-			//Me vale VERGA
 			Date today = Calendar.getInstance().getTime();
 			String reportDate = df.format(today);
 			String finalDate = reportDate;
@@ -276,5 +275,11 @@ public class FateOfWorldsApiController {
 	@CrossOrigin(origins = "*")
 	public void serverConnection() {
 		
+	}
+	
+	@GetMapping("numP")
+	@CrossOrigin(origins = "*")
+	public int numPlayers(@RequestParam int onlineP) {
+		return players.size();
 	}
 }

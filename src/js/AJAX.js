@@ -5,6 +5,7 @@ var url = "http://localhost:8080";
 var ping = 1000;
 var con = true;
 var recon = false;
+var onlineP = 0;
 
 function serverConnection(){
   $.ajax({
@@ -110,7 +111,6 @@ window.onbeforeunload=function(e){
 window.onload=function(e){
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
-    loadMsg();
 }
 
 function loadMsg(){
@@ -137,6 +137,7 @@ function loadMsg(){
 
 function userLog(){
   document.getElementById("title").innerHTML = "Player List :";
+  loadMsg();
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
@@ -215,3 +216,21 @@ function server(){
     document.getElementById("server").innerHTML = "Server -> OFF";
   }
 }
+
+function numPlayers(){
+  $.ajax({
+        url:  url+'/numP',
+        type: 'GET',
+        data:({
+            "onlineP":onlineP,
+        }),
+    success: function(data){
+       document.getElementById("online").innerHTML = data;
+     },
+    error: function(){
+      console.error("No es posible completar la operación");
+    }
+  });
+}
+
+setInterval(numPlayers,ping);
