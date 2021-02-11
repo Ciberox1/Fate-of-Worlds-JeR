@@ -574,6 +574,13 @@ class Level extends Phaser.Scene {
         children[27].setPosition(15200, 760);
         children[28].setPosition(18000, 550);
         children[29].setPosition(19800, 760);
+        
+        for(i=0;i<children.length;i++){
+           positionXEnemy[i]=children[i].x;
+           positionYEnemy[i]=children[i].y+20;
+        }
+        
+        
 
         //setting velocity for each enemie
         for (var i = 0; i < enemiesArray.countActive(true); i++) {
@@ -816,8 +823,7 @@ class Level extends Phaser.Scene {
         }
     }
 
-    update() {
-                                                         //console.log(players.player1.body.position.y + "y" + players.player1.body.position.x + " x");       
+    update() {      
         if(idJugador==1){
             updatePlayer1 = true;
             if(players.player2.body.touching.down &&  player2ReadyToPlay==false){
@@ -860,7 +866,6 @@ class Level extends Phaser.Scene {
         
         if(idJugador==2){
              updatePlayer2 = true;
-            //console.log(players.player1.body.touching.down );
             if(players.player1.body.touching.down &&  player1ReadyToPlay==false){
                 
                   player1ReadyToPlay=true;
@@ -899,7 +904,6 @@ class Level extends Phaser.Scene {
         //Collapse code
         if ((controls1.collapseKey.isDown && collapseTimer === false) || (collapsableConexion==true && collapsablePlats1.active ==false &&
             collapsablePlats2.active ==false)) {
-            //console.log("entra");
             if(collapsableConexion==true)
                 collapsableConexion=false;
             else{
@@ -916,7 +920,6 @@ class Level extends Phaser.Scene {
                 collapseTimer = true;
             }
         }
-        //console.log(collapsablePlats1.active + "," + collapsablePlats2.active);
 
         if (!warp) {
             tween = this.tweens.addCounter({
@@ -1023,6 +1026,11 @@ class Level extends Phaser.Scene {
         /*--------instructions of Amalgama's death and movement----------*/
 
         children = enemiesArray.getChildren();
+        
+        for(var i=0;i<children.length;i++){
+           positionXEnemy[i]=children[i].x;
+           positionYEnemy[i]=Math.round(children[i].y);
+        }
 
         if (balaActiva1 == true) {
             this.physics.add.overlap(bala1, enemiesArray, KillEnemie1);
@@ -1032,15 +1040,19 @@ class Level extends Phaser.Scene {
         }
 
 
+            indexEnemieDead1=-1;
+            indexEnemieDead2=-1;
         if (EnemieDead == true) {
             children = enemiesArray.getChildren();
             i = 0;
             while (children[i] != undefined && i < enemiesQuantity) {
                 if (children[i].anims.currentKey == 'AmalgamaDeath') {
-                    if (children[i].anims.currentFrame.index == 7) {
-                        enemiesArray.remove(children[i], true);
                         EnemieDead = false;
-                    }
+                        if(indexEnemieDead1 == -1)
+                            indexEnemieDead1=i;
+                        else if(indexEnemieDead2 == -1)
+                             indexEnemieDead2=i;
+                    console.log(indexEnemieDead1 + "," + indexEnemieDead2);
                     for (var k = i; k < enemiesQuantity - 1; k++) {
                         velocityXEnemie[k] = velocityXEnemie[k + 1];
                         children[k] = children[k + 1];
@@ -1053,7 +1065,6 @@ class Level extends Phaser.Scene {
 
         /*--------instructions of Player's death and movement----------*/
         if (colisionPlayer1 == false) {
-            // console.log("ahora mismo no puedes morir");
             playerCollidesEnemies1.active = false;
             if (timerInitiated1 == false) {
                 timedEvent1 = this.time.delayedCall(1000, enableColisionPlayer1, this, false);
@@ -1068,7 +1079,6 @@ class Level extends Phaser.Scene {
         }
 
        if (colisionPlayer2 == false) {
-            // console.log("ahora mismo no puedes morir");
             playerCollidesEnemies2.active = false;
             if (timerInitiated2 == false) {
                 timedEvent2 = this.time.delayedCall(1000, enableColisionPlayer2, this, false);
@@ -1427,15 +1437,12 @@ class Level extends Phaser.Scene {
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantity && children[i] != undefined) {
-                console.log(Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
-                        children[i].body.position.x, children[i].body.position.y)));
                 if (Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
                         children[i].body.position.x, children[i].body.position.y)) < 55) {
                             children[i].anims.play('AmalgamaDeath', 'true');
                             children[i].anims.currentKey = 'AmalgamaDeath';
                             children[i].body.velocity.x = 0;
                             children[i].body.gravity.y=-490;
-                    console.log("brr");
                 }
                 i++;
             }
@@ -1464,14 +1471,11 @@ class Level extends Phaser.Scene {
 
         function removeCollapse() {
             collapsablePlats1.active = false;
-            collapsablePlats2.active = false;
-            console.log("remueve");
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsable');
             }
             collapseTimer = false;
             collapseEvent.remove();
-            console.log(collapsablePlats1.active + "," + collapsablePlats2.active);
         }
 
         function GameOver(scene) {
@@ -1497,55 +1501,68 @@ class Level extends Phaser.Scene {
             scene.start('Victory');
             playerDead = false;
         }
-        //console.log(players.player1.body.velocity.x);
-        //console.log(players.player1.body.velocity.y);
         if(idJugador==1){
         //conexion websocket 
                 if(connection.readyState==1){
-            //console.log(children[16].body);
-
-                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.velocity.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion]);
+                                    
+                    
+                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
+                    
                     connection.send(JsonData);
-                    //console.log(players.player1.body.position.x);
+                    
                     connection.onerror = function(e) {
                         console.log("WS error: " + e);
                         }
                     connection.onmessage = function(msg) {
                         k=8;
-                        //console.log(msg.data);
                         data=JSON.parse(msg.data);
-                        if(player2ReadyToPlay==true && data[7]!=null && data[7]==true){
-                    
-                            //console.log("entra");
-                            if(data[0]<0 && players.player2.flipX==false){
-                                players.player2.setPosition(players.player2.body.position.x-2,players.player2.body.position.y+25);
-                            }
-                    
-                            else if(data[0]>0 && players.player2.flipX==true){
-                                players.player2.setPosition(players.player2.body.position.x+16,players.player2.body.position.y+25);
-                            }
+                        if(player2ReadyToPlay==true && data[8]!=null && data[8]==true){
+                            
+                            posxnew2=data[1];
+                            posynew2=data[2];
                             //setVelocity
-                            players.player2.body.setVelocityX(parseInt(data[0]));
-                            players.player2.body.setVelocityY(parseInt(data[1]));
+                            //players.player2.body.setVelocityX(parseInt(data[0]));
+                            //players.player2.body.setVelocityY(parseInt(data[1]));
                             //setAnim
-                            players.player2.anims.load(data[2]);
-                            players.player2.setFrame(data[3].frame); 
+                            players.player2.anims.load(data[3]);
+                            players.player2.setFrame(data[4].frame); 
                             //setFlip
-                            players.player2.flipX=data[4];
+                            players.player2.flipX=data[5];
                             //setOffset
-                            players.player2.setOffset(data[5],data[6]);
+                            players.player2.setOffset(data[6],data[7]);
                             //Set enemies array for each camera player
-                            for(i=0;i<data[8].length-16;i++){
-                                children[i].body.setVelocityX(data[8][i]);
-                                children[i].flipX=data[9][i].flipX;
-                       
+                            for(i=0;i<data[16]-16;i++){
+                                 if(data[12]!=-1)
+                                    console.log(i);
+                                children[i].setPosition(data[14][i],data[15][i]);
+                                children[i].flipX=data[10][i].flipX;
+                                //console.log(children[i].body.position.x);
                             };
+                            
+                            if((data[12])!=-1){
+                                children[data[12]].anims.play('AmalgamaDeath',true);
+                                     for(var l=data[13];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
+                            }
+                            if((data[13])!=-1){
+                                children[data[13]].anims.play('AmalgamaDeath',true);
+                                     for(l=data[13];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
+                            }
                             // implement collapsable plats update for online gaming
-                                if(data[10]==true)
+                                if(data[11]==true)
                                     collapsableConexion=true;
-                        
+                         
                         }
                     }
+                    if(player2ReadyToPlay==true){
+                            players.player2.body.position.x=posxnew2;
+                            players.player2.body.position.y=posynew2;
+                        }
                     
                 connection.onclose = function(){
                     console.log("Se ha cerrado el servidor");
@@ -1556,49 +1573,62 @@ class Level extends Phaser.Scene {
         // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
     if(idJugador==2){
             if(connection.readyState==1){
-               JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.velocity.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexion]);
+                JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
+                    
                 connection.send(JsonData);
                 
                 connection.onerror = function(e) {
                 console.log("WS error: " + e);
             }
                 connection.onmessage = function(msg) {
-                //console.log("jugador1 conectado");
                     data=JSON.parse(msg.data);
-                    if(player1ReadyToPlay==true && data[7]!=null && data[7]==true){
-                    //console.log("entra");
+                
+                    if(player1ReadyToPlay==true && data[8]!=null && data[8]==true){
                         //adjustment in sprite position
-                        if(data[0]<0 && players.player1.flipX==false){
-                            players.player1.setPosition(players.player1.body.position.x,players.player1.body.position.y+25);
-                        }
-                        //adjustment in sprite position
-                        else if(data[0]>0 && players.player1.flipX==true){
-                            players.player1.setPosition(players.player1.body.position.x+11,players.player1.body.position.y+25);
-                            }
-                        
+                        posxnew1=data[1];
+                        posynew1=data[2];
                         //setVelocity
-                        players.player1.body.setVelocityX(parseInt(data[0]));
-                        players.player1.body.setVelocityY(parseInt(data[1]));
                         //setAnim
-                        players.player1.anims.load(data[2]);
-                        players.player1.setFrame(data[3].frame);
+                        players.player1.anims.load(data[3]);
+                        players.player1.setFrame(data[4].frame);
                         //setFlip
-                        players.player1.flipX=data[4];
+                        players.player1.flipX=data[5];
                         //setOffset
-                        players.player1.setOffset(data[5],data[6]);
+                         players.player1.setOffset(data[6],data[7]);
                         //Set enemies array for each camera player
-                        for(i=16;i<data[8].length;i++){
-                            children[i].body.setVelocityX(data[8][i]);
-                        };
+                        for(i=16;i<data[16];i++){
+                            if(data[12]!=-1)
+                                console.log(i);
+                            children[i].setPosition(data[14][i],data[15][i]);
+                            children[i].flipX=data[10][i].flipX; 
+                        }
+                        
+                            if((data[12])!=-1){
+                                children[data[12]].anims.play('AmalgamaDeath',true);
+                                for(var l=data[12];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
+                                    
+                            }
+                            if((data[13])!=-1){
+                                children[data[13]].anims.play('AmalgamaDeath',true);
+                                       for(l=data[13];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
+                            }
                         // implement collapsable plats update for online gaming
-                        if(data[10]==true)
+                        if(data[11]==true)
                               collapsableConexion=true;
                         
                         }
-
-
                  
                     }
+                        if(player1ReadyToPlay==true){
+                            players.player1.body.position.x=posxnew1;
+                            players.player1.body.position.y=posynew1;
+                        }
                 
                 connection.onclose = function(){
                     console.log("Se ha cerrado el servidor");
