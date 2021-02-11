@@ -577,7 +577,10 @@ class Level extends Phaser.Scene {
         
         for(i=0;i<children.length;i++){
            positionXEnemy[i]=children[i].x;
+           positionYEnemy[i]=children[i].y+20;
         }
+        
+        
 
         //setting velocity for each enemie
         for (var i = 0; i < enemiesArray.countActive(true); i++) {
@@ -1023,6 +1026,11 @@ class Level extends Phaser.Scene {
         /*--------instructions of Amalgama's death and movement----------*/
 
         children = enemiesArray.getChildren();
+        
+        for(var i=0;i<children.length;i++){
+           positionXEnemy[i]=children[i].x;
+           positionYEnemy[i]=Math.round(children[i].y);
+        }
 
         if (balaActiva1 == true) {
             this.physics.add.overlap(bala1, enemiesArray, KillEnemie1);
@@ -1497,22 +1505,8 @@ class Level extends Phaser.Scene {
         //conexion websocket 
                 if(connection.readyState==1){
                                     
-                                        
-                    if(indexEnemieDead1!=-1 && indexEnemieDead2!=-1){
-                         JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy]);
-                    }
-                       
                     
-                    
-                   else if(indexEnemieDead1!=-1){
-                       //console.log(indexEnemieDead1);
-                       JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy]);
-                    }
-                    
-                    else if(indexEnemieDead1==-1 && indexEnemieDead2==-1){
-                                              //console.log(players.player1.body.position.x);
-                        JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy]);
-                    }
+                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
                     
                     connection.send(JsonData);
                     
@@ -1537,31 +1531,27 @@ class Level extends Phaser.Scene {
                             //setOffset
                             players.player2.setOffset(data[6],data[7]);
                             //Set enemies array for each camera player
-                            for(i=0;i<data[9].length-16;i++){
-                                children[i].body.setVelocityX(data[9][i]);
+                            for(i=0;i<data[16]-16;i++){
+                                 if(data[12]!=-1)
+                                    console.log(i);
+                                children[i].setPosition(data[14][i],data[15][i]);
                                 children[i].flipX=data[10][i].flipX;
                                 //console.log(children[i].body.position.x);
                             };
                             
                             if((data[12])!=-1){
                                 children[data[12]].anims.play('AmalgamaDeath',true);
-                                for (var k = data[12]; k < enemiesQuantity - 1; k++) {
-                                    velocityXEnemie[k] = velocityXEnemie[k + 1];
-                                    children[k] = children[k + 1];
-                                    children[k].body.gravity.y=-490;
-                                    children[k].body.velocity.x = 0;
-                                }
-                                    
+                                     for(var l=data[13];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
                             }
                             if((data[13])!=-1){
                                 children[data[13]].anims.play('AmalgamaDeath',true);
-                                for (var k = data[13]; k < enemiesQuantity - 1; k++) {
-                                    velocityXEnemie[k] = velocityXEnemie[k + 1];
-                                    children[k] = children[k + 1];
-                                    children[k].body.gravity.y=-490;
-                                    children[k].body.velocity.x = 0;
-                                }
-                                    
+                                     for(l=data[13];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
                             }
                             // implement collapsable plats update for online gaming
                                 if(data[11]==true)
@@ -1583,8 +1573,7 @@ class Level extends Phaser.Scene {
         // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
     if(idJugador==2){
             if(connection.readyState==1){
-                JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,
-                    players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2]);
+                JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
                     
                 connection.send(JsonData);
                 
@@ -1593,11 +1582,6 @@ class Level extends Phaser.Scene {
             }
                 connection.onmessage = function(msg) {
                     data=JSON.parse(msg.data);
-                if(player1ReadyToPlay==false){
-                        for(var i=16;i<children.length;i++){
-                            children[i].body.position.x=data[14][i];
-                        }
-                    }
                 
                     if(player1ReadyToPlay==true && data[8]!=null && data[8]==true){
                         //adjustment in sprite position
@@ -1612,31 +1596,28 @@ class Level extends Phaser.Scene {
                         //setOffset
                          players.player1.setOffset(data[6],data[7]);
                         //Set enemies array for each camera player
-                        for(i=16;i<data[9].length;i++){
-                            children[i].body.setVelocityX(data[9][i]);
+                        for(i=16;i<data[16];i++){
+                            if(data[12]!=-1)
+                                console.log(i);
+                            children[i].setPosition(data[14][i],data[15][i]);
                             children[i].flipX=data[10][i].flipX; 
                         }
+                        
                             if((data[12])!=-1){
                                 children[data[12]].anims.play('AmalgamaDeath',true);
-                                for (var k = data[12]; k < enemiesQuantity - 1; k++) {
-                                    velocityXEnemie[k] = velocityXEnemie[k + 1];
-                                    children[k] = children[k + 1];
-                                    children[k].body.gravity.y=-490;
-                                    children[k].body.velocity.x = 0;
-                                }
+                                for(var l=data[12];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
                                     
                             }
                             if((data[13])!=-1){
                                 children[data[13]].anims.play('AmalgamaDeath',true);
-                                for (var k = data[13]; k < enemiesQuantity - 1; k++) {
-                                    velocityXEnemie[k] = velocityXEnemie[k + 1];
-                                    children[k] = children[k + 1];
-                                    children[k].body.gravity.y=-490;
-                                    children[k].body.velocity.x = 0;
-                                }
-                                    
+                                       for(l=data[13];l<data[16]-1;l++)
+                                    {
+                                        children[l] = children[l + 1];
+                                    }
                             }
-                        
                         // implement collapsable plats update for online gaming
                         if(data[11]==true)
                               collapsableConexion=true;
