@@ -5,7 +5,7 @@ var url = "http://localhost:8080";
 var ping = 1000;
 var con = true;
 var recon = false;
-var onlineP = 0;
+var contador;
 
 function serverConnection(){
   $.ajax({
@@ -101,6 +101,7 @@ function postPlayer(){
 
 //delete player when refresh the page or close the window
 window.onbeforeunload=function(e){
+    minusPlayers();
     var e=e;
     if(e){
         e.returnValue='Are you sure?';
@@ -109,6 +110,7 @@ window.onbeforeunload=function(e){
 }
 
 window.onload=function(e){
+    numPlayers();
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
 }
@@ -220,9 +222,35 @@ function server(){
 function numPlayers(){
   $.ajax({
         url:  url+'/numP',
+        type: 'POST',
+    success: function(){
+       console.log("Sumado");
+     },
+    error: function(){
+      console.error("No es posible completar la operación");
+    }
+  });
+}
+
+function minusPlayers(){
+  $.ajax({
+        url:  url+'/minusP',
+        type: 'POST',
+    success: function(){
+       console.log("Restado");
+     },
+    error: function(){
+      console.error("No es posible completar la operación");
+    }
+  });
+}
+
+function getOnlineP(){
+  $.ajax({
+        url:  url+'/getP',
         type: 'GET',
         data:({
-            "onlineP":onlineP,
+          "cont":contador,
         }),
     success: function(data){
        document.getElementById("online").innerHTML = data;
@@ -233,4 +261,4 @@ function numPlayers(){
   });
 }
 
-setInterval(numPlayers,ping);
+setInterval(getOnlineP,ping);

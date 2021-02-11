@@ -61,6 +61,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RestController
 @RequestMapping("/")
 public class FateOfWorldsApiController {
+	
+	int contador = 0;
 		
 	//Player Log
 	private Map<String, Player> players = new ConcurrentHashMap<>();
@@ -273,13 +275,23 @@ public class FateOfWorldsApiController {
 	
 	@GetMapping("con")
 	@CrossOrigin(origins = "*")
-	public void serverConnection() {
-		
+	public void serverConnection() {}
+	
+	@PostMapping("numP")
+	@CrossOrigin(origins = "*")
+	public void numP() {
+		contador++;
 	}
 	
-	@GetMapping("numP")
+	@PostMapping("minusP")
 	@CrossOrigin(origins = "*")
-	public int numPlayers(@RequestParam int onlineP) {
-		return players.size();
+	public void minusP() {
+		contador--;
+	}
+	
+	@GetMapping("getP")
+	@CrossOrigin(origins = "*")
+	public int getP() {
+		return contador;
 	}
 }
