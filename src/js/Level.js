@@ -901,21 +901,25 @@ class Level extends Phaser.Scene {
                 if(idJugador==2)
                     updatePlayer2=false;  
 
+        
+        if(collapsableConexionLocal==true)
+            collapsableConexionLocal=false;
         //Collapse code
-        if ((controls1.collapseKey.isDown && collapseTimer === false) || (collapsableConexion==true && collapsablePlats1.active ==false &&
-            collapsablePlats2.active ==false)) {
-            if(collapsableConexion==true)
-                collapsableConexion=false;
-            else{
-                collapsableConexion=true;
-            }
+        if (((controls1.collapseKey.isDown && collapseTimer === false) || collapsableConexionLocal===true || collapsableConexionOnline===true) && collapsablePlats1.active === false && collapsablePlats2.active === false) {
+            if(collapsableConexionOnline==true)
+                collapsableConexionOnline=false;
+            
+            if(controls1.collapseKey.isDown)
+                collapsableConexionLocal=true;
+            
+            
             soundCollapse.play();
             collapsablePlats1.active = true;
             collapsablePlats2.active = true;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsed');
             }
-            if (collapseTimer === false && collapsableConexion == false) {
+            if (collapseTimer === false) {
                 collapseEvent = this.time.delayedCall(8500, removeCollapse);
                 collapseTimer = true;
             }
@@ -1052,7 +1056,6 @@ class Level extends Phaser.Scene {
                             indexEnemieDead1=i;
                         else if(indexEnemieDead2 == -1)
                              indexEnemieDead2=i;
-                    console.log(indexEnemieDead1 + "," + indexEnemieDead2);
                     for (var k = i; k < enemiesQuantity - 1; k++) {
                         velocityXEnemie[k] = velocityXEnemie[k + 1];
                         children[k] = children[k + 1];
@@ -1471,6 +1474,7 @@ class Level extends Phaser.Scene {
 
         function removeCollapse() {
             collapsablePlats1.active = false;
+            collapsablePlats2.active = false;
             for (let i = 0; i < objects.collapsable.children.entries.length; i++) {
                 objects.collapsable.children.entries[i].setTexture('collapsable');
             }
@@ -1506,7 +1510,7 @@ class Level extends Phaser.Scene {
                 if(connection.readyState==1){
                                     
                     
-                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
+                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexionLocal,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
                     
                     connection.send(JsonData);
                     
@@ -1533,10 +1537,8 @@ class Level extends Phaser.Scene {
                             //Set enemies array for each camera player
                             for(i=0;i<data[16]-16;i++){
                                  if(data[12]!=-1)
-                                    console.log(i);
                                 children[i].setPosition(data[14][i],data[15][i]);
                                 children[i].flipX=data[10][i].flipX;
-                                //console.log(children[i].body.position.x);
                             };
                             
                             if((data[12])!=-1){
@@ -1554,8 +1556,9 @@ class Level extends Phaser.Scene {
                                     }
                             }
                             // implement collapsable plats update for online gaming
-                                if(data[11]==true)
-                                    collapsableConexion=true;
+                            if(data[11]==true){
+                                collapsableConexionOnline=true;
+                            }
                          
                         }
                     }
@@ -1573,7 +1576,7 @@ class Level extends Phaser.Scene {
         // el idJugador 1 es el de abajo y el otro el de arriba, la cosa es que se escoja en una pestaña el jugador 1, se mueva, y se intente hacer que ese mismo jugador en la otra pestaña, reciba la velocidad a través del servidor y se la ponga y s mueva.
     if(idJugador==2){
             if(connection.readyState==1){
-                JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexion,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
+                JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexionLocal,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity]);
                     
                 connection.send(JsonData);
                 
@@ -1598,7 +1601,6 @@ class Level extends Phaser.Scene {
                         //Set enemies array for each camera player
                         for(i=16;i<data[16];i++){
                             if(data[12]!=-1)
-                                console.log(i);
                             children[i].setPosition(data[14][i],data[15][i]);
                             children[i].flipX=data[10][i].flipX; 
                         }
@@ -1619,16 +1621,18 @@ class Level extends Phaser.Scene {
                                     }
                             }
                         // implement collapsable plats update for online gaming
-                        if(data[11]==true)
-                              collapsableConexion=true;
-                        
-                        }
+                        if(data[11]==true){
+                                collapsableConexionOnline=true;
+                            }
+                                    
                  
                     }
+                }
                         if(player1ReadyToPlay==true){
                             players.player1.body.position.x=posxnew1;
                             players.player1.body.position.y=posynew1;
                         }
+                
                 
                 connection.onclose = function(){
                     console.log("Se ha cerrado el servidor");

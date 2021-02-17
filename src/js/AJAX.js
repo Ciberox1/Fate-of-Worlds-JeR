@@ -99,13 +99,6 @@ function postPlayer(){
         }
 
 //delete player when refresh the page or close the window
-window.onbeforeunload=function(e){
-    var e=e;
-    if(e){
-        e.returnValue='Are you sure?';
-        //deletePlayer();
-        }
-}
 
 window.onload=function(e){
     document.getElementById("username").value="";
