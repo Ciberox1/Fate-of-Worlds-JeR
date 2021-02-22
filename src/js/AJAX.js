@@ -5,6 +5,7 @@ var url = "http://localhost:8080";
 var ping = 1000;
 var con = true;
 var recon = false;
+var contador;
 
 function serverConnection(){
   $.ajax({
@@ -99,18 +100,15 @@ function postPlayer(){
         }
 
 //delete player when refresh the page or close the window
+
 window.onbeforeunload=function(e){
-    var e=e;
-    if(e){
-        e.returnValue='Are you sure?';
-        //deletePlayer();
-        }
+    minusPlayers();
 }
 
 window.onload=function(e){
+    numPlayers();
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
-    loadMsg();
 }
 
 function loadMsg(){
@@ -137,6 +135,7 @@ function loadMsg(){
 
 function userLog(){
   document.getElementById("title").innerHTML = "Player List :";
+  loadMsg();
   $(document).ready(function() {
           setName();
           document.getElementById("Logger").innerHTML = "";
@@ -215,3 +214,47 @@ function server(){
     document.getElementById("server").innerHTML = "Server -> OFF";
   }
 }
+
+function numPlayers(){
+  $.ajax({
+        url:  url+'/numP',
+        type: 'POST',
+    success: function(){
+       console.log("Sumado");
+     },
+    error: function(){
+      console.error("No es posible completar la operación");
+    }
+  });
+}
+
+function minusPlayers(){
+  $.ajax({
+        url:  url+'/minusP',
+        type: 'POST',
+    success: function(){
+       console.log("Restado");
+     },
+    error: function(){
+      console.error("No es posible completar la operación");
+    }
+  });
+}
+
+function getOnlineP(){
+  $.ajax({
+        url:  url+'/getP',
+        type: 'GET',
+        data:({
+          "cont":contador,
+        }),
+    success: function(data){
+       document.getElementById("online").innerHTML = data;
+     },
+    error: function(){
+      console.error("No es posible completar la operación");
+    }
+  });
+}
+
+setInterval(getOnlineP,ping);
