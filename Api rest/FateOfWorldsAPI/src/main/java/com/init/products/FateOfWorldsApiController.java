@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -66,6 +67,7 @@ public class FateOfWorldsApiController {
 		
 	//Player Log
 	private Map<String, Player> players = new ConcurrentHashMap<>();
+	//private List<String> register = new ArrayList<>(); 
 	
 	//Message
 	private Queue<Message> msg = new ConcurrentLinkedDeque<>();
@@ -77,6 +79,8 @@ public class FateOfWorldsApiController {
 	
 	BufferedReader br;
 	BufferedWriter bw;
+	
+	BufferedReader br1;
 	
 	DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	//End of database stuff.
@@ -93,7 +97,7 @@ public class FateOfWorldsApiController {
 
 	
 	@CrossOrigin(origins = "*")	
-	@PostMapping("post")
+	@PostMapping("postS")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Player> newPlayer(@RequestBody Player player,HttpServletRequest request) {
 		
@@ -101,16 +105,11 @@ public class FateOfWorldsApiController {
 			if(!players.containsKey(player.getName())) {
 				player.setTime(0);
 				players.put(player.getName(), player);
-				
+				players.put(player.getPassword(), player);
 				//Database stuff.
 				try {
-					Date today = Calendar.getInstance().getTime();
-					String reportDate = df.format(today);
-					String finalDate = reportDate;
-					
 					bw = new BufferedWriter(new FileWriter(bdFile, true));
-					bw.write( player.getName() + "  " );
-					bw.write(finalDate);
+					bw.write( player.getName() + "  " + player.getPassword());
 					bw.newLine();
 					bw.close();
 				}catch(IOException e) {
@@ -122,6 +121,43 @@ public class FateOfWorldsApiController {
 			else { 
 				return new ResponseEntity<>(player,HttpStatus.CONFLICT);
 			}
+		}
+		else {
+			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
+		}
+	}
+	
+	@CrossOrigin(origins = "*")	
+	@PostMapping("postL")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Player> playerLog(@RequestBody Player player,HttpServletRequest request) {
+		if(players.size()<2) {
+			//if(!players.containsKey(player.getName())) {
+				boolean registered = false;
+				String nameAux = player.getName();
+				String passAux = player.getPassword();
+				String logAux = nameAux + "  " + passAux;
+				try {
+					br1 = new BufferedReader(new FileReader(bdFile));
+					String line;
+					while((line = br1.readLine()) != null && registered == false) {
+						if(logAux.equals(line)) {
+							registered=true;
+						}
+					}
+					br1.close();
+				}catch(IOException e) {
+					System.out.println(e.toString());
+				}
+				if(registered) {
+					player.setTime(0);
+					players.put(player.getName(), player);
+				}
+				return new ResponseEntity<>(player, HttpStatus.OK);
+			//}
+			/*else { 
+				return new ResponseEntity<>(player,HttpStatus.CONFLICT);
+			}*/
 		}
 		else {
 			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
@@ -197,8 +233,9 @@ public class FateOfWorldsApiController {
 	public Collection<Player> PlayersList(@RequestParam String name) {
 		Iterator<Player> playersCollectIterator=players.values().iterator();
 		Player player;
-		if(name!=null) 
+		if(name!=""){
 			players.get(name).setTime(0);
+		}	
 		while(playersCollectIterator.hasNext()) {
 			player=playersCollectIterator.next();
 			if(player.getTime()>=3) {
