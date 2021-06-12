@@ -101,7 +101,7 @@ public class FateOfWorldsApiController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Player> newPlayer(@RequestBody Player player,HttpServletRequest request) {
 		
-		if(players.size()<2) {
+		//if(players.size()<2) {
 			if(!players.containsKey(player.getName())) {
 				player.setTime(0);
 				players.put(player.getName(), player);
@@ -115,17 +115,17 @@ public class FateOfWorldsApiController {
 				}catch(IOException e) {
 					System.out.println(e.toString());
 				}
-				
+				players.put(player.getName(), player);
 				return new ResponseEntity<>(player, HttpStatus.OK);
 			}
 			else { 
 				return new ResponseEntity<>(player,HttpStatus.CONFLICT);
 			}
 		}
-		else {
+		/*else {
 			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
 		}
-	}
+	}*/
 	
 	@CrossOrigin(origins = "*")	
 	@PostMapping("postL")
@@ -151,6 +151,7 @@ public class FateOfWorldsApiController {
 				}
 				if(registered) {
 					player.setTime(0);
+					player.setReg(registered);
 					players.put(player.getName(), player);
 				}
 				return new ResponseEntity<>(player, HttpStatus.OK);
