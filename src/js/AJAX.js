@@ -7,6 +7,7 @@ var ping = 1000;
 var con = true;
 var recon = false;
 var contador;
+var registered = false;
 var countRequest;
 
 function serverConnection(){
@@ -72,6 +73,10 @@ function postPlayerLog(){
             }),
             success: function(data) {
                 console.log(data);
+                document.getElementById("title").innerHTML = "Player List :";
+                loadMsg();
+                document.getElementById("Logger").innerHTML = "";
+                timeGet = setInterval(getPlayers,ping);
             },
             error: function() {
                 console.error("No es posible completar la operación");
@@ -173,14 +178,10 @@ function userSignIn(){
 }
 
 function userLog(){
-  document.getElementById("title").innerHTML = "Player List :";
   $(document).ready(function() {
       setName();
       setPassword();
       postPlayerLog();
-      loadMsg();
-      document.getElementById("Logger").innerHTML = "";
-      timeGet = setInterval(getPlayers,ping);
       //execute getPlayers each 0.5 seconds
   });
 }
