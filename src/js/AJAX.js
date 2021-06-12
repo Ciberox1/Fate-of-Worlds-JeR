@@ -51,6 +51,10 @@ function postPlayerSignIn(){
             }),
             success: function(data) {
                 console.log(data);
+                document.getElementById("title").innerHTML = "Player List :";
+                loadMsg();
+                document.getElementById("Logger").innerHTML = "";
+                timeGet = setInterval(getPlayers,ping);
             },
             error: function() {
                 console.error("No es posible completar la operación");
@@ -73,10 +77,17 @@ function postPlayerLog(){
             }),
             success: function(data) {
                 console.log(data);
-                document.getElementById("title").innerHTML = "Player List :";
-                loadMsg();
-                document.getElementById("Logger").innerHTML = "";
-                timeGet = setInterval(getPlayers,ping);
+                if(data.reg){
+                  document.getElementById("title").innerHTML = "Player List :";
+                  loadMsg();
+                  document.getElementById("Logger").innerHTML = "";
+                  timeGet = setInterval(getPlayers,ping);
+                }else if (!data.reg){
+                  document.getElementById("title").innerHTML="User Not Registered";
+                  document.getElementById("username").value="";
+                  document.getElementById("password").value="";
+                }
+                
             },
             error: function() {
                 console.error("No es posible completar la operación");
@@ -171,9 +182,6 @@ function userSignIn(){
           setName();
           setPassword();
           postPlayerSignIn();
-          document.getElementById("title").innerHTML="User Registered";
-          document.getElementById("username").value="";
-          document.getElementById("password").value="";
   });
 }
 
