@@ -8,6 +8,7 @@ var con = true;
 var recon = false;
 var contador;
 var registered = false;
+var inDB = false;
 var countRequest;
 
 function serverConnection(){
@@ -48,13 +49,21 @@ function postPlayerSignIn(){
             data:JSON.stringify({
                 "name" :name,
                 "password": password,
+                "inDB":inDB,
             }),
             success: function(data) {
                 console.log(data);
-                document.getElementById("title").innerHTML = "Player List :";
-                loadMsg();
-                document.getElementById("Logger").innerHTML = "";
-                timeGet = setInterval(getPlayers,ping);
+                if(data.inDB){
+                  document.getElementById("title").innerHTML = "Player List :";
+                  loadMsg();
+                  document.getElementById("Logger").innerHTML = "";
+                  timeGet = setInterval(getPlayers,ping);
+                }else if(!data.inDB){
+                  document.getElementById("title").innerHTML="User Already Registered";
+                  document.getElementById("username").value="";
+                  document.getElementById("password").value="";
+                }
+                
             },
             error: function() {
                 console.error("No es posible completar la operación");

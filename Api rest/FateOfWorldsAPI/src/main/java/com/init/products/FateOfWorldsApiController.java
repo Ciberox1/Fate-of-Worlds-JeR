@@ -101,7 +101,7 @@ public class FateOfWorldsApiController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Player> newPlayer(@RequestBody Player player,HttpServletRequest request) {
 		
-		//if(players.size()<2) {
+		if(!notInDB(player)) {
 			if(!players.containsKey(player.getName())) {
 				player.setTime(0);
 				players.put(player.getName(), player);
@@ -115,17 +115,21 @@ public class FateOfWorldsApiController {
 				}catch(IOException e) {
 					System.out.println(e.toString());
 				}
+				player.setInDB(true);
 				players.put(player.getName(), player);
 				return new ResponseEntity<>(player, HttpStatus.OK);
 			}
 			else { 
 				return new ResponseEntity<>(player,HttpStatus.CONFLICT);
 			}
+		}else if(notInDB(player)) {
+			player.setInDB(false);
+			return new ResponseEntity<>(player, HttpStatus.OK);
 		}
-		/*else {
-			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
+		else {
+			return new ResponseEntity<>(player,HttpStatus.CONFLICT);
 		}
-	}*/
+	}
 	
 	@CrossOrigin(origins = "*")	
 	@PostMapping("postL")
@@ -331,5 +335,26 @@ public class FateOfWorldsApiController {
 	@CrossOrigin(origins = "*")
 	public int getP() {
 		return contador;
+	}
+	
+	public boolean notInDB(Player player) {
+		boolean in = false;
+		String nameAux = player.getName();
+		String passAux = player.getPassword();
+		String logAux = nameAux + "  " + passAux;
+		try {
+			br1 = new BufferedReader(new FileReader(bdFile));
+			String line;
+			while((line = br1.readLine()) != null && in == false) {
+				if(logAux.equals(line)) {
+					in=true;
+				}
+			}
+			br1.close();
+		}catch(IOException e) {
+			System.out.println(e.toString());
+		}
+		
+		return in;
 	}
 }
