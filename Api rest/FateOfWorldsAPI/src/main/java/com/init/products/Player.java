@@ -7,6 +7,7 @@ public class Player {
 	private String name="";
 	private String password="";
 	private boolean registered = false;
+	private boolean inDB = false;
 	private long time;
 	public Player() {
 		
@@ -28,6 +29,12 @@ public class Player {
 	}
 	public boolean getReg() {
 		return this.registered;
+	}
+	public void setInDB(boolean inDB) {
+		this.inDB=inDB;
+	}
+	public boolean getInDB() {
+		return this.inDB;
 	}
 	public void setTime(long time) {
 		this.time=time;
