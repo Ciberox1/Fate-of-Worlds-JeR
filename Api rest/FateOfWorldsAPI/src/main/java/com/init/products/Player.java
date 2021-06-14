@@ -8,6 +8,7 @@ public class Player {
 	private String password="";
 	private boolean registered = false;
 	private boolean inDB = false;
+	private boolean inParty = false;
 	private long time;
 	public Player() {
 		
@@ -35,6 +36,12 @@ public class Player {
 	}
 	public boolean getInDB() {
 		return this.inDB;
+	}
+	public void setInParty(boolean inParty) {
+		this.inParty=inParty;
+	}
+	public boolean getInParty() {
+		return this.inParty;
 	}
 	public void setTime(long time) {
 		this.time=time;
