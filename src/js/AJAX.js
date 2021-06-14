@@ -9,6 +9,7 @@ var recon = false;
 var contador;
 var registered = false;
 var inDB = false;
+var inParty = false;
 var countRequest;
 
 function serverConnection(){
@@ -38,10 +39,10 @@ function serverConnection(){
 setInterval(serverConnection,ping);
 //Username
 function postPlayerSignIn(){
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
             url: url+'/postS',
             type: 'POST',
@@ -83,20 +84,26 @@ function postPlayerLog(){
             data:JSON.stringify({
                 "name" : name,
                 "password": password,
+                "inParty":inParty,
             }),
             success: function(data) {
                 console.log(data);
-                if(data.reg){
-                  document.getElementById("title").innerHTML = "Player List :";
-                  loadMsg();
-                  document.getElementById("Logger").innerHTML = "";
-                  timeGet = setInterval(getPlayers,ping);
-                }else if (!data.reg){
-                  document.getElementById("title").innerHTML="User Not Registered";
+                if(data.inParty){
+                  if(data.reg){
+                    document.getElementById("title").innerHTML = "Player List :";
+                    loadMsg();
+                    document.getElementById("Logger").innerHTML = "";
+                    timeGet = setInterval(getPlayers,ping);
+                  }else if (!data.reg){
+                    document.getElementById("title").innerHTML="User Not Registered";
+                    document.getElementById("username").value="";
+                    document.getElementById("password").value="";
+                  }
+                }else if(!data.inParty){
+                  document.getElementById("title").innerHTML="User Already Logged";
                   document.getElementById("username").value="";
                   document.getElementById("password").value="";
-                }
-                
+                }             
             },
             error: function() {
                 console.error("No es posible completar la operación");
