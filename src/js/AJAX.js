@@ -58,7 +58,8 @@ function postPlayerSignIn(){
                   document.getElementById("title").innerHTML = "Player List :";
                   loadMsg();
                   document.getElementById("Logger").innerHTML = "";
-                  timeGet = setInterval(getPlayers,ping);
+                  timeGetP = setInterval(getPlayers,ping);
+                  timeGetM = setInterval(getMsg,ping);
                 }else if(!data.inDB){
                   document.getElementById("title").innerHTML="User Already Registered";
                   document.getElementById("username").value="";
@@ -93,7 +94,8 @@ function postPlayerLog(){
                     document.getElementById("title").innerHTML = "Player List :";
                     loadMsg();
                     document.getElementById("Logger").innerHTML = "";
-                    timeGet = setInterval(getPlayers,ping);
+                    timeGetP = setInterval(getPlayers,ping);
+                    timeGetM = setInterval(getMsg,ping);
                   }else if (!data.reg){
                     document.getElementById("title").innerHTML="User Not Registered";
                     document.getElementById("username").value="";
@@ -242,10 +244,6 @@ function postMsg(){
             $.ajax({
                 url: url+'/msgget',
                 type: 'GET',
-                data:({
-                  "username" : name,
-                  "body" : msg,
-                }),
                 success: function(data) {
 
                     document.getElementById("chatbox").innerHTML = "";
@@ -266,10 +264,10 @@ function sendMsg(){
   setMsg();
   postMsg();
   document.getElementById("usermsg").value="";
-    $(document).ready(function() {
-        timeGet = setInterval(getMsg,ping);
+    //$(document).ready(function() {
+        
         //execute getPlayers each 0.5 seconds
-    });
+    //});
 }
 
 function server(){

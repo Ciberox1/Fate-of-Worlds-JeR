@@ -260,8 +260,8 @@ public class FateOfWorldsApiController {
 	
 	@GetMapping("msgget")
 	@CrossOrigin(origins = "*")
-	public Collection<Message> messageList(@RequestParam String username, @RequestParam String body) {
-		if(msg.size()>10) {
+	public Collection<Message> messageList() {
+		while(msg.size()>10) {
 			msg.remove();
 		}
 		
