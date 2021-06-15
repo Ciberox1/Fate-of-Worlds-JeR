@@ -101,7 +101,7 @@ public class FateOfWorldsApiController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Player> newPlayer(@RequestBody Player player,HttpServletRequest request) {
 		
-		if(players.size()<2) {
+		if(!InDB(player)) {
 			if(!players.containsKey(player.getName())) {
 				player.setTime(0);
 				players.put(player.getName(), player);
@@ -115,15 +115,19 @@ public class FateOfWorldsApiController {
 				}catch(IOException e) {
 					System.out.println(e.toString());
 				}
-				
+				player.setInDB(true);
+				players.put(player.getName(), player);
 				return new ResponseEntity<>(player, HttpStatus.OK);
 			}
 			else { 
 				return new ResponseEntity<>(player,HttpStatus.CONFLICT);
 			}
+		}else if(InDB(player)) {
+			player.setInDB(false);
+			return new ResponseEntity<>(player, HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
+			return new ResponseEntity<>(player,HttpStatus.CONFLICT);
 		}
 	}
 	
@@ -132,7 +136,7 @@ public class FateOfWorldsApiController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Player> playerLog(@RequestBody Player player,HttpServletRequest request) {
 		if(players.size()<2) {
-			//if(!players.containsKey(player.getName())) {
+			if(!InParty(player)) {
 				boolean registered = false;
 				String nameAux = player.getName();
 				String passAux = player.getPassword();
@@ -151,13 +155,18 @@ public class FateOfWorldsApiController {
 				}
 				if(registered) {
 					player.setTime(0);
+					player.setReg(registered);
 					players.put(player.getName(), player);
 				}
+				player.setInParty(true);
 				return new ResponseEntity<>(player, HttpStatus.OK);
-			//}
-			/*else { 
+			}else if(InParty(player)){
+				player.setInParty(false);
+				return new ResponseEntity<>(player, HttpStatus.OK);
+			}
+			else { 
 				return new ResponseEntity<>(player,HttpStatus.CONFLICT);
-			}*/
+			}
 		}
 		else {
 			return new ResponseEntity<>(player,HttpStatus.INSUFFICIENT_STORAGE);
@@ -252,7 +261,7 @@ public class FateOfWorldsApiController {
 	@GetMapping("msgget")
 	@CrossOrigin(origins = "*")
 	public Collection<Message> messageList() {
-                while(msg.size()>10) {
+		while(msg.size()>10) {
 			msg.remove();
 		}
 		
@@ -331,4 +340,39 @@ public class FateOfWorldsApiController {
 	public int getP() {
 		return contador;
 	}
+	
+	public boolean InDB(Player player) {
+		boolean in = false;
+		String nameAux = player.getName();
+		String passAux = player.getPassword();
+		String logAux = nameAux + "  " + passAux;
+		try {
+			br1 = new BufferedReader(new FileReader(bdFile));
+			String line;
+			while((line = br1.readLine()) != null && in == false) {
+				if(logAux.equals(line)) {
+					in=true;
+				}
+			}
+			br1.close();
+		}catch(IOException e) {
+			System.out.println(e.toString());
+		}
+		
+		return in;
+	}
+	
+	public boolean InParty(Player player) {
+		boolean in = false;
+		String nameAux = player.getName();
+		Iterator<Player> it=players.values().iterator();
+		while(it.hasNext()) {
+			 Player playeraux = it.next();
+			if(nameAux.equals(playeraux.getName())) {
+				in = true;
+			}
+		}
+		return in;
+	}
 }
+

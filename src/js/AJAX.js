@@ -7,6 +7,9 @@ var ping = 1000;
 var con = true;
 var recon = false;
 var contador;
+var registered = false;
+var inDB = false;
+var inParty = false;
 var countRequest;
 
 function serverConnection(){
@@ -36,10 +39,10 @@ function serverConnection(){
 setInterval(serverConnection,ping);
 //Username
 function postPlayerSignIn(){
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
             url: url+'/postS',
             type: 'POST',
@@ -47,6 +50,7 @@ function postPlayerSignIn(){
             data:JSON.stringify({
                 "name" :name,
                 "password": password,
+                "inDB":inDB,
             }),
             success: function(data) {
                 console.log(data);
@@ -81,10 +85,10 @@ function postPlayerLog(){
             data:JSON.stringify({
                 "name" : name,
                 "password": password,
+                "inParty":inParty,
             }),
             success: function(data) {
                 console.log(data);
-
                 if(data.inParty){
                   if(data.reg){
                     document.getElementById("title").innerHTML = "Player List :";
@@ -196,21 +200,14 @@ function userSignIn(){
           setName();
           setPassword();
           postPlayerSignIn();
-          document.getElementById("title").innerHTML="User Registered";
-          document.getElementById("username").value="";
-          document.getElementById("password").value="";
   });
 }
 
 function userLog(){
-  document.getElementById("title").innerHTML = "Player List :";
   $(document).ready(function() {
       setName();
       setPassword();
       postPlayerLog();
-      loadMsg();
-      document.getElementById("Logger").innerHTML = "";
-      timeGet = setInterval(getPlayers,ping);
       //execute getPlayers each 0.5 seconds
   });
 }
@@ -246,7 +243,7 @@ function postMsg(){
     function getMsg(){
             $.ajax({
                 url: url+'/msgget',
-                type: 'GET',               
+                type: 'GET',
                 success: function(data) {
 
                     document.getElementById("chatbox").innerHTML = "";
@@ -258,7 +255,7 @@ function postMsg(){
                   document.getElementById("chatbox").scrollTop+=1000;
                 },
                 error: function() {
-                        console.error("No es posible completar la operación -> getMsg");
+                        console.error("No es posible completar la operación");
                     }
             });
         }
