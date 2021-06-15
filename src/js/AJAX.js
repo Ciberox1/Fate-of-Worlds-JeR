@@ -50,6 +50,18 @@ function postPlayerSignIn(){
             }),
             success: function(data) {
                 console.log(data);
+                if(data.inDB){
+                  document.getElementById("title").innerHTML = "Player List :";
+                  loadMsg();
+                  document.getElementById("Logger").innerHTML = "";
+                  timeGetP = setInterval(getPlayers,ping);
+                  timeGetM = setInterval(getMsg,ping);
+                }else if(!data.inDB){
+                  document.getElementById("title").innerHTML="User Already Registered";
+                  document.getElementById("username").value="";
+                  document.getElementById("password").value="";
+                }
+                
             },
             error: function() {
                 console.error("No es posible completar la operación");
@@ -72,6 +84,24 @@ function postPlayerLog(){
             }),
             success: function(data) {
                 console.log(data);
+
+                if(data.inParty){
+                  if(data.reg){
+                    document.getElementById("title").innerHTML = "Player List :";
+                    loadMsg();
+                    document.getElementById("Logger").innerHTML = "";
+                    timeGetP = setInterval(getPlayers,ping);
+                    timeGetM = setInterval(getMsg,ping);
+                  }else if (!data.reg){
+                    document.getElementById("title").innerHTML="User Not Registered";
+                    document.getElementById("username").value="";
+                    document.getElementById("password").value="";
+                  }
+                }else if(!data.inParty){
+                  document.getElementById("title").innerHTML="User Already Logged";
+                  document.getElementById("username").value="";
+                  document.getElementById("password").value="";
+                }             
             },
             error: function() {
                 console.error("No es posible completar la operación");
@@ -216,11 +246,7 @@ function postMsg(){
     function getMsg(){
             $.ajax({
                 url: url+'/msgget',
-                type: 'GET',
-                data:({
-                  "username" : name,
-                  "body" : msg,
-                }),
+                type: 'GET',               
                 success: function(data) {
 
                     document.getElementById("chatbox").innerHTML = "";
@@ -232,7 +258,7 @@ function postMsg(){
                   document.getElementById("chatbox").scrollTop+=1000;
                 },
                 error: function() {
-                        console.error("No es posible completar la operación");
+                        console.error("No es posible completar la operación -> getMsg");
                     }
             });
         }
@@ -241,10 +267,10 @@ function sendMsg(){
   setMsg();
   postMsg();
   document.getElementById("usermsg").value="";
-    $(document).ready(function() {
-        timeGet = setInterval(getMsg,ping);
+    //$(document).ready(function() {
+        
         //execute getPlayers each 0.5 seconds
-    });
+    //});
 }
 
 function server(){
