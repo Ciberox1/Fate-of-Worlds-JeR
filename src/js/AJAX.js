@@ -1,4 +1,5 @@
 var name;
+var password;
 var msg;
 var time;
 var url = "http://localhost:8080";
@@ -6,6 +7,10 @@ var ping = 1000;
 var con = true;
 var recon = false;
 var contador;
+var registered = false;
+var inDB = false;
+var inParty = false;
+var countRequest;
 
 function serverConnection(){
   $.ajax({
@@ -33,20 +38,74 @@ function serverConnection(){
 
 setInterval(serverConnection,ping);
 //Username
-function postPlayer(){
+function postPlayerSignIn(){
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            url: url+'/postS',
+            type: 'POST',
+            dataType:"json",
+            data:JSON.stringify({
+                "name" :name,
+                "password": password,
+                "inDB":inDB,
+            }),
+            success: function(data) {
+                console.log(data);
+                if(data.inDB){
+                  document.getElementById("title").innerHTML = "Player List :";
+                  loadMsg();
+                  document.getElementById("Logger").innerHTML = "";
+                  timeGetP = setInterval(getPlayers,ping);
+                  timeGetM = setInterval(getMsg,ping);
+                }else if(!data.inDB){
+                  document.getElementById("title").innerHTML="User Already Registered";
+                  document.getElementById("username").value="";
+                  document.getElementById("password").value="";
+                }
+                
+            },
+            error: function() {
+                console.error("No es posible completar la operación");
+            }
+        });
+    }
+
+function postPlayerLog(){
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
             },
-            url: url+'/post',
+            url: url+'/postL',
             type: 'POST',
             dataType:"json",
             data:JSON.stringify({
                 "name" : name,
+                "password": password,
+                "inParty":inParty,
             }),
             success: function(data) {
                 console.log(data);
+                if(data.inParty){
+                  if(data.reg){
+                    document.getElementById("title").innerHTML = "Player List :";
+                    loadMsg();
+                    document.getElementById("Logger").innerHTML = "";
+                    timeGetP = setInterval(getPlayers,ping);
+                    timeGetM = setInterval(getMsg,ping);
+                  }else if (!data.reg){
+                    document.getElementById("title").innerHTML="User Not Registered";
+                    document.getElementById("username").value="";
+                    document.getElementById("password").value="";
+                  }
+                }else if(!data.inParty){
+                  document.getElementById("title").innerHTML="User Already Logged";
+                  document.getElementById("username").value="";
+                  document.getElementById("password").value="";
+                }             
             },
             error: function() {
                 console.error("No es posible completar la operación");
@@ -56,6 +115,10 @@ function postPlayer(){
 
     function setName(){
             name = document.getElementById("username").value;
+    }
+
+    function setPassword(){
+            password = document.getElementById("password").value;
     }
 
     /*function deletePlayer(){
@@ -74,6 +137,7 @@ function postPlayer(){
                 type: 'GET',
                 data:({
                     "name":name,
+                    "password":password,
                 }),
                 success: function(data) {
                     document.getElementById("Logger").innerHTML = "";
@@ -98,8 +162,6 @@ function postPlayer(){
             });
 
         }
-
-//delete player when refresh the page or close the window
 
 window.onbeforeunload=function(e){
     minusPlayers();
@@ -133,14 +195,19 @@ function loadMsg(){
   });
 }
 
-function userLog(){
-  document.getElementById("title").innerHTML = "Player List :";
-  loadMsg();
+function userSignIn(){
   $(document).ready(function() {
           setName();
-          document.getElementById("Logger").innerHTML = "";
-          postPlayer();
-      timeGet = setInterval(getPlayers,ping);
+          setPassword();
+          postPlayerSignIn();
+  });
+}
+
+function userLog(){
+  $(document).ready(function() {
+      setName();
+      setPassword();
+      postPlayerLog();
       //execute getPlayers each 0.5 seconds
   });
 }
@@ -177,10 +244,6 @@ function postMsg(){
             $.ajax({
                 url: url+'/msgget',
                 type: 'GET',
-                data:({
-                  "username" : name,
-                  "body" : msg,
-                }),
                 success: function(data) {
 
                     document.getElementById("chatbox").innerHTML = "";
@@ -201,10 +264,10 @@ function sendMsg(){
   setMsg();
   postMsg();
   document.getElementById("usermsg").value="";
-    $(document).ready(function() {
-        timeGet = setInterval(getMsg,ping);
+    //$(document).ready(function() {
+        
         //execute getPlayers each 0.5 seconds
-    });
+    //});
 }
 
 function server(){
@@ -221,6 +284,7 @@ function numPlayers(){
         type: 'POST',
     success: function(){
        console.log("Sumado");
+       preload = true;
      },
     error: function(){
       console.error("No es posible completar la operación");
@@ -249,7 +313,7 @@ function getOnlineP(){
           "cont":contador,
         }),
     success: function(data){
-       document.getElementById("online").innerHTML = data;
+      document.getElementById("online").innerHTML = data;
      },
     error: function(){
       console.error("No es posible completar la operación");
