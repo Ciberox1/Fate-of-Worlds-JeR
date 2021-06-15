@@ -10,24 +10,29 @@
   </head>
   <body>
     <div id="content">
-      <header>
+      <!--<header>
         <nav>
           <ul>
             <li><a href="http://localhost:8080/bd">Registro de jugadores</a></li>
             <li><a href="http://localhost:8080/bdmsg">Registro de mensajes</a></li>
           </ul>
         </nav>
-      </header>
+      </header>-->
       <div class="main">
         <iframe src="game.html" width="1200" height="850" scrolling="no">
 
         </iframe>
         <aside>
+          <div id="PlayersOnline"><p>Players Online -> <span id="online"></span></p></div>
           <div id="List">
-            <p id="title">Log in</p>
+            <p id="title">Log in / Sign in</p>
             <div id="Logger">
               <input name="user" type="text" id="username" size="25" placeholder="User Name" maxlength="15" autocomplete="off">
-              <input name="log" type="reset"  id="logIn" value="Log in" onclick="userLog();">
+              <input name="pass" type="password" id="password" size="25" placeholder="Password" autocomplete="off">
+              <div>
+                <input name="log" type="reset"  id="logIn" value="Log in" onclick="userLog();">
+                <input name="sign" type="reset"  id="SignIn" value="Sign in" onclick="userSignIn();">
+              </div>
             </div>
           </div>
           <div id="chat">
@@ -38,6 +43,7 @@
                 <input name="submitmsg" type="reset"  id="submitmsg" value="Send" onclick="sendMsg();">
               </div>
           </div>
+          <div id="server"></div>
         </aside>
       </div>
       <footer>
