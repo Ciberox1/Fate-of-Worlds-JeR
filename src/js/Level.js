@@ -510,9 +510,13 @@ class Level extends Phaser.Scene {
 
 
         //adding physics to player
-        players.player1 = this.physics.add.sprite(19000, 700, 'Mario1idle').setScale(1.25);
-        players.player2 = this.physics.add.sprite(19000, 300, 'Mario2idle').setScale(1.25);
-
+        players.player1 = this.physics.add.sprite(100, 700, 'Mario1idle').setScale(1.25);
+        players.player2 = this.physics.add.sprite(100, 300, 'Mario2idle').setScale(1.25);
+        
+        posxnew1=100;
+        posynew1=700;
+        posxnew2=100;
+        posynew2=300;
         this.physics.add.collider(players.player1, objects.platforms);
         collapsablePlats1 = this.physics.add.collider(players.player1, objects.collapsable);
         this.physics.add.collider(players.player2, objects.platforms);
@@ -823,7 +827,7 @@ class Level extends Phaser.Scene {
         }
     }
 
-    update() {      
+    update() {
         if(idJugador==1){
             updatePlayer1 = true;
             if(players.player2.body.touching.down &&  player2ReadyToPlay==false){
@@ -977,6 +981,7 @@ class Level extends Phaser.Scene {
             bala1.setScale(0.5);
         }
         //sirve para dar velocidad una vez se crea la bala
+        
         if (balaActiva1 == true) {
             if (ShootDirection1 == "right" || ShootDirection1 == "rightOnline")
                 bala1.setVelocityX(500);
@@ -996,7 +1001,7 @@ class Level extends Phaser.Scene {
 
         // Bala 2
         // sirve para originar la bala dependiendo de hacia donde mire el personaje
-        if(balaActiva2 == true)
+        if(balaActiva2 == true && balaDisparada2 == true)
             balaDisparada2 = false;
         
         if (balaDisparada2 == true) {
@@ -1038,8 +1043,8 @@ class Level extends Phaser.Scene {
         for(var i=0;i<children.length;i++){
            positionXEnemy[i]=children[i].x;
            positionYEnemy[i]=Math.round(children[i].y);
+           
         }
-
         if (balaActiva1 == true) {
             this.physics.add.overlap(bala1, enemiesArray, KillEnemie1);
         }
@@ -1457,6 +1462,7 @@ class Level extends Phaser.Scene {
             }
             EnemieDead = true;
             Killbala1();
+                        
 
         }
 
@@ -1531,6 +1537,8 @@ class Level extends Phaser.Scene {
                             
                             posxnew2=data[1];
                             posynew2=data[2];
+                            //console.log(players.player2.body.position.x + " x")
+                            //console.log(players.player2.body.position.y + " y")
                             //setAnim
                             players.player2.anims.load(data[3]);
                             players.player2.setFrame(data[4].frame); 
@@ -1581,6 +1589,7 @@ class Level extends Phaser.Scene {
                             players.player2.body.position.y=posynew2;
                         }
                     
+                    
                 connection.onclose = function(){
                     console.log("Se ha cerrado el servidor");
                 }
@@ -1600,6 +1609,7 @@ class Level extends Phaser.Scene {
                     data=JSON.parse(msg.data);
                 
                     if(player1ReadyToPlay==true && data[8]!=null && data[8]==true){
+                        
                         posxnew1=data[1];
                         posynew1=data[2];
                         //setAnim
@@ -1650,7 +1660,9 @@ class Level extends Phaser.Scene {
                         if(player1ReadyToPlay==true){
                             players.player1.body.position.x=posxnew1;
                             players.player1.body.position.y=posynew1;
+
                         }
+                
                 
                 
                 connection.onclose = function(){
