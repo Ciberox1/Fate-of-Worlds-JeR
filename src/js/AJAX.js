@@ -11,6 +11,7 @@ var registered = false;
 var inDB = false;
 var inParty = false;
 var countRequest;
+var reload = 0;
 
 function serverConnection(){
   $.ajax({
@@ -163,15 +164,28 @@ function postPlayerLog(){
 
         }
 
+function addReload(){
+  if (!con){
+    reload = reload + 1;
+  }
+}
+
+setInterval(addReload, ping);
+
 window.onbeforeunload=function(e){
-    minusPlayers();
+  if (reload == 0){
+      minusPlayers();
+  }
 }
 
 window.onload=function(e){
     numPlayers();
+    reload = 0;
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
 }
+
+
 
 function loadMsg(){
   $.ajax({
