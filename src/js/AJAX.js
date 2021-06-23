@@ -62,7 +62,7 @@ function postPlayerSignIn(){
                   timeGetP = setInterval(getPlayers,ping);
                   timeGetM = setInterval(getMsg,ping);
                 }else if(!data.inDB){
-                  document.getElementById("title").innerHTML="User Already Registered";
+                  document.getElementById("title").innerHTML="Already Registered";
                   document.getElementById("username").value="";
                   document.getElementById("password").value="";
                 }
@@ -98,12 +98,12 @@ function postPlayerLog(){
                     timeGetP = setInterval(getPlayers,ping);
                     timeGetM = setInterval(getMsg,ping);
                   }else if (!data.reg){
-                    document.getElementById("title").innerHTML="User Not Registered";
+                    document.getElementById("title").innerHTML="Not Registered";
                     document.getElementById("username").value="";
                     document.getElementById("password").value="";
                   }
                 }else if(!data.inParty){
-                  document.getElementById("title").innerHTML="User Already Logged";
+                  document.getElementById("title").innerHTML="Already Logged";
                   document.getElementById("username").value="";
                   document.getElementById("password").value="";
                 }             
