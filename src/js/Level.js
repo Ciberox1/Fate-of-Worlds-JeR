@@ -538,7 +538,6 @@ class Level extends Phaser.Scene {
         var enemy;
         //adding to a group
         for (var i = 0; i < enemiesQuantityTotal; i++) {
-            console.log(i);
             enemy = this.physics.add.sprite(0, 0, 'AmalgamaRun');
             enemy.setBounce(0);
             enemy.body.setSize(widthAmalgama, heightAmalgama);
