@@ -1442,7 +1442,6 @@ class Level extends Phaser.Scene {
         }
 
         function Killbala2() {
-            console.log("entra");
             bala2.destroy();
             canShoot2 = true;
             balaActiva2 = false;
@@ -1451,7 +1450,6 @@ class Level extends Phaser.Scene {
 
         function KillEnemie1() {
             if (idJugador==1){
-               console.log("verga");
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantityTotal) {
@@ -1461,13 +1459,8 @@ class Level extends Phaser.Scene {
                                 children[i].body.velocity.x = 0;
                                 children[i].body.gravity.y=-490;
                                 enemiesQuantityTotal-=1;
-                    console.log(children[i].body.position.x);
                                 Phaser.Utils.Array.RemoveAt(children, i);
-                    console.log(children[i].body.position.x);
-                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i);
-
-                                console.log(i + " está muertisimo");  
-                    console.log(enemiesQuantityTotal);
+                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i); 
                 }
                 i++;
             
@@ -1476,7 +1469,6 @@ class Level extends Phaser.Scene {
             Killbala1();
             }
             else{ 
-                console.log("hehe");
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantityTotal) {
@@ -1486,12 +1478,8 @@ class Level extends Phaser.Scene {
                                 children[i].body.velocity.x = 0;
                                 children[i].body.gravity.y=-490;
                                 enemiesQuantityTotal-=1;
-                                        console.log(children[i].body.position.x);
                                 Phaser.Utils.Array.RemoveAt(children, i);
-                    console.log(children[i].body.position.x);
                                 Phaser.Utils.Array.RemoveAt(velocityXEnemie, i);
-                                console.log(i + " está muertisimo");  
-                    console.log(enemiesQuantityTotal);
                 }
                 i++;
             
@@ -1508,7 +1496,6 @@ class Level extends Phaser.Scene {
 
         function KillEnemie2() {
             if (idJugador==2){
-               console.log("verga");
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantityTotal) {
@@ -1521,8 +1508,6 @@ class Level extends Phaser.Scene {
                                 enemiesQuantity1-=1;
                                 Phaser.Utils.Array.RemoveAt(children, i);
                                 Phaser.Utils.Array.RemoveAt(velocityXEnemie, i);
-                                console.log(i + " está muertisimo");  
-                    console.log(enemiesQuantityTotal);
                 }
                 i++;
             
@@ -1531,7 +1516,6 @@ class Level extends Phaser.Scene {
             Killbala2();
             }
             else{ 
-                console.log("hehe");
             soundDeathAmalgama.play();
             var i = 0;
             while (i < enemiesQuantityTotal) {
@@ -1542,12 +1526,8 @@ class Level extends Phaser.Scene {
                                 children[i].body.gravity.y=-490;
                                 enemiesQuantityTotal-=1;
                                 enemiesQuantity1-=1;
-                                        console.log(children[i].body.position.x);
                                 Phaser.Utils.Array.RemoveAt(children, i);
-                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i);
-
-                                console.log(i + " está muertisimo");  
-                    console.log(enemiesQuantityTotal);
+                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i); 
                 }
                 i++;
             
@@ -1609,8 +1589,6 @@ class Level extends Phaser.Scene {
                             
                             posxnew2=data[1];
                             posynew2=data[2];
-                            //console.log(players.player2.body.position.x + " x")
-                            //console.log(players.player2.body.position.y + " y")
                             //setAnim
                             players.player2.anims.load(data[3]);
                             players.player2.setFrame(data[4].frame); 
