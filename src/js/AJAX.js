@@ -11,6 +11,7 @@ var registered = false;
 var inDB = false;
 var inParty = false;
 var countRequest;
+var reload = 0;
 
 function serverConnection(){
   $.ajax({
@@ -61,7 +62,7 @@ function postPlayerSignIn(){
                   timeGetP = setInterval(getPlayers,ping);
                   timeGetM = setInterval(getMsg,ping);
                 }else if(!data.inDB){
-                  document.getElementById("title").innerHTML="User Already Registered";
+                  document.getElementById("title").innerHTML="Already Registered";
                   document.getElementById("username").value="";
                   document.getElementById("password").value="";
                 }
@@ -97,12 +98,12 @@ function postPlayerLog(){
                     timeGetP = setInterval(getPlayers,ping);
                     timeGetM = setInterval(getMsg,ping);
                   }else if (!data.reg){
-                    document.getElementById("title").innerHTML="User Not Registered";
+                    document.getElementById("title").innerHTML="Not Registered";
                     document.getElementById("username").value="";
                     document.getElementById("password").value="";
                   }
                 }else if(!data.inParty){
-                  document.getElementById("title").innerHTML="User Already Logged";
+                  document.getElementById("title").innerHTML="Already Logged";
                   document.getElementById("username").value="";
                   document.getElementById("password").value="";
                 }             
@@ -163,15 +164,28 @@ function postPlayerLog(){
 
         }
 
+function addReload(){
+  if (!con){
+    reload = reload + 1;
+  }
+}
+
+setInterval(addReload, ping);
+
 window.onbeforeunload=function(e){
-    minusPlayers();
+  if (reload == 0){
+      minusPlayers();
+  }
 }
 
 window.onload=function(e){
     numPlayers();
+    reload = 0;
     document.getElementById("username").value="";
     document.getElementById("usermsg").value="";
 }
+
+
 
 function loadMsg(){
   $.ajax({
