@@ -538,6 +538,7 @@ class Level extends Phaser.Scene {
         var enemy;
         //adding to a group
         for (var i = 0; i < enemiesQuantityTotal; i++) {
+            console.log(i);
             enemy = this.physics.add.sprite(0, 0, 'AmalgamaRun');
             enemy.setBounce(0);
             enemy.body.setSize(widthAmalgama, heightAmalgama);
@@ -1558,6 +1559,9 @@ class Level extends Phaser.Scene {
             game.sound.stopAll();
             scene.start('GameOver');
             playerDead = false;
+            enemiesQuantityTotal=30;
+            enemiesQuantity1=16;
+            
         }
 
         function Victory(scene) {
@@ -1570,6 +1574,8 @@ class Level extends Phaser.Scene {
             game.sound.stopAll();
             scene.start('Victory');
             playerDead = false;
+            enemiesQuantityTotal=30;
+            enemiesQuantity1=16;
         }
         
         if(idJugador==1){
