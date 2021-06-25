@@ -332,6 +332,7 @@ public class FateOfWorldsApiController {
 	@PostMapping("minusP")
 	@CrossOrigin(origins = "*")
 	public void minusP() {
+            if (contador > 0)
 		contador--;
 	}
 	
