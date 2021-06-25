@@ -56,7 +56,6 @@ function postPlayerSignIn(){
             success: function(data) {
                 console.log(data);
                 if(data.inDB){
-                  document.getElementById("title").innerHTML = "Player List :";
                   loadMsg();
                   document.getElementById("Logger").innerHTML = "";
                   timeGetP = setInterval(getPlayers,ping);
@@ -92,7 +91,6 @@ function postPlayerLog(){
                 console.log(data);
                 if(data.inParty){
                   if(data.reg){
-                    document.getElementById("title").innerHTML = "Player List :";
                     loadMsg();
                     document.getElementById("Logger").innerHTML = "";
                     timeGetP = setInterval(getPlayers,ping);
@@ -141,6 +139,7 @@ function postPlayerLog(){
                     "password":password,
                 }),
                 success: function(data) {
+                    document.getElementById("title").innerHTML = "Player List :";
                     document.getElementById("Logger").innerHTML = "";
                     if(data[0]!=null){
                         console.log("Jugador 1: " +data[0].name);
