@@ -537,7 +537,7 @@ class Level extends Phaser.Scene {
         enemiesArray = this.physics.add.group();
         var enemy;
         //adding to a group
-        for (var i = 0; i < enemiesQuantity; i++) {
+        for (var i = 0; i < enemiesQuantityTotal; i++) {
             enemy = this.physics.add.sprite(0, 0, 'AmalgamaRun');
             enemy.setBounce(0);
             enemy.body.setSize(widthAmalgama, heightAmalgama);
@@ -587,9 +587,29 @@ class Level extends Phaser.Scene {
         
 
         //setting velocity for each enemie
-        for (var i = 0; i < enemiesArray.countActive(true); i++) {
-            velocityXEnemie[i] = -75;
-            enemiesArray.setVelocityX(velocityXEnemie[i]);
+        if(idJugador==2){
+            for(var i=0;i<enemiesQuantityTotal;i++){
+                if (i< enemiesQuantity1){
+                    velocityXEnemie[i]=-75;
+             children[i].body.velocity.x=velocityXEnemie[i];
+                }
+                else{
+                    velocityXEnemie[i]=0;
+                    children[i].body.velocity.x=velocityXEnemie[i];
+                }
+        }
+    }
+        else if(idJugador==1){
+            for(var i=0;i<enemiesQuantityTotal;i++){
+                if (i>= enemiesQuantity1){
+                    velocityXEnemie[i]=-75;
+                    children[i].body.velocity.x=velocityXEnemie[i];
+                }
+                else{
+                    velocityXEnemie[i]=0;
+                    children[i].body.velocity.x=velocityXEnemie[i];
+                }
+            }
         }
         //invisible barriers
         //World 1
@@ -633,10 +653,10 @@ class Level extends Phaser.Scene {
         objects.invBar.create(17900, 561, 'platform1').setScale(0.1, 1).refreshBody();
         objects.invBar.create(18175, 561, 'platform1').setScale(0.1, 1).refreshBody();
         objects.invBar.setVisible(false);
-
+        
         //adding collissions enviroment and invisible walls
-        var enemiesColliderInvBar = this.physics.add.collider(enemiesArray, objects.invBar, changeDirectionEnemie);
-        var enemiesColliderPlatforms = this.physics.add.collider(enemiesArray, objects.platforms, changeDirectionEnemie);
+        var enemiesColliderInvBar = this.physics.add.collider(children, objects.invBar, changeDirectionEnemie);
+        var enemiesColliderPlatforms = this.physics.add.collider(children, objects.platforms, changeDirectionEnemie);
 
         //camera interface
         camera1 = this.cameras.main;
@@ -688,8 +708,8 @@ class Level extends Phaser.Scene {
         //collision player-enemies
         // this.physics.add.collider(players.player1, enemiesArray, KillPlayer1);
         //this.physics.add.collider(players.player2, enemiesArray, KillPlayer2);
-        playerCollidesEnemies1 =this.physics.add.overlap(players.player1, enemiesArray, KillPlayer1);
-        playerCollidesEnemies2 = this.physics.add.overlap(players.player2, enemiesArray, KillPlayer2);
+        playerCollidesEnemies1 =this.physics.add.overlap(players.player1, children, KillPlayer1);
+        playerCollidesEnemies2 = this.physics.add.overlap(players.player2, children, KillPlayer2);
 
         //adding sound
         soundBackground = this.sound.add('BackgroundSound', {
@@ -828,6 +848,7 @@ class Level extends Phaser.Scene {
     }
 
     update() {
+        
         if(idJugador==1){
             updatePlayer1 = true;
             if(players.player2.body.touching.down &&  player2ReadyToPlay==false){
@@ -1038,42 +1059,22 @@ class Level extends Phaser.Scene {
 
         /*--------instructions of Amalgama's death and movement----------*/
 
-        children = enemiesArray.getChildren();
         
         for(var i=0;i<children.length;i++){
            positionXEnemy[i]=children[i].x;
            positionYEnemy[i]=Math.round(children[i].y);
            
         }
+        
         if (balaActiva1 == true) {
-            this.physics.add.overlap(bala1, enemiesArray, KillEnemie1);
+            this.physics.add.overlap(bala1, children, KillEnemie1);
         }
         if (balaActiva2 == true) {
-            this.physics.add.overlap(bala2, enemiesArray, KillEnemie2);
+            this.physics.add.overlap(bala2, children, KillEnemie2);
+
         }
 
 
-            indexEnemieDead1=-1;
-            indexEnemieDead2=-1;
-        if (EnemieDead == true) {
-            children = enemiesArray.getChildren();
-            i = 0;
-            while (children[i] != undefined && i < enemiesQuantity) {
-                if (children[i].anims.currentKey == 'AmalgamaDeath') {
-                        EnemieDead = false;
-                        if(indexEnemieDead1 == -1)
-                            indexEnemieDead1=i;
-                        else if(indexEnemieDead2 == -1)
-                             indexEnemieDead2=i;
-                    for (var k = i; k < enemiesQuantity - 1; k++) {
-                        velocityXEnemie[k] = velocityXEnemie[k + 1];
-                        children[k] = children[k + 1];
-                    }
-
-                }
-                i++;
-            }
-        }
 
         /*--------instructions of Player's death and movement----------*/
         if (colisionPlayer1 == false) {
@@ -1448,40 +1449,93 @@ class Level extends Phaser.Scene {
         }
 
         function KillEnemie1() {
+            if (idJugador==1){
             soundDeathAmalgama.play();
             var i = 0;
-            while (i < enemiesQuantity && children[i] != undefined) {
-                if (Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
-                        children[i].body.position.x, children[i].body.position.y)) < 55) {
-                            children[i].anims.play('AmalgamaDeath', 'true');
-                            children[i].anims.currentKey = 'AmalgamaDeath';
-                            children[i].body.velocity.x = 0;
-                            children[i].body.gravity.y=-490;
+            while (i < enemiesQuantityTotal) {
+                if (children[i]!= undefined && bala1.body !=undefined && Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)) < 55){ 
+                                children[i].anims.play('AmalgamaDeath', 'true');
+                                children[i].body.velocity.x = 0;
+                                children[i].body.gravity.y=-490;
+                                enemiesQuantityTotal-=1;
+                                Phaser.Utils.Array.RemoveAt(children, i);
+                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i); 
                 }
                 i++;
+            
             }
-            EnemieDead = true;
+            EnemieDead=true;
             Killbala1();
-                        
+            }
+            else{ 
+            soundDeathAmalgama.play();
+            var i = 0;
+            while (i < enemiesQuantityTotal) {
+                if (children[i]!= undefined && bala1.body !=undefined && Math.abs(Phaser.Math.Distance.Between(bala1.body.position.x, bala1.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)) < 55){ 
+                                children[i].anims.play('AmalgamaDeath', 'true');
+                                children[i].body.velocity.x = 0;
+                                children[i].body.gravity.y=-490;
+                                enemiesQuantityTotal-=1;
+                                Phaser.Utils.Array.RemoveAt(children, i);
+                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i);
+                }
+                i++;
+            
+            }
+            EnemieDead=false;
+            Killbala1();
+                
+            }
+            
+    }
 
-        }
+                        
+    
 
         function KillEnemie2() {
+            if (idJugador==2){
             soundDeathAmalgama.play();
             var i = 0;
-            while (i < enemiesQuantity && children[i] != undefined) {
-                if (Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
-                        children[i].body.position.x, children[i].body.position.y)) < 55) {
-                            children[i].anims.play('AmalgamaDeath', 'true');
-                            children[i].anims.currentKey = 'AmalgamaDeath';
-                            children[i].body.velocity.x = 0;
-                            children[i].body.gravity.y=-490;
+            while (i < enemiesQuantityTotal) {
+                if (children[i]!= undefined && bala2.body !=undefined && Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)) < 55){ 
+                                children[i].anims.play('AmalgamaDeath', 'true');
+                                children[i].body.velocity.x = 0;
+                                children[i].body.gravity.y=-490;
+                                enemiesQuantityTotal-=1;
+                                enemiesQuantity1-=1;
+                                Phaser.Utils.Array.RemoveAt(children, i);
+                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i);
                 }
                 i++;
+            
             }
-            EnemieDead = true;
+            EnemieDead=true;
             Killbala2();
-
+            }
+            else{ 
+            soundDeathAmalgama.play();
+            var i = 0;
+            while (i < enemiesQuantityTotal) {
+                if (children[i]!= undefined && bala2.body !=undefined && Math.abs(Phaser.Math.Distance.Between(bala2.body.position.x, bala2.body.position.y,
+                        children[i].body.position.x, children[i].body.position.y)) < 55){ 
+                                children[i].anims.play('AmalgamaDeath', 'true');
+                                children[i].body.velocity.x = 0;
+                                children[i].body.gravity.y=-490;
+                                enemiesQuantityTotal-=1;
+                                enemiesQuantity1-=1;
+                                Phaser.Utils.Array.RemoveAt(children, i);
+                                Phaser.Utils.Array.RemoveAt(velocityXEnemie, i); 
+                }
+                i++;
+            
+            }
+            EnemieDead=false;
+            Killbala2();
+                
+            }
         }
 
         function removeCollapse() {
@@ -1522,8 +1576,7 @@ class Level extends Phaser.Scene {
         //conexion websocket 
                 if(connection.readyState==1){
                                     
-                    
-                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexionLocal,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity,balaDisparada1,ShootDirection1]);
+                    JsonData=JSON.stringify([players.player1.body.velocity.x,players.player1.body.position.x,players.player1.body.position.y,players.player1.anims.currentAnim.key,players.player1.anims.currentFrame,players.player1.flipX,Offsetxplayer1,Offsetyplayer1,player1ReadyToPlay,velocityXEnemie,children,collapsableConexionLocal,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantityTotal,balaDisparada1,ShootDirection1,enemiesQuantity1,EnemieDead]);
                     
                     connection.send(JsonData);
                     
@@ -1531,14 +1584,11 @@ class Level extends Phaser.Scene {
                         console.log("WS error: " + e);
                         }
                     connection.onmessage = function(msg) {
-                        k=8;
                         data=JSON.parse(msg.data);
                         if(player2ReadyToPlay==true && data[8]!=null && data[8]==true){
                             
                             posxnew2=data[1];
                             posynew2=data[2];
-                            //console.log(players.player2.body.position.x + " x")
-                            //console.log(players.player2.body.position.y + " y")
                             //setAnim
                             players.player2.anims.load(data[3]);
                             players.player2.setFrame(data[4].frame); 
@@ -1553,30 +1603,19 @@ class Level extends Phaser.Scene {
                             else
                                 ShootDirection2 = "leftOnline";
                             //Set enemies array for each camera player
-                            
-                            for(i=0;i<data[16]-16;i++){
-                                children[i].setPosition(data[14][i],data[15][i]);
-                                children[i].flipX=data[10][i].flipX;
-                            };
-                            
-                            if((data[12])!=-1){
-                                children[data[12]].anims.play('AmalgamaDeath',true);
-                                children[data[12]].body.gravity.y=-490;
-                                     for(var l=data[13];l<data[16]-1;l++)
-                                    {
-                                        children[l] = children[l + 1];
-                                    }
-                                Killbala2();
+                               
+                            if(data[20]==true){
+                                    KillEnemie2();
+                                EnemieDead=false;
                             }
-                            if((data[13])!=-1){
-                                children[data[13]].anims.play('AmalgamaDeath',true);
-                                children[data[13]].body.gravity.y=-490;
-                                     for(l=data[13];l<data[16]-1;l++)
-                                    {
-                                        children[l] = children[l + 1];
+                             for(i=0;i<data[19];i++){
+                                    if(children[i]!=undefined){
+                                        children[i].setPosition(data[14][i],data[15][i]);
+                                        children[i].flipX=data[10][i].flipX; 
+
                                     }
-                                Killbala2();
-                            }
+                                }
+                           
                             // implement collapsable plats update for online gaming
                             if(data[11]==true){
                                 collapsableConexionOnline=true;
@@ -1598,7 +1637,7 @@ class Level extends Phaser.Scene {
         
     if(idJugador==2){
             if(connection.readyState==1){
-                JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexionLocal,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantity,balaDisparada2,ShootDirection2]);
+             JsonData=JSON.stringify([players.player2.body.velocity.x,players.player2.body.position.x,players.player2.body.position.y,players.player2.anims.currentAnim.key,players.player2.anims.currentFrame,players.player2.flipX,Offsetxplayer2,Offsetyplayer2,player2ReadyToPlay,velocityXEnemie,children,collapsableConexionLocal,indexEnemieDead1,indexEnemieDead2,positionXEnemy,positionYEnemy,enemiesQuantityTotal,balaDisparada2,ShootDirection2,enemiesQuantity1,EnemieDead]);
                     
                 connection.send(JsonData);
                 
@@ -1626,37 +1665,26 @@ class Level extends Phaser.Scene {
                         else
                             ShootDirection1 = "leftOnline";
                         //Set enemies array for each camera player
-                        for(i=16;i<data[16];i++){
-                            children[i].setPosition(data[14][i],data[15][i]);
-                            children[i].flipX=data[10][i].flipX; 
-                        }
                         
-                            if((data[12])!=-1){
-                                children[data[12]].anims.play('AmalgamaDeath',true);
-                                children[data[12]].body.gravity.y=-490;
-                                for(var l=data[12];l<data[16]-1;l++)
-                                    {
-                                        children[l] = children[l + 1];
-                                    }
-                                    Killbala1();
-                            }
-                            if((data[13])!=-1){
-                                children[data[13]].anims.play('AmalgamaDeath',true);
-                                children[data[13]].body.gravity.y=-490;
-                                       for(l=data[13];l<data[16]-1;l++)
-                                    {
-                                        children[l] = children[l + 1];
-                                    }
-                                    Killbala1();
-                            }
+                           
                         // implement collapsable plats update for online gaming
                         if(data[11]==true){
                                 collapsableConexionOnline=true;
                             }
-                                    
-                 
+                            
+                                    if(data[20]==true){
+                                        KillEnemie1();
+                                        EnemieDead=false;
+                                    }
+                                for(i=data[19];i<data[16];i++){
+                                    if(children[i]!=undefined){
+                                        children[i].setPosition(data[14][i],data[15][i]);
+                                        children[i].flipX=data[10][i].flipX;
+                                    }
+                                }
+                        }
                     }
-                }
+
                         if(player1ReadyToPlay==true){
                             players.player1.body.position.x=posxnew1;
                             players.player1.body.position.y=posynew1;
@@ -1670,7 +1698,8 @@ class Level extends Phaser.Scene {
                 }
                 
             }
-        }   
+        }  
+        EnemieDead=false;
     }
 }
 
