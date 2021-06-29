@@ -1558,6 +1558,9 @@ class Level extends Phaser.Scene {
             game.sound.stopAll();
             scene.start('GameOver');
             playerDead = false;
+            enemiesQuantityTotal=30;
+            enemiesQuantity1=16;
+            
         }
 
         function Victory(scene) {
@@ -1570,6 +1573,8 @@ class Level extends Phaser.Scene {
             game.sound.stopAll();
             scene.start('Victory');
             playerDead = false;
+            enemiesQuantityTotal=30;
+            enemiesQuantity1=16;
         }
         
         if(idJugador==1){
