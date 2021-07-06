@@ -40,7 +40,7 @@
                   gravity: {
                       y: 490
                   },
-                  debug: true
+                  debug: false,
               }
           },
           scene: [MainMenu, Preloader, Creditos, Level, Desarrolladores, Agradecimientos, Victory, GameOver]
@@ -114,7 +114,8 @@
       var widthAmalgama;
       var heightAmalgama;
       var children = [];
-      var enemiesQuantity = 30;
+      var enemiesQuantityTotal = 30;
+      var enemiesQuantity1=16;      
       var velocityXEnemie = [];
 
       var positionXEnemy=[];
@@ -146,10 +147,16 @@
       var player2Ready=false;
       var player1ReadyToPlay=false;
       var player2ReadyToPlay=false;
+      var indexEnemieDead1;
+      var indexEnemieDead2;
+      var posxnew1;
+      var posynew1;
+      var posxnew2;
+      var posynew2; 
       //Global Function
       function changeDirectionEnemie() {
         //cuando choca con una pared hace el collider dos veces, uno con el suelo, y otro con la propia pared.
-        for (i = 0; i < enemiesQuantity; i++) {
+        for (i = 0; i < enemiesQuantityTotal; i++) {
            // if(children[i].body==undefined)
                 //console.log(i);
             if (children[i] != undefined && children[i].body.touching.left && children[i].flipX == false) {
@@ -178,7 +185,7 @@
               hearts.remove(hearts.getFirstAlive(), true);
           }
           hearts.remove(hearts.getFirstAlive(), true);
-          for (i = 0; i < enemiesQuantity; i++)
+          for (i = 0; i < enemiesQuantityTotal; i++)
               if (children[i] != undefined)
                   children[i].body.setVelocityX(velocityXEnemie[i]);
       }
@@ -199,7 +206,7 @@
               colisionPlayer2 = true;
           }
           hearts.remove(hearts.getFirstAlive(), true);
-          for (i = 0; i < enemiesQuantity; i++)
+          for (i = 0; i < enemiesQuantityTotal; i++)
               if (children[i] != undefined)
                   children[i].body.setVelocityX(velocityXEnemie[i]);
       }
