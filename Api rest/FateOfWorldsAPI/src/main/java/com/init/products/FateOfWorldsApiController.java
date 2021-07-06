@@ -247,7 +247,7 @@ public class FateOfWorldsApiController {
 		}	
 		while(playersCollectIterator.hasNext()) {
 			player=playersCollectIterator.next();
-			if(player.getTime()>=3) {
+			if(player.getTime()>=5) {
 				players.remove(player.getName());
 				System.out.println("El jugador ': " + name + "' se ha ido de la sesión");
 				return players.values();
@@ -303,21 +303,11 @@ public class FateOfWorldsApiController {
 	
 	@DeleteMapping("delete")
 	@CrossOrigin(origins = "*")
-	public void deletePlayer(HttpServletRequest request) {
-		String ip=(String)request.getRemoteAddr();
-		if(request!=null)
-			ip=request.getHeader("X-FORWARDED-FOR");
-			if(ip==null || "".equals(ip))
-				ip = request.getRemoteAddr();
-		if(players.containsKey(ip)) {
-			System.out.println("Eliminando jugador con ip: "+ ip);
-			players.remove(ip);
-		}
-		else {
-			System.out.println("Ha fallado el servidor al borrar al jugador cuya ip es "+ ip);
-		}
-				
-		}
+	public void deletePlayer(HttpServletRequest request, @RequestBody Player player) {
+            
+            players.remove(player.getName());
+            System.out.println("El jugador ': " + player.getName() + "' se ha ido de la sesión");
+        }
 	
 	@GetMapping("con")
 	@CrossOrigin(origins = "*")

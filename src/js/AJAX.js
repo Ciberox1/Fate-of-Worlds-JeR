@@ -122,15 +122,21 @@ function postPlayerLog(){
             password = document.getElementById("password").value;
     }
 
-    /*function deletePlayer(){
+    function deletePlayer(){
             $.ajax({
                 url: url+'/delete',
                 type: 'DELETE',
-                error: function() {
+                data:({
+                  "name":name,
+              }),
+              success: function(data){
+                    console.log ("Se ha ido " + data[0].name)
+              },
+              error: function() {
                     console.error("No es posible completar la operación");
                     }
-                });
-            }*/
+              });
+            }
 
     function getPlayers(){
             $.ajax({
@@ -176,6 +182,7 @@ window.onbeforeunload=function(e){
   if (reload == 0){
       minusPlayers();
   }
+  //deletePlayer();
 }
 
 window.onload=function(e){
