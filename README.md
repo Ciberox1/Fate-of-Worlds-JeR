@@ -152,6 +152,27 @@ Todos los públicos.
 
 - Segunda release del juego
 
+#### v2.1
+
+- Arreglo de chat
+
+#### v2.1
+
+- Creacion de Usuario y Contraseña
+- Creacion de boton para loggearse y registrarse
+
+#### v2.2
+
+- Utilización de WebSockets para implementar juego multijugador
+
+#### v2.3
+
+- Creacion de pantalla para la seleccion de jugador
+
+#### v3.0
+
+- Tercera Release del Juego
+
 ## Visión General del Juego
 
 Juego cooperativo para dos jugadores en el que cada uno controlará a un personaje y en el que deberán ir completando niveles en los que se enfrentarán a distintos puzles y enemigos para poder salvar sus dos universos. Cada nivel se compondrá de dos espacios jugables, uno en la parte superior y otro en la inferior, dentro de los cuales se moverán los jugadores.
