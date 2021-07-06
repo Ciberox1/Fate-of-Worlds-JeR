@@ -55,7 +55,7 @@ class MainMenu extends Phaser.Scene {
 
     playButton.on("pointerup",()=>{
       if (notLoad) {
-        this.scene.start('Jugador');
+        this.scene.start('Preloader');
       } else if (!notLoad){
         this.scene.start('Level');
       }
