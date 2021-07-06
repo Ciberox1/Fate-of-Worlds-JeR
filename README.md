@@ -29,7 +29,7 @@ PC/Web
 
 ### Versión
 
-v2.0
+v4.0
 
 ### Sinopsis del Juego
 
@@ -172,6 +172,14 @@ Todos los públicos.
 #### v3.0
 
 - Tercera Release del Juego
+
+#### v3.1
+
+- Arreglar varios bugs del chat y la interfaz
+
+#### v4.0
+
+- Cuarta Release del Juego
 
 ## Visión General del Juego
 
