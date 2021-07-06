@@ -247,7 +247,7 @@ public class FateOfWorldsApiController {
 		}	
 		while(playersCollectIterator.hasNext()) {
 			player=playersCollectIterator.next();
-			if(player.getTime()>=5) {
+			if(player.getTime()>=20) {
 				players.remove(player.getName());
 				System.out.println("El jugador ': " + name + "' se ha ido de la sesión");
 				return players.values();
