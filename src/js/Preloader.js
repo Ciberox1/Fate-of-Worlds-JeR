@@ -194,7 +194,9 @@ class Preloader extends Phaser.Scene {
     update() {
         
         if (controls1.continueKey.isDown) {
-            if(connection.readyState==1){ 
+            if(connection.readyState==1){
+                if(idJugador==null)
+                    idJugador=window.prompt("¿Qué jugador quieres? ");  
                 if(idJugador==2){
                     player2Ready=true;
                     connection.send(JSON.stringify(player2Ready));
